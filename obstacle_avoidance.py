@@ -21,7 +21,7 @@ from gym_pybullet_drones.utils.utils import sync
 # 6 = multiple obstacles
 #
 # Run every case separately by changing this value.
-TEST_SCENARIO = 6
+TEST_SCENARIO = 5
 
 
 # ============================================================
