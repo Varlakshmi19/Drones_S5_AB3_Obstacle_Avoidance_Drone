@@ -973,7 +973,7 @@ Number of transitions into the obstacle-avoidance state.
 Number of times the emergency reverse mechanism was activated.
 
 <a id="limitations"></a>
-## 15. Limitations                                                                               <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
+# 15. Limitations                                                                               <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
 
 The current implementation has several limitations:
 * The experiments are performed in simulation rather than on a physical drone.
