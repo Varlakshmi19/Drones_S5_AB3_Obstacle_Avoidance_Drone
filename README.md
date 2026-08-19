@@ -690,7 +690,7 @@ The goal position was:
 `(6.0, 0.0, 1.0) m`
 
 A scenario was considered successful when the drone entered the predefined goal tolerance.
----
+
 <a id="experimental-results"></a>
 # 8. Experimental Results                                                                        <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
 
