@@ -1,0 +1,773 @@
+[INFO] BaseAviary.render() ——— drone 0 ——— x +00.92, y +00.00, z +01.00 ——— velocity +00.86, -00.00, +00.00 ——— roll +00.00, pitch +00.89, yaw +00.00 ——— angularvelocity -0.0000, +0.0113, +0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0320 ——— wall-clock time 1.6s, simulation time 1.3s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +00.94, y -00.00, z +01.00 ——— velocity +00.87, -00.00, +00.00 ——— roll -00.00, pitch +01.38, yaw +00.00 ——— angularvelocity -0.0000, +0.6654, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0325 ——— wall-clock time 1.6s, simulation time 1.4s@240Hz (0.84x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +00.96, y +00.00, z +01.00 ——— velocity +00.87, +00.00, +00.00 ——— roll +00.00, pitch +01.70, yaw +00.00 ——— angularvelocity +0.0000, +0.0106, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0330 ——— wall-clock time 1.7s, simulation time 1.4s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +00.98, y +00.00, z +01.00 ——— velocity +00.87, -00.00, +00.00 ——— roll +00.00, pitch +01.24, yaw -00.00 ——— angularvelocity -0.0000, -0.6435, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0335 ——— wall-clock time 1.7s, simulation time 1.4s@240Hz (0.82x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.00, y -00.00, z +01.00 ——— velocity +00.88, -00.00, +00.00 ——— roll -00.00, pitch +00.95, yaw -00.00 ——— angularvelocity -0.0000, +0.0114, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0340 ——— wall-clock time 1.7s, simulation time 1.4s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.01, y +00.00, z +01.00 ——— velocity +00.88, +00.00, +00.00 ——— roll +00.00, pitch +01.43, yaw -00.00 ——— angularvelocity +0.0000, +0.6655, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0345 ——— wall-clock time 1.7s, simulation time 1.4s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.03, y +00.00, z +01.00 ——— velocity +00.88, -00.00, +00.00 ——— roll -00.00, pitch +01.75, yaw -00.00 ——— angularvelocity -0.0000, +0.0106, +0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0350 ——— wall-clock time 1.8s, simulation time 1.5s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.05, y -00.00, z +01.00 ——— velocity +00.89, +00.00, +00.00 ——— roll -00.00, pitch +01.30, yaw -00.00 ——— angularvelocity +0.0000, -0.6434, +0.0000 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(1.07, 0.00) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=4.93
+
+[INFO] BaseAviary.render() ——— it 0355 ——— wall-clock time 1.8s, simulation time 1.5s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.07, y +00.00, z +01.00 ——— velocity +00.89, +00.00, +00.00 ——— roll +00.00, pitch +01.00, yaw +00.00 ——— angularvelocity +0.0000, +0.0115, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0360 ——— wall-clock time 1.8s, simulation time 1.5s@240Hz (0.82x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.09, y -00.00, z +01.00 ——— velocity +00.89, -00.00, +00.00 ——— roll -00.00, pitch +01.37, yaw +00.00 ——— angularvelocity -0.0000, +0.5142, +0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0365 ——— wall-clock time 1.9s, simulation time 1.5s@240Hz (0.81x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.11, y -00.00, z +01.00 ——— velocity +00.90, +00.00, +00.00 ——— roll -00.00, pitch +01.52, yaw +00.00 ——— angularvelocity +0.0000, -0.1406, +0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0370 ——— wall-clock time 1.9s, simulation time 1.5s@240Hz (0.82x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.12, y +00.00, z +01.00 ——— velocity +00.90, +00.00, +00.00 ——— roll +00.00, pitch +00.88, yaw +00.00 ——— angularvelocity +0.0000, -0.7945, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0375 ——— wall-clock time 1.9s, simulation time 1.6s@240Hz (0.81x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.14, y -00.00, z +01.00 ——— velocity +00.90, -00.00, +00.00 ——— roll -00.00, pitch +00.40, yaw +00.00 ——— angularvelocity -0.0000, -0.1393, +0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0380 ——— wall-clock time 2.0s, simulation time 1.6s@240Hz (0.81x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.16, y -00.00, z +01.00 ——— velocity +00.90, +00.00, +00.00 ——— roll +00.00, pitch +00.70, yaw -00.00 ——— angularvelocity +0.0000, +0.5151, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0385 ——— wall-clock time 2.0s, simulation time 1.6s@240Hz (0.80x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.18, y +00.00, z +01.00 ——— velocity +00.90, -00.00, +00.00 ——— roll +00.00, pitch +00.85, yaw -00.00 ——— angularvelocity -0.0000, -0.1396, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0390 ——— wall-clock time 2.0s, simulation time 1.6s@240Hz (0.81x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.20, y -00.00, z +01.00 ——— velocity +00.90, -00.00, +00.00 ——— roll -00.00, pitch +00.22, yaw -00.00 ——— angularvelocity -0.0000, -0.7935, +0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0395 ——— wall-clock time 2.0s, simulation time 1.6s@240Hz (0.81x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.22, y +00.00, z +01.00 ——— velocity +00.90, +00.00, +00.00 ——— roll +00.00, pitch -00.26, yaw -00.00 ——— angularvelocity +0.0000, -0.1384, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0400 ——— wall-clock time 2.0s, simulation time 1.7s@240Hz (0.82x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.24, y +00.00, z +01.00 ——— velocity +00.90, -00.00, +00.00 ——— roll +00.00, pitch +00.04, yaw -00.00 ——— angularvelocity -0.0000, +0.5159, +0.0000 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(1.26, -0.00) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=4.74
+
+[INFO] BaseAviary.render() ——— it 0405 ——— wall-clock time 2.1s, simulation time 1.7s@240Hz (0.82x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.26, y -00.00, z +01.00 ——— velocity +00.90, -00.00, +00.00 ——— roll -00.00, pitch +00.19, yaw +00.00 ——— angularvelocity -0.0000, -0.1388, +0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0410 ——— wall-clock time 2.1s, simulation time 1.7s@240Hz (0.82x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.27, y +00.00, z +01.00 ——— velocity +00.90, +00.00, +00.00 ——— roll +00.00, pitch -00.38, yaw +00.00 ——— angularvelocity +0.0001, -0.6992, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0415 ——— wall-clock time 2.1s, simulation time 1.7s@240Hz (0.82x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.29, y +00.00, z +01.00 ——— velocity +00.90, -00.00, +00.00 ——— roll -00.00, pitch -00.74, yaw +00.00 ——— angularvelocity -0.0001, -0.0442, +0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0420 ——— wall-clock time 2.1s, simulation time 1.8s@240Hz (0.82x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.31, y -00.00, z +01.00 ——— velocity +00.89, +00.00, +00.00 ——— roll -00.00, pitch -00.33, yaw +00.00 ——— angularvelocity +0.0000, +0.6099, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0425 ——— wall-clock time 2.1s, simulation time 1.8s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.33, y +00.00, z +01.00 ——— velocity +00.89, +00.00, +00.00 ——— roll +00.00, pitch -00.07, yaw +00.00 ——— angularvelocity +0.0002, -0.0449, +0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0430 ——— wall-clock time 2.2s, simulation time 1.8s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.35, y -00.00, z +01.00 ——— velocity +00.89, -00.00, +00.00 ——— roll -00.00, pitch -00.47, yaw -00.00 ——— angularvelocity -0.0004, -0.5336, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0435 ——— wall-clock time 2.2s, simulation time 1.8s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.37, y -00.00, z +01.00 ——— velocity +00.88, +00.00, +00.00 ——— roll -00.00, pitch -00.64, yaw -00.00 ——— angularvelocity +0.0002, +0.1211, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0440 ——— wall-clock time 2.2s, simulation time 1.8s@240Hz (0.84x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.39, y +00.00, z +01.00 ——— velocity +00.88, +00.00, +00.00 ——— roll +00.00, pitch -00.03, yaw -00.00 ——— angularvelocity +0.0003, +0.7750, +0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0445 ——— wall-clock time 2.2s, simulation time 1.9s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.40, y -00.00, z +01.00 ——— velocity +00.88, -00.00, +00.00 ——— roll -00.00, pitch +00.43, yaw -00.00 ——— angularvelocity -0.0010, +0.1199, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0450 ——— wall-clock time 2.3s, simulation time 1.9s@240Hz (0.82x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.42, y -00.00, z +01.00 ——— velocity +00.88, +00.00, +00.00 ——— roll -00.00, pitch +00.10, yaw +00.00 ——— angularvelocity +0.0010, -0.5345, +0.0000 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(1.44, 0.00) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=4.56
+
+[INFO] BaseAviary.render() ——— it 0455 ——— wall-clock time 2.3s, simulation time 1.9s@240Hz (0.82x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.44, y +00.00, z +01.00 ——— velocity +00.88, +00.00, +00.00 ——— roll +00.00, pitch -00.07, yaw +00.00 ——— angularvelocity +0.0002, +0.1203, +0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0460 ——— wall-clock time 2.3s, simulation time 1.9s@240Hz (0.82x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.46, y -00.00, z +01.00 ——— velocity +00.88, -00.00, +00.00 ——— roll -00.00, pitch +00.54, yaw +00.00 ——— angularvelocity -0.0021, +0.7742, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0465 ——— wall-clock time 2.3s, simulation time 1.9s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.48, y -00.00, z +01.00 ——— velocity +00.88, +00.00, +00.00 ——— roll +00.00, pitch +01.00, yaw +00.00 ——— angularvelocity +0.0032, +0.1191, +0.0001 ———
+
+[INFO] BaseAviary.render() ——— it 0470 ——— wall-clock time 2.4s, simulation time 2.0s@240Hz (0.82x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.50, y +00.00, z +01.00 ——— velocity +00.88, -00.00, +00.00 ——— roll +00.00, pitch +00.67, yaw +00.00 ——— angularvelocity -0.0014, -0.5353, -0.0001 ———
+
+[INFO] BaseAviary.render() ——— it 0475 ——— wall-clock time 2.4s, simulation time 2.0s@240Hz (0.82x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.51, y -00.00, z +01.00 ——— velocity +00.88, -00.00, +00.00 ——— roll -00.00, pitch +00.50, yaw -00.00 ——— angularvelocity -0.0037, +0.1195, +0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0480 ——— wall-clock time 2.4s, simulation time 2.0s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.53, y +00.00, z +01.00 ——— velocity +00.88, +00.00, +00.00 ——— roll +00.00, pitch +01.11, yaw -00.00 ——— angularvelocity +0.0088, +0.7734, -0.0002 ———
+
+[INFO] BaseAviary.render() ——— it 0485 ——— wall-clock time 2.4s, simulation time 2.0s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.55, y +00.00, z +01.00 ——— velocity +00.88, -00.00, +00.00 ——— roll +00.00, pitch +01.57, yaw -00.00 ——— angularvelocity -0.0077, +0.1183, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0490 ——— wall-clock time 2.4s, simulation time 2.0s@240Hz (0.84x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.57, y -00.00, z +01.00 ——— velocity +00.89, -00.00, +00.00 ——— roll -00.01, pitch +01.24, yaw -00.00 ——— angularvelocity -0.0037, -0.5360, +0.0005 ———
+
+[INFO] BaseAviary.render() ——— it 0495 ——— wall-clock time 2.5s, simulation time 2.1s@240Hz (0.84x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.59, y +00.00, z +01.00 ——— velocity +00.89, +00.00, +00.00 ——— roll +00.01, pitch +01.07, yaw -00.00 ——— angularvelocity +0.0207, +0.1188, -0.0008 ———
+
+[INFO] BaseAviary.render() ——— it 0500 ——— wall-clock time 2.5s, simulation time 2.1s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.61, y +00.00, z +01.00 ——— velocity +00.89, -00.00, +00.00 ——— roll -00.00, pitch +01.68, yaw +00.00 ——— angularvelocity -0.0276, +0.7728, +0.0015 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(1.63, -0.00) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=4.37
+
+[INFO] BaseAviary.render() ——— it 0505 ——— wall-clock time 2.5s, simulation time 2.1s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.63, y -00.00, z +01.00 ——— velocity +00.90, +00.00, +00.00 ——— roll -00.01, pitch +02.13, yaw +00.00 ——— angularvelocity +0.0069, +0.1176, -0.0000 ———
+
+[INFO] BaseAviary.render() ——— it 0510 ——— wall-clock time 2.6s, simulation time 2.1s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.64, y +00.00, z +01.00 ——— velocity +00.91, +00.00, +00.00 ——— roll +00.02, pitch +01.80, yaw +00.00 ——— angularvelocity +0.0401, -0.5366, -0.0021 ———
+
+[INFO] BaseAviary.render() ——— it 0515 ——— wall-clock time 2.6s, simulation time 2.1s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.66, y -00.00, z +01.00 ——— velocity +00.91, -00.00, +00.00 ——— roll -00.02, pitch +01.63, yaw +00.00 ——— angularvelocity -0.0800, +0.1182, +0.0046 ———
+
+[INFO] BaseAviary.render() ——— it 0520 ——— wall-clock time 2.6s, simulation time 2.2s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.68, y -00.00, z +01.00 ——— velocity +00.91, +00.00, -00.00 ——— roll -00.01, pitch +01.88, yaw +00.00 ——— angularvelocity +0.0579, +0.2614, -0.0040 ———
+
+[INFO] BaseAviary.render() ——— it 0525 ——— wall-clock time 2.6s, simulation time 2.2s@240Hz (0.83x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.70, y +00.00, z +01.00 ——— velocity +00.92, +00.00, -00.00 ——— roll +00.05, pitch +01.72, yaw -00.00 ——— angularvelocity +0.0540, -0.3932, -0.0036 ———
+
+[INFO] BaseAviary.render() ——— it 0530 ——— wall-clock time 2.6s, simulation time 2.2s@240Hz (0.84x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.72, y -00.00, z +01.00 ——— velocity +00.92, -00.00, -00.00 ——— roll -00.06, pitch +01.17, yaw +00.00 ——— angularvelocity -0.1989, -0.5024, +0.0088 ———
+
+[INFO] BaseAviary.render() ——— it 0535 ——— wall-clock time 2.7s, simulation time 2.2s@240Hz (0.84x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.74, y -00.00, z +01.00 ——— velocity +00.93, +00.00, -00.00 ——— roll +00.01, pitch +01.04, yaw -00.00 ——— angularvelocity +0.2305, +0.1528, -0.0133 ———
+
+[INFO] BaseAviary.render() ——— it 0540 ——— wall-clock time 2.7s, simulation time 2.2s@240Hz (0.84x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.76, y +00.00, z +01.00 ——— velocity +00.93, -00.00, -00.00 ——— roll +00.11, pitch +01.26, yaw -00.01 ——— angularvelocity -0.0103, +0.1958, +0.0036 ———
+
+[INFO] BaseAviary.render() ——— it 0545 ——— wall-clock time 2.7s, simulation time 2.3s@240Hz (0.85x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.78, y -00.00, z +01.00 ——— velocity +00.93, -00.00, -00.00 ——— roll -00.19, pitch +01.02, yaw -00.00 ——— angularvelocity -0.4162, -0.4585, +0.0124 ———
+
+[INFO] BaseAviary.render() ——— it 0550 ——— wall-clock time 2.7s, simulation time 2.3s@240Hz (0.85x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.80, y +00.00, z +01.00 ——— velocity +00.93, +00.00, +00.00 ——— roll -00.22, pitch +00.72, yaw -00.01 ——— angularvelocity +0.2384, -0.1085, -0.0160 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(1.82, 0.00) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=4.18
+
+[INFO] BaseAviary.render() ——— it 0555 ——— wall-clock time 2.7s, simulation time 2.3s@240Hz (0.85x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.82, y +00.00, z +01.00 ——— velocity +00.93, +00.00, +00.00 ——— roll +00.22, pitch +01.06, yaw -00.01 ——— angularvelocity +0.4564, +0.5455, -0.0051 ———
+
+[INFO] BaseAviary.render() ——— it 0560 ——— wall-clock time 2.8s, simulation time 2.3s@240Hz (0.85x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.84, y +00.00, z +01.00 ——— velocity +00.94, +00.00, +00.00 ——— roll +00.30, pitch +01.25, yaw -00.00 ——— angularvelocity -0.1972, -0.1082, +0.0133 ———
+
+[INFO] BaseAviary.render() ——— it 0565 ——— wall-clock time 2.8s, simulation time 2.4s@240Hz (0.84x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.86, y +00.00, z +01.00 ——— velocity +00.94, -00.00, +00.00 ——— roll -00.23, pitch +00.65, yaw -00.01 ——— angularvelocity -0.6047, -0.7624, -0.0040 ———
+
+[INFO] BaseAviary.render() ——— it 0570 ——— wall-clock time 2.8s, simulation time 2.4s@240Hz (0.84x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.88, y +00.00, z +01.00 ——— velocity +00.94, +00.00, +00.00 ——— roll -00.49, pitch +00.21, yaw -00.02 ——— angularvelocity +0.0494, -0.1083, -0.0074 ———
+
+[INFO] BaseAviary.render() ——— it 0575 ——— wall-clock time 2.8s, simulation time 2.4s@240Hz (0.84x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.90, y +00.00, z +01.00 ——— velocity +00.94, +00.00, +00.00 ——— roll +00.04, pitch +00.54, yaw -00.02 ——— angularvelocity +0.7020, +0.5441, +0.0058 ———
+
+[INFO] BaseAviary.render() ——— it 0580 ——— wall-clock time 2.9s, simulation time 2.4s@240Hz (0.85x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.91, y +00.00, z +01.00 ——— velocity +00.94, +00.00, +00.00 ——— roll +00.41, pitch +00.73, yaw -00.01 ——— angularvelocity +0.0468, -0.1104, -0.0009 ———
+
+[INFO] BaseAviary.render() ——— it 0585 ——— wall-clock time 2.9s, simulation time 2.4s@240Hz (0.85x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.93, y +00.00, z +01.00 ——— velocity +00.94, +00.00, +00.00 ——— roll -00.00, pitch +00.12, yaw -00.03 ——— angularvelocity -0.6080, -0.7642, -0.0190 ———
+
+[INFO] BaseAviary.render() ——— it 0590 ——— wall-clock time 2.9s, simulation time 2.5s@240Hz (0.85x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.95, y +00.00, z +01.00 ——— velocity +00.94, +00.00, +00.00 ——— roll -00.26, pitch -00.32, yaw -00.02 ——— angularvelocity +0.0443, -0.1122, +0.0214 ———
+
+[INFO] BaseAviary.render() ——— it 0595 ——— wall-clock time 2.9s, simulation time 2.5s@240Hz (0.85x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.97, y +00.00, z +01.00 ——— velocity +00.94, +00.00, +00.00 ——— roll +00.26, pitch +00.01, yaw -00.01 ——— angularvelocity +0.6985, +0.5417, +0.0066 ———
+
+[INFO] BaseAviary.render() ——— it 0600 ——— wall-clock time 2.9s, simulation time 2.5s@240Hz (0.85x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +01.99, y +00.00, z +01.00 ——— velocity +00.94, -00.00, +00.00 ——— roll +00.62, pitch +00.19, yaw -00.03 ——— angularvelocity +0.0422, -0.1139, -0.0365 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(2.01, 0.00) | Front=1.60 | Left=0.23 | Right=1.60 | Goal distance=3.99
+
+[INFO] BaseAviary.render() ——— it 0605 ——— wall-clock time 3.0s, simulation time 2.5s@240Hz (0.85x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.01, y +00.00, z +01.00 ——— velocity +00.93, -00.00, +00.00 ——— roll +00.21, pitch -00.27, yaw -00.03 ——— angularvelocity -0.6095, -0.5637, +0.0178 ———
+
+[INFO] BaseAviary.render() ——— it 0610 ——— wall-clock time 3.0s, simulation time 2.5s@240Hz (0.85x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.03, y +00.00, z +01.00 ——— velocity +00.93, -00.00, +00.00 ——— roll -00.05, pitch -00.47, yaw +00.00 ——— angularvelocity +0.0441, +0.0892, +0.0365 ———
+
+[INFO] BaseAviary.render() ——— it 0615 ——— wall-clock time 3.0s, simulation time 2.6s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.05, y +00.00, z +01.00 ——— velocity +00.93, -00.00, +00.00 ——— roll +00.47, pitch +00.11, yaw -00.02 ——— angularvelocity +0.7031, +0.7473, -0.0587 ———
+
+[INFO] BaseAviary.render() ——— it 0620 ——— wall-clock time 3.0s, simulation time 2.6s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.07, y -00.00, z +01.00 ——— velocity +00.93, -00.00, +00.00 ——— roll +00.85, pitch +00.53, yaw -00.05 ——— angularvelocity +0.0519, +0.0958, -0.0029 ———
+
+[INFO] BaseAviary.render() ——— it 0625 ——— wall-clock time 3.0s, simulation time 2.6s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.09, y -00.00, z +01.00 ——— velocity +00.93, -00.01, +00.00 ——— roll +00.44, pitch +00.18, yaw -00.00 ——— angularvelocity -0.5971, -0.5543, +0.0710 ———
+
+[INFO] BaseAviary.render() ——— it 0630 ——— wall-clock time 3.1s, simulation time 2.6s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.11, y -00.00, z +01.00 ——— velocity +00.93, -00.01, +00.00 ——— roll +00.20, pitch -00.01, yaw -00.01 ——— angularvelocity +0.0631, +0.1068, -0.0508 ———
+
+[INFO] BaseAviary.render() ——— it 0635 ——— wall-clock time 3.1s, simulation time 2.6s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.13, y -00.00, z +01.00 ——— velocity +00.93, -00.01, +00.00 ——— roll +00.65, pitch +00.59, yaw -00.06 ——— angularvelocity +0.5895, +0.7598, -0.0510 ———
+
+[INFO] BaseAviary.render() ——— it 0640 ——— wall-clock time 3.1s, simulation time 2.7s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.15, y -00.00, z +01.00 ——— velocity +00.93, -00.01, +00.00 ——— roll +00.90, pitch +01.03, yaw -00.01 ——— angularvelocity -0.0556, +0.1122, +0.1032 ———
+
+[INFO] BaseAviary.render() ——— it 0645 ——— wall-clock time 3.1s, simulation time 2.7s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.17, y -00.00, z +01.00 ——— velocity +00.93, -00.02, +00.00 ——— roll +00.35, pitch +00.69, yaw +00.01 ——— angularvelocity -0.7181, -0.5463, -0.0314 ———
+
+[INFO] BaseAviary.render() ——— it 0650 ——— wall-clock time 3.2s, simulation time 2.7s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.19, y -00.00, z +01.00 ——— velocity +00.93, -00.02, +00.00 ——— roll -00.03, pitch +00.51, yaw -00.08 ——— angularvelocity -0.0612, +0.1114, -0.0999 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(2.21, -0.00) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=3.79
+
+[INFO] BaseAviary.render() ——— it 0655 ——— wall-clock time 3.2s, simulation time 2.7s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.21, y -00.00, z +01.00 ——— velocity +00.93, -00.02, +00.00 ——— roll +00.36, pitch +01.10, yaw -00.03 ——— angularvelocity +0.5829, +0.7514, +0.1330 ———
+
+[INFO] BaseAviary.render() ——— it 0660 ——— wall-clock time 3.2s, simulation time 2.8s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.23, y -00.00, z +01.00 ——— velocity +00.93, -00.02, +00.00 ——— roll +00.58, pitch +01.53, yaw +00.05 ——— angularvelocity -0.0808, +0.0917, +0.0112 ———
+
+[INFO] BaseAviary.render() ——— it 0665 ——— wall-clock time 3.2s, simulation time 2.8s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.25, y -00.00, z +01.00 ——— velocity +00.94, -00.02, +00.00 ——— roll -00.00, pitch +01.16, yaw -00.11 ——— angularvelocity -0.7514, -0.5706, -0.2003 ———
+
+[INFO] BaseAviary.render() ——— it 0670 ——— wall-clock time 3.2s, simulation time 2.8s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.26, y -00.00, z +01.00 ——— velocity +00.94, -00.02, +00.00 ——— roll -00.44, pitch +00.93, yaw -00.08 ——— angularvelocity -0.1087, +0.0626, +0.1814 ———
+
+[INFO] BaseAviary.render() ——— it 0675 ——— wall-clock time 3.3s, simulation time 2.8s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.28, y -00.00, z +01.00 ——— velocity +00.94, -00.02, +00.00 ——— roll -00.10, pitch +01.48, yaw +00.10 ——— angularvelocity +0.5453, +0.7178, +0.1224 ———
+
+[INFO] BaseAviary.render() ——— it 0680 ——— wall-clock time 3.3s, simulation time 2.8s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.30, y -00.01, z +01.00 ——— velocity +00.28, -00.37, -00.11 ——— roll +00.11, pitch +00.98, yaw +01.39 ——— angularvelocity +0.1262, -3.6017, +5.8600 ———
+
+[INFO] BaseAviary.render() ——— it 0685 ——— wall-clock time 3.3s, simulation time 2.9s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.31, y -00.01, z +01.00 ——— velocity +00.28, -00.37, -00.06 ——— roll -00.50, pitch -02.63, yaw +07.88 ——— angularvelocity -0.5515, -2.7110, +5.1315 ———
+
+[INFO] BaseAviary.render() ——— it 0690 ——— wall-clock time 3.3s, simulation time 2.9s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.31, y -00.02, z +01.00 ——— velocity +00.26, -00.37, -00.04 ——— roll -02.07, pitch -05.23, yaw +13.52 ——— angularvelocity -1.1180, -2.2016, +4.2834 ———
+
+[INFO] BaseAviary.render() ——— it 0695 ——— wall-clock time 3.4s, simulation time 2.9s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.32, y -00.03, z +01.00 ——— velocity +00.24, -00.37, -00.03 ——— roll -03.45, pitch -06.96, yaw +18.24 ——— angularvelocity -0.4544, -1.3557, +3.5352 ———
+
+[INFO] BaseAviary.render() ——— it 0700 ——— wall-clock time 3.4s, simulation time 2.9s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.32, y -00.04, z +01.00 ——— velocity +00.21, -00.36, -00.03 ——— roll -03.91, pitch -07.84, yaw +22.00 ——— angularvelocity +0.1087, -0.4711, +2.8088 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(2.33, -0.04) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=3.67
+
+[INFO] BaseAviary.render() ——— it 0705 ——— wall-clock time 3.4s, simulation time 2.9s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.33, y -00.04, z +01.00 ——— velocity +00.18, -00.36, -00.04 ——— roll -04.36, pitch -08.00, yaw +24.79 ——— angularvelocity -0.5592, -0.1473, +1.9427 ———
+
+[INFO] BaseAviary.render() ——— it 0710 ——— wall-clock time 3.4s, simulation time 3.0s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.33, y -00.05, z +00.99 ——— velocity +00.15, -00.36, -00.04 ——— roll -05.40, pitch -07.48, yaw +26.63 ——— angularvelocity -1.2433, +0.1246, +1.0728 ———
+
+[INFO] BaseAviary.render() ——— it 0715 ——— wall-clock time 3.5s, simulation time 3.0s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.33, y -00.06, z +00.99 ——— velocity +00.12, -00.35, -00.04 ——— roll -06.09, pitch -06.23, yaw +27.47 ——— angularvelocity -0.8181, +1.0234, +0.3300 ———
+
+[INFO] BaseAviary.render() ——— it 0720 ——— wall-clock time 3.5s, simulation time 3.0s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.33, y -00.07, z +00.99 ——— velocity +00.09, -00.34, -00.04 ——— roll -05.83, pitch -04.26, yaw +27.29 ——— angularvelocity -0.4058, +1.9251, -0.4414 ———
+
+[INFO] BaseAviary.render() ——— it 0725 ——— wall-clock time 3.5s, simulation time 3.0s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.34, y -00.07, z +00.99 ——— velocity +00.06, -00.33, -00.03 ——— roll -05.63, pitch -01.61, yaw +26.13 ——— angularvelocity -1.1475, +2.1568, -1.2975 ———
+
+[INFO] BaseAviary.render() ——— it 0730 ——— wall-clock time 3.5s, simulation time 3.0s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.34, y -00.08, z +00.99 ——— velocity +00.05, -00.31, -00.02 ——— roll -06.19, pitch +01.70, yaw +23.98 ——— angularvelocity -1.9024, +2.4123, -2.1321 ———
+
+[INFO] BaseAviary.render() ——— it 0735 ——— wall-clock time 3.5s, simulation time 3.1s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.34, y -00.08, z +00.99 ——— velocity +00.05, -00.28, -00.00 ——— roll -06.64, pitch +05.68, yaw +20.77 ——— angularvelocity -1.4287, +3.2880, -3.0369 ———
+
+[INFO] BaseAviary.render() ——— it 0740 ——— wall-clock time 3.5s, simulation time 3.1s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.34, y -00.09, z +00.99 ——— velocity +00.07, -00.25, +00.02 ——— roll -06.46, pitch +10.34, yaw +16.49 ——— angularvelocity -0.8793, +4.0279, -3.9935 ———
+
+[INFO] BaseAviary.render() ——— it 0745 ——— wall-clock time 3.6s, simulation time 3.1s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.34, y -00.10, z +00.99 ——— velocity +00.10, -00.21, +00.04 ——— roll -05.77, pitch +14.79, yaw +12.44 ——— angularvelocity -0.0590, +3.5478, -3.2105 ———
+
+[INFO] BaseAviary.render() ——— it 0750 ——— wall-clock time 3.6s, simulation time 3.1s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.34, y -00.10, z +00.99 ——— velocity +00.16, -00.18, +00.05 ——— roll -05.24, pitch +18.51, yaw +09.46 ——— angularvelocity -0.2543, +2.8833, -2.2234 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(2.35, -0.10) | Front=1.60 | Left=0.04 | Right=1.60 | Goal distance=3.65
+
+[INFO] BaseAviary.render() ——— it 0755 ——— wall-clock time 3.6s, simulation time 3.1s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.35, y -00.10, z +00.99 ——— velocity +00.23, -00.15, +00.06 ——— roll -05.25, pitch +21.53, yaw +07.52 ——— angularvelocity -0.4574, +2.2556, -1.2245 ———
+
+[INFO] BaseAviary.render() ——— it 0760 ——— wall-clock time 3.6s, simulation time 3.2s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.35, y -00.11, z +01.00 ——— velocity +00.30, -00.12, +00.06 ——— roll -05.02, pitch +23.78, yaw +05.89 ——— angularvelocity +0.2251, +1.6384, -1.5826 ———
+
+[INFO] BaseAviary.render() ——— it 0765 ——— wall-clock time 3.7s, simulation time 3.2s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.36, y -00.11, z +01.00 ——— velocity +00.39, -00.09, +00.05 ——— roll -04.44, pitch +25.21, yaw +04.21 ——— angularvelocity +0.3954, +0.9593, -1.6323 ———
+
+[INFO] BaseAviary.render() ——— it 0770 ——— wall-clock time 3.7s, simulation time 3.2s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.37, y -00.11, z +01.00 ——— velocity +00.48, -00.07, +00.03 ——— roll -04.01, pitch +25.91, yaw +03.16 ——— angularvelocity +0.2173, +0.3701, -0.6339 ———
+
+[INFO] BaseAviary.render() ——— it 0775 ——— wall-clock time 3.7s, simulation time 3.2s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.38, y -00.11, z +01.00 ——— velocity +00.57, -00.05, +00.02 ——— roll -04.10, pitch +25.87, yaw +02.69 ——— angularvelocity -0.2597, -0.3011, -0.1863 ———
+
+[INFO] BaseAviary.render() ——— it 0780 ——— wall-clock time 3.7s, simulation time 3.2s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.39, y -00.11, z +01.00 ——— velocity +00.66, -00.03, +00.00 ——— roll -04.26, pitch +25.04, yaw +01.75 ——— angularvelocity +0.0180, -0.9666, -1.0896 ———
+
+[INFO] BaseAviary.render() ——— it 0785 ——— wall-clock time 3.8s, simulation time 3.3s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.41, y -00.11, z +01.00 ——— velocity +00.74, -00.01, -00.01 ——— roll -03.50, pitch +23.43, yaw +01.09 ——— angularvelocity +1.0073, -1.5853, -0.6262 ———
+
+[INFO] BaseAviary.render() ——— it 0790 ——— wall-clock time 3.8s, simulation time 3.3s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.43, y -00.11, z +01.00 ——— velocity +00.82, +00.00, -00.02 ——— roll -02.49, pitch +21.09, yaw +01.34 ——— angularvelocity +0.6932, -2.1805, +0.2215 ———
+
+[INFO] BaseAviary.render() ——— it 0795 ——— wall-clock time 3.8s, simulation time 3.3s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.44, y -00.11, z +01.00 ——— velocity +00.90, +00.01, -00.03 ——— roll -02.34, pitch +18.90, yaw +01.29 ——— angularvelocity -0.1874, -1.6023, -0.2934 ———
+
+[INFO] BaseAviary.render() ——— it 0800 ——— wall-clock time 3.8s, simulation time 3.3s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.46, y -00.11, z +01.00 ——— velocity +00.96, +00.02, -00.03 ——— roll -02.40, pitch +17.08, yaw +00.29 ——— angularvelocity +0.0807, -1.4773, -1.1737 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(2.48, -0.11) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=3.52
+
+[INFO] BaseAviary.render() ——— it 0805 ——— wall-clock time 3.8s, simulation time 3.4s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.48, y -00.11, z +01.00 ——— velocity +01.02, +00.03, -00.03 ——— roll -01.62, pitch +14.84, yaw -00.49 ——— angularvelocity +0.9755, -2.1531, -0.5906 ———
+
+[INFO] BaseAviary.render() ——— it 0810 ——— wall-clock time 3.8s, simulation time 3.4s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.51, y -00.11, z +00.99 ——— velocity +01.07, +00.04, -00.03 ——— roll -00.73, pitch +12.21, yaw -00.33 ——— angularvelocity +0.5271, -2.2488, +0.3202 ———
+
+[INFO] BaseAviary.render() ——— it 0815 ——— wall-clock time 3.9s, simulation time 3.4s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.53, y -00.11, z +00.99 ——— velocity +01.11, +00.04, -00.02 ——— roll -00.59, pitch +10.00, yaw -00.02 ——— angularvelocity -0.1648, -1.5891, +0.1748 ———
+
+[INFO] BaseAviary.render() ——— it 0820 ——— wall-clock time 3.9s, simulation time 3.4s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.55, y -00.11, z +00.99 ——— velocity +01.15, +00.04, -00.02 ——— roll -00.80, pitch +08.33, yaw -00.40 ——— angularvelocity -0.1916, -1.2706, -0.6097 ———
+
+[INFO] BaseAviary.render() ——— it 0825 ——— wall-clock time 3.9s, simulation time 3.4s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.58, y -00.11, z +00.99 ——— velocity +01.18, +00.05, -00.01 ——— roll -00.44, pitch +06.32, yaw -00.60 ——— angularvelocity +0.6071, -1.9695, +0.0801 ———
+
+[INFO] BaseAviary.render() ——— it 0830 ——— wall-clock time 3.9s, simulation time 3.5s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.60, y -00.11, z +00.99 ——— velocity +01.20, +00.05, -00.00 ——— roll -00.11, pitch +04.16, yaw +00.08 ——— angularvelocity +0.0240, -1.6989, +0.8481 ———
+
+[INFO] BaseAviary.render() ——— it 0835 ——— wall-clock time 3.9s, simulation time 3.5s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.63, y -00.10, z +00.99 ——— velocity +01.21, +00.05, +00.00 ——— roll -00.56, pitch +02.59, yaw +00.56 ——— angularvelocity -0.6239, -1.0761, +0.1268 ———
+
+[INFO] BaseAviary.render() ——— it 0840 ——— wall-clock time 3.9s, simulation time 3.5s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.65, y -00.10, z +00.99 ——— velocity +01.21, +00.05, +00.01 ——— roll -00.87, pitch +01.25, yaw +00.13 ——— angularvelocity -0.0039, -1.1576, -0.6609 ———
+
+[INFO] BaseAviary.render() ——— it 0845 ——— wall-clock time 4.0s, simulation time 3.5s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.68, y -00.10, z +00.99 ——— velocity +01.21, +00.05, +00.01 ——— roll -00.38, pitch -00.46, yaw -00.11 ——— angularvelocity +0.6895, -1.6065, +0.1076 ———
+
+[INFO] BaseAviary.render() ——— it 0850 ——— wall-clock time 4.0s, simulation time 3.5s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.70, y -00.10, z +00.99 ——— velocity +01.21, +00.05, +00.01 ——— roll -00.05, pitch -01.88, yaw +00.40 ——— angularvelocity +0.0008, -0.9138, +0.6419 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(2.73, -0.10) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=3.27
+
+[INFO] BaseAviary.render() ——— it 0855 ——— wall-clock time 4.0s, simulation time 3.6s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.73, y -00.10, z +00.99 ——— velocity +01.20, +00.05, +00.02 ——— roll -00.40, pitch -02.52, yaw +00.63 ——— angularvelocity -0.4821, -0.2936, -0.1297 ———
+
+[INFO] BaseAviary.render() ——— it 0860 ——— wall-clock time 4.0s, simulation time 3.6s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.75, y -00.10, z +00.99 ——— velocity +01.19, +00.05, +00.02 ——— roll -00.51, pitch -03.31, yaw -00.03 ——— angularvelocity +0.1694, -0.9093, -0.8424 ———
+
+[INFO] BaseAviary.render() ——— it 0865 ——— wall-clock time 4.0s, simulation time 3.6s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.78, y -00.10, z +00.99 ——— velocity +01.17, +00.06, +00.02 ——— roll +00.11, pitch -04.08, yaw -00.52 ——— angularvelocity +0.7474, -0.4786, -0.0574 ———
+
+[INFO] BaseAviary.render() ——— it 0870 ——— wall-clock time 4.1s, simulation time 3.6s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.80, y -00.10, z +01.00 ——— velocity +01.16, +00.06, +00.02 ——— roll +00.47, pitch -04.15, yaw -00.10 ——— angularvelocity +0.0059, +0.2183, +0.6616 ———
+
+[INFO] BaseAviary.render() ——— it 0875 ——— wall-clock time 4.1s, simulation time 3.6s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.83, y -00.10, z +01.00 ——— velocity +01.14, +00.05, +00.02 ——— roll +00.03, pitch -04.38, yaw +00.14 ——— angularvelocity -0.6273, -0.4688, -0.1590 ———
+
+[INFO] BaseAviary.render() ——— it 0880 ——— wall-clock time 4.1s, simulation time 3.7s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.85, y -00.09, z +01.00 ——— velocity +01.12, +00.05, +00.02 ——— roll -00.21, pitch -04.78, yaw -00.50 ——— angularvelocity +0.0868, -0.2476, -0.8118 ———
+
+[INFO] BaseAviary.render() ——— it 0885 ——— wall-clock time 4.1s, simulation time 3.7s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.87, y -00.09, z +01.00 ——— velocity +01.10, +00.05, +00.02 ——— roll +00.29, pitch -04.63, yaw -00.95 ——— angularvelocity +0.6434, +0.3595, -0.0198 ———
+
+[INFO] BaseAviary.render() ——— it 0890 ——— wall-clock time 4.2s, simulation time 3.7s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.89, y -00.09, z +01.00 ——— velocity +01.08, +00.05, +00.01 ——— roll +00.55, pitch -04.25, yaw -00.49 ——— angularvelocity -0.0622, +0.2824, +0.6790 ———
+
+[INFO] BaseAviary.render() ——— it 0895 ——— wall-clock time 4.2s, simulation time 3.7s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.92, y -00.09, z +01.00 ——— velocity +01.07, +00.05, +00.01 ——— roll +00.10, pitch -04.40, yaw -00.23 ——— angularvelocity -0.5780, -0.3926, -0.1314 ———
+
+[INFO] BaseAviary.render() ——— it 0900 ——— wall-clock time 4.2s, simulation time 3.8s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.94, y -00.09, z +01.00 ——— velocity +01.05, +00.05, +00.01 ——— roll -00.07, pitch -04.38, yaw -00.75 ——— angularvelocity +0.1511, +0.2858, -0.6592 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(2.96, -0.09) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=3.04
+
+[INFO] BaseAviary.render() ——— it 0905 ——— wall-clock time 4.3s, simulation time 3.8s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.96, y -00.09, z +01.00 ——— velocity +01.03, +00.05, +00.01 ——— roll +00.51, pitch -03.60, yaw -01.01 ——— angularvelocity +0.7178, +0.8885, +0.1289 ———
+
+[INFO] BaseAviary.render() ——— it 0910 ——— wall-clock time 4.3s, simulation time 3.8s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +02.98, y -00.09, z +01.00 ——— velocity +01.02, +00.05, +00.01 ——— roll +00.87, pitch -02.97, yaw -00.38 ——— angularvelocity +0.0478, +0.2780, +0.8278 ———
+
+[INFO] BaseAviary.render() ——— it 0915 ——— wall-clock time 4.3s, simulation time 3.8s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.00, y -00.09, z +01.00 ——— velocity +01.01, +00.05, +00.01 ——— roll +00.46, pitch -03.12, yaw +00.05 ——— angularvelocity -0.6045, -0.4014, +0.0159 ———
+
+[INFO] BaseAviary.render() ——— it 0920 ——— wall-clock time 4.4s, simulation time 3.8s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.02, y -00.09, z +01.00 ——— velocity +00.99, +00.04, +00.01 ——— roll +00.26, pitch -03.10, yaw -00.44 ——— angularvelocity +0.1288, +0.2954, -0.7068 ———
+
+[INFO] BaseAviary.render() ——— it 0925 ——— wall-clock time 4.4s, simulation time 3.9s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.04, y -00.08, z +01.00 ——— velocity +00.98, +00.04, +00.01 ——— roll +00.82, pitch -02.31, yaw -00.75 ——— angularvelocity +0.7101, +0.8964, +0.0723 ———
+
+[INFO] BaseAviary.render() ——— it 0930 ——— wall-clock time 4.4s, simulation time 3.9s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.06, y -00.08, z +01.00 ——— velocity +00.97, +00.04, +00.01 ——— roll +01.20, pitch -01.67, yaw -00.17 ——— angularvelocity +0.0586, +0.2825, +0.7829 ———
+
+[INFO] BaseAviary.render() ——— it 0935 ——— wall-clock time 4.4s, simulation time 3.9s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.08, y -00.08, z +01.00 ——— velocity +00.97, +00.04, +00.01 ——— roll +00.81, pitch -01.50, yaw +00.22 ——— angularvelocity -0.5852, +0.0463, -0.0005 ———
+
+[INFO] BaseAviary.render() ——— it 0940 ——— wall-clock time 4.5s, simulation time 3.9s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.11, y -00.08, z +01.00 ——— velocity +00.96, +00.03, +00.01 ——— roll +00.62, pitch -00.94, yaw -00.31 ——— angularvelocity +0.1267, +0.7494, -0.7415 ———
+
+[INFO] BaseAviary.render() ——— it 0945 ——— wall-clock time 4.5s, simulation time 3.9s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.12, y -00.08, z +01.00 ——— velocity +00.95, +00.03, +00.01 ——— roll +01.13, pitch -00.05, yaw -00.65 ——— angularvelocity +0.6490, +0.7371, +0.0211 ———
+
+[INFO] BaseAviary.render() ——— it 0950 ——— wall-clock time 4.5s, simulation time 4.0s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.14, y -00.08, z +01.00 ——— velocity +00.95, +00.03, +00.01 ——— roll +01.46, pitch +00.39, yaw -00.10 ——— angularvelocity +0.0272, +0.1134, +0.7533 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(3.16, -0.08) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=2.84
+
+[INFO] BaseAviary.render() ——— it 0955 ——— wall-clock time 4.5s, simulation time 4.0s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.16, y -00.08, z +01.00 ——— velocity +00.95, +00.02, +00.01 ——— roll +01.02, pitch +00.49, yaw +00.25 ——— angularvelocity -0.6329, +0.0610, -0.0007 ———
+
+[INFO] BaseAviary.render() ——— it 0960 ——— wall-clock time 4.5s, simulation time 4.0s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.18, y -00.08, z +01.00 ——— velocity +00.95, +00.02, +00.01 ——— roll +00.75, pitch +01.07, yaw -00.30 ——— angularvelocity +0.0529, +0.7674, -0.7639 ———
+
+[INFO] BaseAviary.render() ——— it 0965 ——— wall-clock time 4.6s, simulation time 4.0s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.20, y -00.08, z +01.00 ——— velocity +00.96, +00.02, +00.01 ——— roll +01.12, pitch +01.49, yaw -00.66 ——— angularvelocity +0.4877, +0.0756, -0.0195 ———
+
+[INFO] BaseAviary.render() ——— it 0970 ——— wall-clock time 4.6s, simulation time 4.0s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.22, y -00.08, z +01.00 ——— velocity +00.96, +00.01, +00.01 ——— roll +01.27, pitch +01.23, yaw -00.14 ——— angularvelocity -0.1189, -0.4191, +0.7323 ———
+
+[INFO] BaseAviary.render() ——— it 0975 ——— wall-clock time 4.6s, simulation time 4.1s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.24, y -00.08, z +01.00 ——— velocity +00.96, +00.01, +00.01 ——— roll +00.68, pitch +01.18, yaw +00.20 ——— angularvelocity -0.7471, +0.2088, +0.0123 ———
+
+[INFO] BaseAviary.render() ——— it 0980 ——— wall-clock time 4.6s, simulation time 4.1s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.26, y -00.08, z +01.00 ——— velocity +00.97, +00.00, +00.01 ——— roll +00.27, pitch +01.94, yaw -00.35 ——— angularvelocity -0.0698, +0.9098, -0.7640 ———
+
+[INFO] BaseAviary.render() ——— it 0985 ——— wall-clock time 4.6s, simulation time 4.1s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.28, y -00.08, z +01.00 ——— velocity +00.97, +00.00, +00.01 ——— roll +00.69, pitch +02.52, yaw -00.71 ——— angularvelocity +0.6447, +0.2054, -0.0266 ———
+
+[INFO] BaseAviary.render() ——— it 0990 ——— wall-clock time 4.7s, simulation time 4.1s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.31, y -00.08, z +01.00 ——— velocity +00.98, +00.00, +00.00 ——— roll +01.04, pitch +02.33, yaw -00.18 ——— angularvelocity +0.0576, -0.4113, +0.7349 ———
+
+[INFO] BaseAviary.render() ——— it 0995 ——— wall-clock time 4.7s, simulation time 4.1s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.33, y -00.08, z +01.00 ——— velocity +00.99, -00.00, +00.00 ——— roll +00.65, pitch +02.29, yaw +00.17 ——— angularvelocity -0.5842, +0.2150, +0.0254 ———
+
+[INFO] BaseAviary.render() ——— it 1000 ——— wall-clock time 4.7s, simulation time 4.2s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.35, y -00.08, z +01.00 ——— velocity +00.99, -00.00, +00.00 ——— roll +00.22, pitch +02.71, yaw -00.37 ——— angularvelocity -0.2157, +0.4389, -0.7461 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(3.37, -0.08) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=2.63
+
+[INFO] BaseAviary.render() ——— it 1005 ——— wall-clock time 4.7s, simulation time 4.2s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.37, y -00.08, z +01.00 ——— velocity +01.00, -00.01, +00.00 ——— roll +00.48, pitch +02.73, yaw -00.72 ——— angularvelocity +0.5059, -0.2635, -0.0153 ———
+
+[INFO] BaseAviary.render() ——— it 1010 ——— wall-clock time 4.8s, simulation time 4.2s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.39, y -00.08, z +01.00 ——— velocity +01.01, -00.01, +00.00 ——— roll +00.67, pitch +02.07, yaw -00.18 ——— angularvelocity -0.0835, -0.7527, +0.7534 ———
+
+[INFO] BaseAviary.render() ——— it 1015 ——— wall-clock time 4.8s, simulation time 4.2s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.41, y -00.08, z +01.00 ——— velocity +01.01, -00.01, +00.00 ——— roll +00.11, pitch +01.62, yaw +00.19 ——— angularvelocity -0.7201, -0.1315, +0.0348 ———
+
+[INFO] BaseAviary.render() ——— it 1020 ——— wall-clock time 4.8s, simulation time 4.2s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.43, y -00.08, z +01.00 ——— velocity +01.02, -00.01, +00.00 ——— roll -00.27, pitch +01.96, yaw -00.34 ——— angularvelocity -0.0494, +0.5626, -0.7526 ———
+
+[INFO] BaseAviary.render() ——— it 1025 ——— wall-clock time 4.8s, simulation time 4.3s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.45, y -00.08, z +01.00 ——— velocity +01.02, -00.01, +00.00 ——— roll +00.16, pitch +02.14, yaw -00.69 ——— angularvelocity +0.6350, -0.1320, -0.0070 ———
+
+[INFO] BaseAviary.render() ——— it 1030 ——— wall-clock time 4.8s, simulation time 4.3s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.47, y -00.08, z +01.00 ——— velocity +01.03, -00.01, +00.00 ——— roll +00.50, pitch +01.55, yaw -00.14 ——— angularvelocity +0.0440, -0.7416, +0.7552 ———
+
+[INFO] BaseAviary.render() ——— it 1035 ——— wall-clock time 4.9s, simulation time 4.3s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.49, y -00.08, z +01.00 ——— velocity +01.03, -00.01, +00.00 ——— roll +00.10, pitch +01.11, yaw +00.23 ——— angularvelocity -0.5867, -0.1223, +0.0296 ———
+
+[INFO] BaseAviary.render() ——— it 1040 ——— wall-clock time 4.9s, simulation time 4.3s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.52, y -00.08, z +01.00 ——— velocity +01.03, -00.01, +00.00 ——— roll -00.26, pitch +01.46, yaw -00.29 ——— angularvelocity -0.1123, +0.5597, -0.7439 ———
+
+[INFO] BaseAviary.render() ——— it 1045 ——— wall-clock time 4.9s, simulation time 4.4s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.54, y -00.08, z +01.00 ——— velocity +01.04, -00.01, +00.00 ——— roll -00.01, pitch +01.64, yaw -00.63 ——— angularvelocity +0.4316, -0.1244, +0.0094 ———
+
+[INFO] BaseAviary.render() ——— it 1050 ——— wall-clock time 4.9s, simulation time 4.4s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.56, y -00.08, z +01.00 ——— velocity +01.04, -00.01, +00.00 ——— roll +00.08, pitch +01.06, yaw -00.07 ——— angularvelocity -0.1651, -0.7329, +0.7690 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(3.58, -0.08) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=2.42
+
+[INFO] BaseAviary.render() ——— it 1055 ——— wall-clock time 4.9s, simulation time 4.4s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.58, y -00.08, z +01.00 ——— velocity +01.04, -00.01, +00.00 ——— roll -00.56, pitch +00.62, yaw +00.31 ——— angularvelocity -0.7901, -0.1210, +0.0327 ———
+
+[INFO] BaseAviary.render() ——— it 1060 ——— wall-clock time 5.0s, simulation time 4.4s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.60, y -00.08, z +01.00 ——— velocity +01.04, -00.01, +00.00 ——— roll -01.02, pitch +00.97, yaw -00.22 ——— angularvelocity -0.1072, +0.5655, -0.7512 ———
+
+[INFO] BaseAviary.render() ——— it 1065 ——— wall-clock time 5.0s, simulation time 4.4s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.62, y -00.08, z +01.00 ——— velocity +01.05, -00.01, +00.00 ——— roll -00.64, pitch +01.16, yaw -00.56 ——— angularvelocity +0.5949, -0.1189, +0.0152 ———
+
+[INFO] BaseAviary.render() ——— it 1070 ——— wall-clock time 5.0s, simulation time 4.5s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.65, y -00.08, z +01.00 ——— velocity +01.05, -00.00, +00.00 ——— roll -00.36, pitch +00.59, yaw +00.01 ——— angularvelocity -0.0073, -0.7195, +0.7762 ———
+
+[INFO] BaseAviary.render() ——— it 1075 ——— wall-clock time 5.0s, simulation time 4.5s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.67, y -00.08, z +01.00 ——— velocity +01.05, -00.00, +00.00 ——— roll -00.81, pitch +00.17, yaw +00.40 ——— angularvelocity -0.6275, -0.1134, +0.0307 ———
+
+[INFO] BaseAviary.render() ——— it 1080 ——— wall-clock time 5.1s, simulation time 4.5s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.69, y -00.08, z +01.00 ——— velocity +01.05, +00.00, +00.00 ——— roll -01.07, pitch +00.53, yaw -00.12 ——— angularvelocity +0.0600, +0.5705, -0.7500 ———
+
+[INFO] BaseAviary.render() ——— it 1085 ——— wall-clock time 5.1s, simulation time 4.5s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.71, y -00.08, z +01.00 ——— velocity +01.05, +00.01, +00.00 ——— roll -00.50, pitch +00.73, yaw -00.45 ——— angularvelocity +0.7570, -0.1129, +0.0218 ———
+
+[INFO] BaseAviary.render() ——— it 1090 ——— wall-clock time 5.1s, simulation time 4.5s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.73, y -00.08, z +01.00 ——— velocity +01.05, +00.01, +00.00 ——— roll -00.03, pitch +00.16, yaw +00.12 ——— angularvelocity +0.1499, -0.7159, +0.7760 ———
+
+[INFO] BaseAviary.render() ——— it 1095 ——— wall-clock time 5.2s, simulation time 4.6s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.76, y -00.08, z +01.00 ——— velocity +01.05, +00.01, +00.00 ——— roll -00.30, pitch -00.25, yaw +00.51 ——— angularvelocity -0.4661, -0.1057, +0.0301 ———
+
+[INFO] BaseAviary.render() ——— it 1100 ——— wall-clock time 5.2s, simulation time 4.6s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.78, y -00.08, z +01.00 ——— velocity +01.04, +00.01, +00.00 ——— roll -00.47, pitch +00.11, yaw -00.00 ——— angularvelocity +0.0713, +0.5763, -0.7366 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(3.80, -0.08) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=2.20
+
+[INFO] BaseAviary.render() ——— it 1105 ——— wall-clock time 5.2s, simulation time 4.6s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.80, y -00.08, z +01.00 ——— velocity +01.04, +00.01, +00.00 ——— roll -00.15, pitch +00.33, yaw -00.33 ——— angularvelocity +0.3949, -0.0900, +0.0284 ———
+
+[INFO] BaseAviary.render() ——— it 1110 ——— wall-clock time 5.2s, simulation time 4.6s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.82, y -00.08, z +01.00 ——— velocity +01.04, +00.01, +00.00 ——— roll -00.13, pitch -00.01, yaw +00.24 ——— angularvelocity -0.2322, -0.4178, +0.7810 ———
+
+[INFO] BaseAviary.render() ——— it 1115 ——— wall-clock time 5.3s, simulation time 4.6s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.84, y -00.08, z +01.00 ——— velocity +01.04, +00.01, +00.00 ——— roll -00.75, pitch -00.07, yaw +00.64 ——— angularvelocity -0.7111, +0.1966, +0.0297 ———
+
+[INFO] BaseAviary.render() ——— it 1120 ——— wall-clock time 5.3s, simulation time 4.7s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.86, y -00.08, z +01.00 ——— velocity +01.04, +00.01, +00.00 ——— roll -01.10, pitch +00.66, yaw +00.12 ——— angularvelocity -0.0224, +0.8840, -0.7490 ———
+
+[INFO] BaseAviary.render() ——— it 1125 ——— wall-clock time 5.3s, simulation time 4.7s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.89, y -00.08, z +01.00 ——— velocity +01.04, +00.02, +00.00 ——— roll -00.62, pitch +01.23, yaw -00.21 ——— angularvelocity +0.6815, +0.2037, +0.0207 ———
+
+[INFO] BaseAviary.render() ——— it 1130 ——— wall-clock time 5.4s, simulation time 4.7s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.91, y -00.08, z +01.00 ——— velocity +01.04, +00.02, +00.00 ——— roll -00.24, pitch +01.05, yaw +00.37 ——— angularvelocity +0.0829, -0.4012, +0.7832 ———
+
+[INFO] BaseAviary.render() ——— it 1135 ——— wall-clock time 5.4s, simulation time 4.7s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.93, y -00.08, z +01.00 ——— velocity +01.04, +00.02, +00.00 ——— roll -00.59, pitch +01.01, yaw +00.77 ——— angularvelocity -0.5493, +0.2028, +0.0453 ———
+
+[INFO] BaseAviary.render() ——— it 1140 ——— wall-clock time 5.4s, simulation time 4.8s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.95, y -00.08, z +01.00 ——— velocity +01.05, +00.02, +00.00 ——— roll -00.77, pitch +01.49, yaw +00.26 ——— angularvelocity +0.1050, +0.5324, -0.7323 ———
+
+[INFO] BaseAviary.render() ——— it 1145 ——— wall-clock time 5.4s, simulation time 4.8s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.97, y -00.08, z +01.00 ——— velocity +01.05, +00.02, +00.00 ——— roll -00.14, pitch +01.63, yaw -00.05 ——— angularvelocity +0.8191, -0.1507, +0.0243 ———
+
+[INFO] BaseAviary.render() ——— it 1150 ——— wall-clock time 5.5s, simulation time 4.8s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +03.99, y -00.08, z +01.00 ——— velocity +01.05, +00.02, +00.00 ——— roll +00.41, pitch +01.02, yaw +00.52 ——— angularvelocity +0.2266, -0.7636, +0.7655 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(4.02, -0.08) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=1.99
+
+[INFO] BaseAviary.render() ——— it 1155 ——— wall-clock time 5.5s, simulation time 4.8s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.02, y -00.08, z +01.00 ——— velocity +01.05, +00.02, +00.00 ——— roll +00.23, pitch +00.55, yaw +00.91 ——— angularvelocity -0.4047, -0.1513, +0.0333 ———
+
+[INFO] BaseAviary.render() ——— it 1160 ——— wall-clock time 5.5s, simulation time 4.8s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.04, y -00.08, z +01.00 ——— velocity +01.05, +00.02, +00.00 ——— roll -00.04, pitch +00.85, yaw +00.40 ——— angularvelocity -0.0993, +0.5258, -0.7290 ———
+
+[INFO] BaseAviary.render() ——— it 1165 ——— wall-clock time 5.5s, simulation time 4.9s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.06, y -00.08, z +01.00 ——— velocity +01.06, +00.02, +00.00 ——— roll +00.35, pitch +00.99, yaw +00.08 ——— angularvelocity +0.6019, -0.1639, +0.0274 ———
+
+[INFO] BaseAviary.render() ——— it 1170 ——— wall-clock time 5.6s, simulation time 4.9s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.08, y -00.08, z +01.00 ——— velocity +01.06, +00.02, +00.00 ——— roll +00.62, pitch +00.51, yaw +00.61 ——— angularvelocity -0.0145, -0.5545, +0.7169 ———
+
+[INFO] BaseAviary.render() ——— it 1175 ——— wall-clock time 5.6s, simulation time 4.9s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.10, y -00.08, z +01.00 ——— velocity +01.06, +00.02, +00.00 ——— roll +00.15, pitch +00.30, yaw +00.94 ——— angularvelocity -0.6414, +0.0581, -0.0185 ———
+
+[INFO] BaseAviary.render() ——— it 1180 ——— wall-clock time 5.6s, simulation time 4.9s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.13, y -00.08, z +01.00 ——— velocity +01.06, +00.02, +00.00 ——— roll -00.12, pitch +00.88, yaw +00.36 ——— angularvelocity +0.0388, +0.7613, -0.7900 ———
+
+[INFO] BaseAviary.render() ——— it 1185 ——— wall-clock time 5.6s, simulation time 4.9s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.15, y -00.08, z +01.00 ——— velocity +01.06, +00.02, +00.00 ——— roll +00.41, pitch +01.29, yaw -00.03 ——— angularvelocity +0.7139, +0.0721, -0.0341 ———
+
+[INFO] BaseAviary.render() ——— it 1190 ——— wall-clock time 5.6s, simulation time 5.0s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.17, y -00.07, z +01.00 ——— velocity +01.06, +00.02, +00.00 ——— roll +00.84, pitch +00.93, yaw +00.48 ——— angularvelocity +0.1178, -0.5479, +0.7173 ———
+
+[INFO] BaseAviary.render() ——— it 1195 ——— wall-clock time 5.6s, simulation time 5.0s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.19, y -00.07, z +01.00 ——— velocity +01.06, +00.01, +00.00 ——— roll +00.52, pitch +00.73, yaw +00.81 ——— angularvelocity -0.5132, +0.0695, -0.0105 ———
+
+[INFO] BaseAviary.render() ——— it 1200 ——— wall-clock time 5.6s, simulation time 5.0s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.21, y -00.07, z +01.00 ——— velocity +01.06, +00.01, +00.00 ——— roll +00.16, pitch +01.30, yaw +00.25 ——— angularvelocity -0.1665, +0.7528, -0.7723 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(4.24, -0.07) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=1.76
+
+[INFO] BaseAviary.render() ——— it 1205 ——— wall-clock time 5.7s, simulation time 5.0s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.24, y -00.07, z +01.00 ——— velocity +01.07, +00.01, +00.00 ——— roll +00.45, pitch +01.71, yaw -00.13 ——— angularvelocity +0.5103, +0.0600, -0.0240 ———
+
+[INFO] BaseAviary.render() ——— it 1210 ——— wall-clock time 5.7s, simulation time 5.0s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.26, y -00.07, z +01.00 ——— velocity +01.07, +00.01, +00.00 ——— roll +00.63, pitch +01.34, yaw +00.39 ——— angularvelocity -0.0810, -0.5598, +0.7320 ———
+
+[INFO] BaseAviary.render() ——— it 1215 ——— wall-clock time 5.7s, simulation time 5.1s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.28, y -00.07, z +01.00 ——— velocity +01.07, +00.01, +00.00 ——— roll +00.08, pitch +01.12, yaw +00.74 ——— angularvelocity -0.7159, +0.0547, +0.0056 ———
+
+[INFO] BaseAviary.render() ——— it 1220 ——— wall-clock time 5.7s, simulation time 5.1s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.30, y -00.07, z +01.00 ——— velocity +01.08, +00.01, +00.00 ——— roll -00.29, pitch +01.65, yaw +00.18 ——— angularvelocity -0.0467, +0.7079, -0.7760 ———
+
+[INFO] BaseAviary.render() ——— it 1225 ——— wall-clock time 5.8s, simulation time 5.1s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.33, y -00.07, z +01.00 ——— velocity +01.08, +00.01, +00.00 ——— roll +00.17, pitch +02.01, yaw -00.20 ——— angularvelocity +0.6698, +0.0174, -0.0273 ———
+
+[INFO] BaseAviary.render() ——— it 1230 ——— wall-clock time 5.8s, simulation time 5.1s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.35, y -00.07, z +01.00 ——— velocity +01.09, +00.01, +00.00 ——— roll +00.55, pitch +01.59, yaw +00.33 ——— angularvelocity +0.0816, -0.5976, +0.7341 ———
+
+[INFO] BaseAviary.render() ——— it 1235 ——— wall-clock time 5.8s, simulation time 5.1s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.37, y -00.07, z +01.00 ——— velocity +01.09, +00.01, -00.00 ——— roll +00.18, pitch +01.32, yaw +00.68 ——— angularvelocity -0.5557, +0.0174, +0.0099 ———
+
+[INFO] BaseAviary.render() ——— it 1240 ——— wall-clock time 5.8s, simulation time 5.2s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.39, y -00.07, z +01.00 ——— velocity +01.09, +00.01, -00.00 ——— roll -00.18, pitch +01.68, yaw +00.13 ——— angularvelocity -0.1361, +0.4827, -0.7607 ———
+
+[INFO] BaseAviary.render() ——— it 1245 ——— wall-clock time 5.8s, simulation time 5.2s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.42, y -00.07, z +01.00 ——— velocity +01.10, +00.01, -00.00 ——— roll +00.12, pitch +01.77, yaw -00.23 ——— angularvelocity +0.4983, -0.2039, -0.0112 ———
+
+[INFO] BaseAviary.render() ——— it 1250 ——— wall-clock time 5.9s, simulation time 5.2s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.44, y -00.07, z +01.00 ——— velocity +01.10, +00.01, -00.00 ——— roll +00.29, pitch +01.08, yaw +00.30 ——— angularvelocity -0.0928, -0.8181, +0.7482 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(4.46, -0.07) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=1.54
+
+[INFO] BaseAviary.render() ——— it 1255 ——— wall-clock time 5.9s, simulation time 5.2s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.46, y -00.07, z +01.00 ——— velocity +01.10, +00.01, -00.00 ——— roll -00.28, pitch +00.55, yaw +00.67 ——— angularvelocity -0.7219, -0.2067, +0.0140 ———
+
+[INFO] BaseAviary.render() ——— it 1260 ——— wall-clock time 5.9s, simulation time 5.2s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.49, y -00.07, z +01.00 ——— velocity +01.10, +00.01, +00.00 ——— roll -00.65, pitch +00.81, yaw +00.12 ——— angularvelocity -0.0423, +0.4882, -0.7653 ———
+
+[INFO] BaseAviary.render() ——— it 1265 ——— wall-clock time 6.0s, simulation time 5.3s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.51, y -00.07, z +01.00 ——— velocity +01.10, +00.01, +00.00 ——— roll -00.20, pitch +00.90, yaw -00.24 ——— angularvelocity +0.6611, -0.1977, -0.0008 ———
+
+[INFO] BaseAviary.render() ——— it 1270 ——— wall-clock time 6.0s, simulation time 5.3s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.53, y -00.07, z +01.00 ——— velocity +01.10, +00.01, +00.00 ——— roll +00.16, pitch +00.23, yaw +00.31 ——— angularvelocity +0.0585, -0.8072, +0.7524 ———
+
+[INFO] BaseAviary.render() ——— it 1275 ——— wall-clock time 6.0s, simulation time 5.3s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.55, y -00.07, z +01.00 ——— velocity +01.10, +00.01, +00.00 ——— roll -00.22, pitch -00.29, yaw +00.68 ——— angularvelocity -0.5599, -0.1967, +0.0083 ———
+
+[INFO] BaseAviary.render() ——— it 1280 ——— wall-clock time 6.0s, simulation time 5.3s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.58, y -00.07, z +01.00 ——— velocity +01.10, +00.01, +00.00 ——— roll -00.42, pitch -00.03, yaw +00.14 ——— angularvelocity +0.0988, +0.4965, -0.7589 ———
+
+[INFO] BaseAviary.render() ——— it 1285 ——— wall-clock time 6.1s, simulation time 5.4s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.60, y -00.07, z +01.00 ——— velocity +01.10, +00.01, +00.00 ——— roll -00.19, pitch +00.10, yaw -00.22 ——— angularvelocity +0.2447, -0.1588, +0.0038 ———
+
+[INFO] BaseAviary.render() ——— it 1290 ——— wall-clock time 6.1s, simulation time 5.4s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.62, y -00.07, z +01.00 ——— velocity +01.10, +00.01, +00.00 ——— roll -00.36, pitch -00.23, yaw +00.32 ——— angularvelocity -0.3926, -0.3527, +0.7565 ———
+
+[INFO] BaseAviary.render() ——— it 1295 ——— wall-clock time 6.1s, simulation time 5.4s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.65, y -00.07, z +01.00 ——— velocity +01.09, +00.01, -00.00 ——— roll -00.81, pitch -00.18, yaw +00.68 ——— angularvelocity -0.3664, +0.2929, -0.0056 ———
+
+[INFO] BaseAviary.render() ——— it 1300 ——— wall-clock time 6.1s, simulation time 5.4s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.67, y -00.07, z +01.00 ——— velocity +01.09, +00.02, -00.00 ——— roll -00.76, pitch +00.43, yaw +00.13 ——— angularvelocity +0.3068, +0.6544, -0.7720 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(4.69, -0.07) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=1.31
+
+[INFO] BaseAviary.render() ——— it 1305 ——— wall-clock time 6.2s, simulation time 5.4s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.69, y -00.07, z +01.00 ——— velocity +01.09, +00.02, +00.00 ——— roll -00.70, pitch +00.77, yaw -00.25 ——— angularvelocity -0.1191, +0.0380, -0.0111 ———
+
+[INFO] BaseAviary.render() ——— it 1310 ——— wall-clock time 6.2s, simulation time 5.5s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.71, y -00.07, z +01.00 ——— velocity +01.09, +00.02, +00.00 ——— roll -01.16, pitch +00.37, yaw +00.28 ——— angularvelocity -0.5724, -0.5759, +0.7504 ———
+
+[INFO] BaseAviary.render() ——— it 1315 ——— wall-clock time 6.2s, simulation time 5.5s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.74, y -00.07, z +01.00 ——— velocity +01.09, +00.03, +00.00 ——— roll -01.36, pitch +00.17, yaw +00.61 ——— angularvelocity +0.1117, +0.1043, -0.0362 ———
+
+[INFO] BaseAviary.render() ——— it 1320 ——— wall-clock time 6.2s, simulation time 5.5s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.76, y -00.07, z +01.00 ——— velocity +01.09, +00.03, +00.00 ——— roll -00.73, pitch +00.78, yaw +00.01 ——— angularvelocity +0.7969, +0.7813, -0.8213 ———
+
+[INFO] BaseAviary.render() ——— it 1325 ——— wall-clock time 6.2s, simulation time 5.5s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.78, y -00.07, z +01.00 ——— velocity +01.09, +00.03, +00.00 ——— roll -00.21, pitch +01.28, yaw -00.42 ——— angularvelocity +0.1939, +0.1737, -0.0594 ———
+
+[INFO] BaseAviary.render() ——— it 1330 ——— wall-clock time 6.3s, simulation time 5.5s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.81, y -00.07, z +01.00 ——— velocity +01.09, +00.03, +00.00 ——— roll -00.41, pitch +01.05, yaw +00.05 ——— angularvelocity -0.4061, -0.4350, +0.7009 ———
+
+[INFO] BaseAviary.render() ——— it 1335 ——— wall-clock time 6.3s, simulation time 5.6s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.83, y -00.07, z +01.00 ——— velocity +01.09, +00.03, +00.00 ——— roll -00.52, pitch +01.02, yaw +00.33 ——— angularvelocity +0.1199, +0.2434, -0.0794 ———
+
+[INFO] BaseAviary.render() ——— it 1340 ——— wall-clock time 6.3s, simulation time 5.6s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.85, y -00.07, z +01.00 ——— velocity +01.10, +00.04, -00.00 ——— roll -00.18, pitch +01.42, yaw -00.30 ——— angularvelocity +0.3869, +0.4024, -0.8428 ———
+
+[INFO] BaseAviary.render() ——— it 1345 ——— wall-clock time 6.3s, simulation time 5.6s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.87, y -00.07, z +01.00 ——— velocity +01.10, +00.04, -00.00 ——— roll -00.15, pitch +01.47, yaw -00.76 ——— angularvelocity -0.2133, -0.2056, -0.0799 ———
+
+[INFO] BaseAviary.render() ——— it 1350 ——— wall-clock time 6.4s, simulation time 5.6s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.90, y -00.06, z +01.00 ——— velocity +01.10, +00.04, -00.00 ——— roll -00.64, pitch +00.95, yaw -00.32 ——— angularvelocity -0.5501, -0.5835, +0.6819 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(4.92, -0.06) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=1.08
+
+[INFO] BaseAviary.render() ——— it 1355 ——— wall-clock time 6.4s, simulation time 5.6s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.92, y -00.06, z +01.00 ——— velocity +01.10, +00.04, -00.00 ——— roll -00.81, pitch +00.73, yaw -00.08 ——— angularvelocity +0.1336, +0.0967, -0.1053 ———
+
+[INFO] BaseAviary.render() ——— it 1360 ——— wall-clock time 6.4s, simulation time 5.7s@240Hz (0.89x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.94, y -00.06, z +01.00 ——— velocity +01.11, +00.04, -00.00 ——— roll -00.17, pitch +01.33, yaw -00.63 ——— angularvelocity +0.8125, +0.7664, -0.7160 ———
+
+[INFO] BaseAviary.render() ——— it 1365 ——— wall-clock time 6.4s, simulation time 5.7s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.97, y -00.06, z +01.00 ——— velocity +01.11, +00.04, -00.00 ——— roll +00.36, pitch +01.82, yaw -00.92 ——— angularvelocity +0.2096, +0.1581, +0.0456 ———
+
+[INFO] BaseAviary.render() ——— it 1370 ——— wall-clock time 6.5s, simulation time 5.7s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +04.99, y -00.06, z +01.00 ——— velocity +01.11, +00.04, -00.00 ——— roll +00.19, pitch +01.57, yaw -00.33 ——— angularvelocity -0.3882, -0.4536, +0.8052 ———
+
+[INFO] BaseAviary.render() ——— it 1375 ——— wall-clock time 6.5s, simulation time 5.7s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.01, y -00.06, z +01.00 ——— velocity +01.12, +00.04, -00.00 ——— roll -00.12, pitch +01.32, yaw +00.08 ——— angularvelocity -0.1690, -0.0448, +0.0407 ———
+
+[INFO] BaseAviary.render() ——— it 1380 ——— wall-clock time 6.6s, simulation time 5.8s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.04, y -00.06, z +01.00 ——— velocity +01.12, +00.04, -00.00 ——— roll +00.15, pitch +01.63, yaw -00.43 ——— angularvelocity +0.4953, +0.4600, -0.7404 ———
+
+[INFO] BaseAviary.render() ——— it 1385 ——— wall-clock time 6.6s, simulation time 5.8s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.06, y -00.06, z +01.00 ——— velocity +01.12, +00.04, -00.00 ——— roll +00.32, pitch +01.74, yaw -00.76 ——— angularvelocity -0.1029, -0.1522, +0.0207 ———
+
+[INFO] BaseAviary.render() ——— it 1390 ——— wall-clock time 6.6s, simulation time 5.8s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.08, y -00.06, z +01.00 ——— velocity +01.13, +00.04, -00.00 ——— roll -00.23, pitch +01.12, yaw -00.20 ——— angularvelocity -0.6991, -0.7650, +0.7799 ———
+
+[INFO] BaseAviary.render() ——— it 1395 ——— wall-clock time 6.6s, simulation time 5.8s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.11, y -00.06, z +01.00 ——— velocity +01.13, +00.04, -00.00 ——— roll -00.57, pitch +00.70, yaw +00.16 ——— angularvelocity -0.0179, -0.0783, -0.0044 ———
+
+[INFO] BaseAviary.render() ——— it 1400 ——— wall-clock time 6.7s, simulation time 5.8s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.13, y -00.06, z +01.00 ——— velocity +01.13, +00.04, +00.00 ——— roll -00.11, pitch +01.10, yaw -00.40 ——— angularvelocity +0.6652, +0.6048, -0.7866 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(5.15, -0.06) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=0.85
+
+[INFO] BaseAviary.render() ——— it 1405 ——— wall-clock time 6.7s, simulation time 5.9s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.15, y -00.06, z +01.00 ——— velocity +01.13, +00.04, +00.00 ——— roll +00.25, pitch +01.38, yaw -00.79 ——— angularvelocity +0.0609, -0.0053, -0.0284 ———
+
+[INFO] BaseAviary.render() ——— it 1410 ——— wall-clock time 6.7s, simulation time 5.9s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.18, y -00.05, z +01.00 ——— velocity +01.13, +00.04, +00.00 ——— roll -00.10, pitch +00.94, yaw -00.29 ——— angularvelocity -0.5411, -0.6162, +0.7278 ———
+
+[INFO] BaseAviary.render() ——— it 1415 ——— wall-clock time 6.8s, simulation time 5.9s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.20, y -00.05, z +01.00 ——— velocity +01.14, +00.04, +00.00 ——— roll -00.26, pitch +00.69, yaw +00.02 ——— angularvelocity +0.1423, +0.0717, -0.0525 ———
+
+[INFO] BaseAviary.render() ——— it 1420 ——— wall-clock time 6.8s, simulation time 5.9s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.22, y -00.05, z +01.00 ——— velocity +01.14, +00.04, -00.00 ——— roll +00.10, pitch +01.18, yaw -00.58 ——— angularvelocity +0.4150, +0.6331, -0.8174 ———
+
+[INFO] BaseAviary.render() ——— it 1425 ——— wall-clock time 6.8s, simulation time 5.9s@240Hz (0.88x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.25, y -00.05, z +01.00 ——— velocity +01.14, +00.04, -00.00 ——— roll +00.16, pitch +01.50, yaw -01.02 ——— angularvelocity -0.1896, +0.0240, -0.0595 ———
+
+[INFO] BaseAviary.render() ——— it 1430 ——— wall-clock time 6.8s, simulation time 6.0s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.27, y -00.05, z +01.00 ——— velocity +01.14, +00.04, -00.00 ——— roll -00.49, pitch +01.09, yaw -00.56 ——— angularvelocity -0.7924, -0.5835, +0.6998 ———
+
+[INFO] BaseAviary.render() ——— it 1435 ——— wall-clock time 6.9s, simulation time 6.0s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.30, y -00.05, z +01.00 ——— velocity +01.14, +00.04, -00.00 ——— roll -00.95, pitch +00.87, yaw -00.29 ——— angularvelocity -0.1076, +0.0945, -0.0880 ———
+
+[INFO] BaseAviary.render() ——— it 1440 ——— wall-clock time 6.9s, simulation time 6.0s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.32, y -00.05, z +01.00 ——— velocity +01.14, +00.05, -00.00 ——— roll -00.61, pitch +01.20, yaw -00.78 ——— angularvelocity +0.5517, +0.3912, -0.6232 ———
+
+[INFO] BaseAviary.render() ——— it 1445 ——— wall-clock time 7.0s, simulation time 6.0s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.34, y -00.05, z +01.00 ——— velocity +01.15, +00.05, -00.00 ——— roll -00.38, pitch +01.24, yaw -00.97 ——— angularvelocity -0.0559, -0.2079, +0.1412 ———
+
+[INFO] BaseAviary.render() ——— it 1450 ——— wall-clock time 7.0s, simulation time 6.0s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.37, y -00.05, z +01.00 ——— velocity +01.15, +00.05, -00.00 ——— roll -00.88, pitch +00.56, yaw -00.26 ——— angularvelocity -0.6593, -0.8102, +0.9023 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(5.39, -0.05) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=0.61
+
+[INFO] BaseAviary.render() ——— it 1455 ——— wall-clock time 7.0s, simulation time 6.1s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.39, y -00.05, z +01.00 ——— velocity +01.15, +00.05, -00.00 ——— roll -01.17, pitch +00.08, yaw +00.25 ——— angularvelocity +0.0305, -0.1323, +0.1171 ———
+
+[INFO] BaseAviary.render() ——— it 1460 ——— wall-clock time 7.0s, simulation time 6.1s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.41, y -00.04, z +01.00 ——— velocity +01.15, +00.06, +00.00 ——— roll -00.64, pitch +00.40, yaw -00.17 ——— angularvelocity +0.7198, +0.5449, -0.6644 ———
+
+[INFO] BaseAviary.render() ——— it 1465 ——— wall-clock time 7.0s, simulation time 6.1s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.44, y -00.04, z +01.00 ——— velocity +01.15, +00.06, +00.00 ——— roll -00.22, pitch +00.62, yaw -00.41 ——— angularvelocity +0.1087, -0.0609, +0.0917 ———
+
+[INFO] BaseAviary.render() ——— it 1470 ——— wall-clock time 7.0s, simulation time 6.1s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.46, y -00.04, z +01.00 ——— velocity +01.15, +00.06, +00.00 ——— roll -00.52, pitch +00.11, yaw +00.23 ——— angularvelocity -0.4981, -0.6703, +0.8444 ———
+
+[INFO] BaseAviary.render() ——— it 1475 ——— wall-clock time 7.1s, simulation time 6.1s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.49, y -00.04, z +01.00 ——— velocity +01.14, +00.06, +00.00 ——— roll -00.63, pitch -00.19, yaw +00.69 ——— angularvelocity +0.1903, +0.0190, +0.0692 ———
+
+[INFO] BaseAviary.render() ——— it 1480 ——— wall-clock time 7.1s, simulation time 6.2s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.51, y -00.04, z +01.00 ——— velocity +01.14, +00.06, +00.00 ——— roll -00.07, pitch +00.31, yaw +00.22 ——— angularvelocity +0.6493, +0.6922, -0.6990 ———
+
+[INFO] BaseAviary.render() ——— it 1485 ——— wall-clock time 7.2s, simulation time 6.2s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.53, y -00.04, z +01.00 ——— velocity +01.14, +00.06, +00.00 ——— roll +00.27, pitch +00.69, yaw -00.08 ——— angularvelocity +0.0419, +0.0751, +0.0507 ———
+
+[INFO] BaseAviary.render() ——— it 1490 ——— wall-clock time 7.2s, simulation time 6.2s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.56, y -00.04, z +01.00 ——— velocity +01.14, +00.06, +00.00 ——— roll -00.11, pitch +00.34, yaw +00.48 ——— angularvelocity -0.5644, -0.5464, +0.7513 ———
+
+[INFO] BaseAviary.render() ——— it 1495 ——— wall-clock time 7.2s, simulation time 6.2s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.58, y -00.04, z +01.00 ——— velocity +01.14, +00.06, +00.00 ——— roll -00.30, pitch +00.19, yaw +00.82 ——— angularvelocity +0.1173, +0.1504, -0.0224 ———
+
+[INFO] BaseAviary.render() ——— it 1500 ——— wall-clock time 7.3s, simulation time 6.2s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.60, y -00.03, z +01.00 ——— velocity +01.14, +00.06, +00.00 ——— roll +00.20, pitch +00.85, yaw +00.25 ——— angularvelocity +0.6107, +0.8311, -0.7912 ———
+Scenario=2 | Mode=FORWARD            | Side=None  | Position=(5.63, -0.03) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=0.37
+
+[INFO] BaseAviary.render() ——— it 1505 ——— wall-clock time 7.3s, simulation time 6.3s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.63, y -00.03, z +01.00 ——— velocity +01.14, +00.06, +00.00 ——— roll +00.50, pitch +01.40, yaw -00.15 ——— angularvelocity +0.0117, +0.2102, -0.0379 ———
+
+[INFO] BaseAviary.render() ——— it 1510 ——— wall-clock time 7.3s, simulation time 6.3s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.65, y -00.03, z +01.00 ——— velocity +01.14, +00.06, +00.00 ——— roll +00.09, pitch +01.20, yaw +00.34 ——— angularvelocity -0.5837, -0.4109, +0.7165 ———
+
+[INFO] BaseAviary.render() ——— it 1515 ——— wall-clock time 7.3s, simulation time 6.3s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.68, y -00.03, z +01.00 ——— velocity +01.15, +00.06, -00.00 ——— roll -00.14, pitch +01.03, yaw +00.63 ——— angularvelocity +0.0748, +0.0247, -0.0603 ———
+
+[INFO] BaseAviary.render() ——— it 1520 ——— wall-clock time 7.3s, simulation time 6.3s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.70, y -00.03, z +01.00 ——— velocity +01.15, +00.06, -00.00 ——— roll +00.17, pitch +01.36, yaw +00.02 ——— angularvelocity +0.3819, +0.4459, -0.8259 ———
+
+[INFO] BaseAviary.render() ——— it 1525 ——— wall-clock time 7.3s, simulation time 6.4s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.72, y -00.03, z +01.00 ——— velocity +01.15, +00.06, -00.00 ——— roll +00.20, pitch +01.45, yaw -00.42 ——— angularvelocity -0.2155, -0.1700, -0.0674 ———
+
+[INFO] BaseAviary.render() ——— it 1530 ——— wall-clock time 7.4s, simulation time 6.4s@240Hz (0.86x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.75, y -00.03, z +01.00 ——— velocity +01.15, +00.06, -00.00 ——— roll -00.48, pitch +00.80, yaw +00.02 ——— angularvelocity -0.8126, -0.7840, +0.6905 ———
+
+[INFO] BaseAviary.render() ——— it 1535 ——— wall-clock time 7.4s, simulation time 6.4s@240Hz (0.87x)
+[INFO] BaseAviary.render() ——— drone 0 ——— x +05.77, y -00.03, z +01.00 ——— velocity +01.15, +00.06, +00.00 ——— roll -00.97, pitch +00.36, yaw +00.28 ——— angularvelocity -0.1295, -0.0986, -0.0933 ———
+
+Drone successfully reached the goal.
+
+========================================
+TEST SCENARIO: 2
+RESULT: SUCCESS
+========================================
+numActiveThreads = 0
+stopping threads
+Thread with taskId 0 with handle 0000000000000628 exiting
+Thread TERMINATED
+finished
+numActiveThreads = 0
+btShutDownExampleBrowser stopping threads
+Thread with taskId 0 with handle 0000000000000334 exiting
+Thread TERMINATED
