@@ -169,7 +169,7 @@ The project focuses on:
 - PID-based drone control
 - Quantitative simulation evaluation
 
-The implementation should therefore be considered an implementation and experimental study of the obstacle-avoidance problem rather than a claim of reproducing every component of the base paper exactly.
+The implementation is therefore be an implementation and experimental study of the obstacle-avoidance problem rather than  reproducing every component of the base paper exactly.
 
 ---
 <a id="project-scope"></a>
@@ -232,10 +232,8 @@ PyBullet provides the physics-based simulation environment in which the quadroto
 The main obstacle-avoidance implementation is located at:
 
 ```text  
-gym-pybullet-drones-main/
-└── gym_pybullet_drones/
-    └── examples/
-        └── obstacle_avoidance.py
+
+        obstacle_avoidance.py
 
 ```
 ## 6.2 Drone Model
