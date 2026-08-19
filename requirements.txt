@@ -1,1 +1,1 @@
-gym-pybullet-drones==2.1.0
+git+https://github.com/utiasDSL/gym-pybullet-drones.git
