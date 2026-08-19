@@ -193,4 +193,4 @@ The system achieved a 100% observed success rate with zero recorded collision st
 
 The results support the effectiveness of combining virtual ray-based sensing, goal-oriented navigation, state-based obstacle avoidance, emergency recovery, and PID-based drone control for the tested simulation environments.
 
-These results are limited to the predefined simulation scenarios and should not be interpreted as evidence of equivalent performance in real-world environments.
+These results are limited to the predefined simulation scenarios and should not be interpreted  as evidence of equivalent performance in real-world environments.
