@@ -771,4 +771,3 @@ numActiveThreads = 0
 btShutDownExampleBrowser stopping threads
 Thread with taskId 0 with handle 0000000000000370 exiting
 Thread TERMINATED
-PS C:\Users\VARALAKSHMI\Drones\Drones_S5_AB4_Obstacle_Avoidance_Drone\gym-pybullet-drones-main> 
