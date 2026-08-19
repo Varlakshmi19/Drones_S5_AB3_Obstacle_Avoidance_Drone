@@ -1013,7 +1013,7 @@ Six predefined scenarios were used to evaluate the system, ranging from simple f
 All six scenarios successfully reached the predefined goal, resulting in a 100% observed success rate and zero recorded collision steps. The more constrained scenarios required additional avoidance and emergency recovery actions, demonstrating the importance of the recovery mechanism.
 
 Overall, the simulation demonstrates that a computationally lightweight reactive navigation strategy can provide effective obstacle avoidance in the tested environments.
----
+
 <a id="references"></a>
 # 18. References                                                                                 <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
 1. Arne Devos, Emad Ebeid, and Poramate Manoonpong. "Development of Autonomous Drones for Adaptive Obstacle Avoidance in Real World Environments."
