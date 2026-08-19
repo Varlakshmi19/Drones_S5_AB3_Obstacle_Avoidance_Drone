@@ -802,7 +802,7 @@ The drone successfully navigated through the obstacle field using multiple avoid
 * <img width="1277" height="991" alt="image" src="https://github.com/user-attachments/assets/28c8d82a-d4e0-4d4d-b766-6632a0193b26" />
 
 <a id="performance-analysis"></a>
-## 9. Performance Analysis                                                                       <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
+# 9. Performance Analysis                                                                       <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
 
 The experimental results demonstrate that the proposed reactive navigation framework successfully completed all six predefined scenarios.
 
@@ -862,7 +862,7 @@ The experiments produced the following observations:
 
 
 <a id="project-structure"></a>
-# 11. Project Structure
+# 11. Project Structure                                                                         <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
 
 The repository is intentionally kept minimal. The `gym-pybullet-drones` library is installed as an external dependency instead of copying the complete library into this repository.
 
@@ -899,7 +899,7 @@ Drones_S5_AB3_Obstacle_Avoidance/
 | GitHub | Project repository |
 
 <a id="how-to-run"></a>
-# 13. How to Run
+# 13. How to Run                                                                                 <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
 
 ### 13.1 Create a Virtual Environment
 
@@ -946,7 +946,7 @@ python obstacle_avoidance.py
 
 A PyBullet GUI window will open and the selected scenario will be simulated.
 
-
+<a id="experimental-metrics"></a>
 # 14. Experimental Metrics                                                                       <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
 
 The simulation reports the following metrics after every run.
