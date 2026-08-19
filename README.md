@@ -885,7 +885,7 @@ Drones_S5_AB3_Obstacle_Avoidance/
 - **`requirements.txt`** – Python dependency required to run the simulation.
 - **`assets/amrita_logo.jpg`** – Project/README logo.
 
-
+<a id="technologies-used"></a>
 # 12. Technologies Used                                                                          <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
 | Technology | Purpose |
 | :--- | :--- |
