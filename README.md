@@ -872,6 +872,13 @@ Drones_S5_AB3_Obstacle_Avoidance/
 ├── requirements.txt
 ├── obstacle_avoidance.py
 ├── .gitignore
+|__terminalResults/
+|   |_scenario1.txt
+|   |_scenario2.txt
+|   |_scenario3.txt
+|   |_scenario4.txt
+|   |_scenario5.txt
+|   |_scanario6.txt
 └── assets/
     └── amrita_logo.jpg
 ```
