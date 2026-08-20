@@ -3,6 +3,7 @@ from collections import deque
 
 import numpy as np
 import pybullet as p
+import math as math
 
 from gym_pybullet_drones.envs.CtrlAviary import CtrlAviary
 from gym_pybullet_drones.control.DSLPIDControl import DSLPIDControl
@@ -21,7 +22,7 @@ from gym_pybullet_drones.utils.utils import sync
 # 6 = multiple obstacles
 #
 # Run every case separately by changing this value.
-TEST_SCENARIO = 5
+TEST_SCENARIO = 6
 
 
 # ============================================================
@@ -34,7 +35,7 @@ DURATION_SEC = 60
 
 FLIGHT_ALTITUDE = 1.0
 
-START_POSITION = np.array([0.0, 0.0, FLIGHT_ALTITUDE])
+START_POSITION = np.array([2.5, 0.0, FLIGHT_ALTITUDE])
 GOAL_POSITION = np.array([6.0, 0.0, FLIGHT_ALTITUDE])
 
 FORWARD_SPEED = 0.35
@@ -141,12 +142,27 @@ def create_test_scenario(scenario):
         add_cube([2.0, 0.52, z], size=0.30)
         add_cube([2.0, -0.52, z], size=0.30)
 
+    # elif scenario == 6:
+    #     # Multiple staggered obstacles
+    #     add_cube([1.8, 0.0, z], size=0.30)
+    #     add_cube([3.0, 0.45, z], size=0.30)
+    #     add_cube([4.0, -0.40, z], size=0.30)
+    #     add_cube([5.0, 0.05, z], size=0.30)
     elif scenario == 6:
-        # Multiple staggered obstacles
-        add_cube([1.8, 0.0, z], size=0.30)
-        add_cube([3.0, 0.45, z], size=0.30)
-        add_cube([4.0, -0.40, z], size=0.30)
-        add_cube([5.0, 0.05, z], size=0.30)
+       
+         center_x = 2.5
+         center_y = 0.0
+         radius = 2.8
+         num_cubes = 80
+
+         for i in range(num_cubes):
+             angle = 2 * math.pi * i / num_cubes
+
+             x = center_x + radius * math.cos(angle)
+             y = center_y + radius * math.sin(angle)
+
+             add_cube([x, y, z], size=0.30)
+
 
     else:
         raise ValueError(
