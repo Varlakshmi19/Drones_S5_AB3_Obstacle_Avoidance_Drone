@@ -930,7 +930,7 @@ pip install -r requirements.txt
 Open `obstacle_avoidance.py` and change:
 
 ```python
-TEST_SCENARIO = 6
+TEST_SCENARIO = 5
 ```
 
 The available scenarios are:
