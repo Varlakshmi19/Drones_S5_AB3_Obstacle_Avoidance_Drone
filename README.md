@@ -872,6 +872,7 @@ Drones_S5_AB3_Obstacle_Avoidance/
 ├── requirements.txt
 ├── obstacle_avoidance.py
 ├── .gitignore
+|__ Base_paper.pdf
 |__terminalResults/
 |   |_scenario1.txt
 |   |_scenario2.txt
