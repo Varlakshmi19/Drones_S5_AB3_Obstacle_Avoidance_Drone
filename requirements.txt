@@ -1,1 +1,2 @@
 git+https://github.com/utiasDSL/gym-pybullet-drones.git
+opencv-python
