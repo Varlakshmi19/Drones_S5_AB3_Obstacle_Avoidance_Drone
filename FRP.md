@@ -381,20 +381,20 @@ These areas can be considered as possible future extensions.
 
 Possible future enhancements include:
 
-*Support for dynamic and moving obstacles.
-Integration of camera-based obstacle detection.
-Integration of additional sensors.
-More complex environments.
-Multi-drone coordination.
-Real-world hardware testing.
-Optimization of navigation parameters.
-Comparison with other classical navigation algorithms.*
+**Support for dynamic and moving obstacles.**
+**Integration of camera-based obstacle detection.**
+**Integration of additional sensors.**
+**More complex environments.**
+**Multi-drone coordination.**
+**Real-world hardware testing.**
+**Optimization of navigation parameters.**
+**Comparison with other classical navigation algorithms.**
 
 # 15. Deliverables
 
 The proposed project will deliver:
 
-'''
+```
 PyBullet-based obstacle avoidance implementation.
 ArduPilot SITL-based drone controller.
 Gazebo Harmonic simulation environment.
@@ -404,7 +404,7 @@ Goal detection and stopping mechanism.
 Multiple obstacle test scenarios.
 Performance results and evaluation.
 Documentation and setup instructions.
-'''
+```
 
 # 16. Conclusion
 
