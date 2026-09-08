@@ -1,0 +1,582 @@
+<?xml version="1.0" ?>
+<sdf version="1.9">
+
+  <world name="iris_runway">
+
+    <!-- ========================================================= -->
+    <!-- PHYSICS                                                   -->
+    <!-- ========================================================= -->
+
+    <physics name="1ms" type="ignore">
+      <max_step_size>0.001</max_step_size>
+      <real_time_factor>1.0</real_time_factor>
+    </physics>
+
+
+    <!-- ========================================================= -->
+    <!-- GAZEBO SYSTEM PLUGINS                                    -->
+    <!-- ========================================================= -->
+
+    <plugin filename="gz-sim-physics-system"
+            name="gz::sim::systems::Physics">
+    </plugin>
+
+    <!-- IMPORTANT: Only ONE Sensors plugin -->
+    <plugin filename="gz-sim-sensors-system"
+            name="gz::sim::systems::Sensors">
+      <render_engine>ogre2</render_engine>
+    </plugin>
+
+    <plugin filename="gz-sim-user-commands-system"
+            name="gz::sim::systems::UserCommands">
+    </plugin>
+
+    <plugin filename="gz-sim-scene-broadcaster-system"
+            name="gz::sim::systems::SceneBroadcaster">
+    </plugin>
+
+    <plugin filename="gz-sim-imu-system"
+            name="gz::sim::systems::Imu">
+    </plugin>
+
+    <plugin filename="gz-sim-navsat-system"
+            name="gz::sim::systems::NavSat">
+    </plugin>
+
+
+    <!-- ========================================================= -->
+    <!-- SCENE                                                     -->
+    <!-- ========================================================= -->
+
+    <scene>
+      <ambient>1.0 1.0 1.0</ambient>
+      <background>0.8 0.8 0.8</background>
+      <sky></sky>
+    </scene>
+
+
+    <!-- ========================================================= -->
+    <!-- GPS / EARTH COORDINATES                                  -->
+    <!-- ========================================================= -->
+
+    <spherical_coordinates>
+      <latitude_deg>-35.363262</latitude_deg>
+      <longitude_deg>149.165237</longitude_deg>
+      <elevation>584</elevation>
+      <heading_deg>0</heading_deg>
+      <surface_model>EARTH_WGS84</surface_model>
+    </spherical_coordinates>
+
+
+    <!-- ========================================================= -->
+    <!-- SUN                                                       -->
+    <!-- ========================================================= -->
+
+    <light type="directional" name="sun">
+
+      <cast_shadows>true</cast_shadows>
+
+      <pose>0 0 10 0 0 0</pose>
+
+      <diffuse>0.8 0.8 0.8 1</diffuse>
+
+      <specular>0.8 0.8 0.8 1</specular>
+
+      <attenuation>
+        <range>1000</range>
+        <constant>0.9</constant>
+        <linear>0.01</linear>
+        <quadratic>0.001</quadratic>
+      </attenuation>
+
+      <direction>-0.5 0.1 -0.9</direction>
+
+    </light>
+
+
+    <!-- ========================================================= -->
+    <!-- WORLD AXES                                                -->
+    <!-- ========================================================= -->
+
+    <model name="axes">
+
+      <static>1</static>
+
+      <link name="link">
+
+        <!-- X AXIS -->
+        <visual name="r">
+
+          <cast_shadows>0</cast_shadows>
+
+          <pose>5 0 0.1 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>10 0.01 0.01</size>
+            </box>
+          </geometry>
+
+          <material>
+
+            <ambient>1 0 0 0.8</ambient>
+
+            <diffuse>1 0 0 0.8</diffuse>
+
+            <emissive>1 0 0 0.8</emissive>
+
+            <specular>0.5 0.5 0.5 0.8</specular>
+
+          </material>
+
+        </visual>
+
+
+        <!-- Y AXIS -->
+        <visual name="g">
+
+          <cast_shadows>0</cast_shadows>
+
+          <pose>0 5 0.1 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>0.01 10 0.01</size>
+            </box>
+          </geometry>
+
+          <material>
+
+            <ambient>0 1 0 0.8</ambient>
+
+            <diffuse>0 1 0 0.8</diffuse>
+
+            <emissive>0 1 0 0.8</emissive>
+
+            <specular>0.5 0.5 0.5 0.8</specular>
+
+          </material>
+
+        </visual>
+
+
+        <!-- Z AXIS -->
+        <visual name="b">
+
+          <cast_shadows>0</cast_shadows>
+
+          <pose>0 0 5.1 0 0 0</pose>
+
+          <geometry>
+            <box>
+              <size>0.01 0.01 10</size>
+            </box>
+          </geometry>
+
+          <material>
+
+            <ambient>0 0 1 0.8</ambient>
+
+            <diffuse>0 0 1 0.8</diffuse>
+
+            <emissive>0 0 1 0.8</emissive>
+
+            <specular>0.5 0.5 0.5 0.8</specular>
+
+          </material>
+
+        </visual>
+
+
+        <!-- NAVSAT -->
+        <sensor name="navsat_sensor" type="navsat">
+
+          <always_on>1</always_on>
+
+          <update_rate>1</update_rate>
+
+        </sensor>
+
+      </link>
+
+    </model>
+
+
+    <!-- ========================================================= -->
+    <!-- RUNWAY                                                    -->
+    <!-- ========================================================= -->
+
+    <include>
+
+      <uri>model://runway</uri>
+
+      <pose degrees="true">
+        -29 545 0 0 0 363
+      </pose>
+
+    </include>
+
+
+    <!-- ========================================================= -->
+    <!-- IRIS DRONE                                                -->
+    <!-- ========================================================= -->
+
+    <include>
+
+      <uri>model://iris_with_gimbal</uri>
+
+      <!--
+        Drone:
+        X = 0
+        Y = 0
+        Z = 0.195
+        Yaw = 90 degrees
+
+        Therefore initial body-forward direction
+        corresponds approximately to world +Y.
+      -->
+
+      <pose degrees="true">
+        0 0 0.195 0 0 90
+      </pose>
+
+    </include>
+
+
+    <!-- ========================================================= -->
+    <!-- OBSTACLE                                                  -->
+    <!-- ========================================================= -->
+
+    <model name="obstacle_box">
+
+      <static>true</static>
+
+      <!--
+        Obstacle center:
+        X = 0
+        Y = 3
+        Z = 1
+
+        Size:
+        X = 1 m
+        Y = 2 m
+        Z = 2 m
+
+        Since the drone initially flies along +Y,
+        this obstacle lies directly in its path.
+      -->
+
+      <pose>
+        0 3.0 1.0 0 0 0
+      </pose>
+
+
+      <link name="box">
+
+        <!-- OBSTACLE COLLISION -->
+        <collision name="collision">
+
+          <geometry>
+
+            <box>
+              <size>1.0 2.0 2.0</size>
+            </box>
+
+          </geometry>
+
+        </collision>
+
+
+        <!-- OBSTACLE VISUAL -->
+        <visual name="visual">
+
+          <geometry>
+
+            <box>
+              <size>1.0 2.0 2.0</size>
+            </box>
+
+          </geometry>
+
+          <material>
+
+            <ambient>0.8 0.2 0.2 1</ambient>
+
+            <diffuse>0.8 0.2 0.2 1</diffuse>
+
+            <emissive>0.1 0.0 0.0 1</emissive>
+
+            <specular>0.5 0.5 0.5 1</specular>
+
+          </material>
+
+        </visual>
+
+      </link>
+
+    </model>
+
+
+    <!-- ========================================================= -->
+    <!-- GOAL MARKER                                               -->
+    <!-- ========================================================= -->
+
+    <model name="goal_marker">
+
+      <static>true</static>
+
+      <!--
+        GOAL POSITION
+
+        X = 0
+        Y = 6
+        Z = 1
+
+        This is 6 metres ahead of the initial drone position
+        along the drone's initial forward direction (+Y).
+      -->
+
+      <pose>
+        0 6.0 0 0 0 0
+      </pose>
+
+
+      <link name="goal_link">
+
+
+        <!-- ===================================================== -->
+        <!-- GOAL LANDING PAD                                     -->
+        <!-- ===================================================== -->
+
+        <visual name="goal_pad">
+
+          <pose>
+            0 0 0.03 0 0 0
+          </pose>
+
+          <geometry>
+
+            <cylinder>
+
+              <radius>0.7</radius>
+
+              <length>0.06</length>
+
+            </cylinder>
+
+          </geometry>
+
+          <material>
+
+            <ambient>0.0 0.2 1.0 1</ambient>
+
+            <diffuse>0.0 0.3 1.0 1</diffuse>
+
+            <emissive>0.0 0.1 0.5 1</emissive>
+
+            <specular>0.5 0.5 0.5 1</specular>
+
+          </material>
+
+        </visual>
+
+
+        <!-- ===================================================== -->
+        <!-- GOAL CENTER -->
+        <!-- ===================================================== -->
+
+        <visual name="goal_center">
+
+          <pose>
+            0 0 0.15 0 0 0
+          </pose>
+
+          <geometry>
+
+            <cylinder>
+
+              <radius>0.18</radius>
+
+              <length>0.25</length>
+
+            </cylinder>
+
+          </geometry>
+
+          <material>
+
+            <ambient>0.0 0.4 1.0 1</ambient>
+
+            <diffuse>0.0 0.5 1.0 1</diffuse>
+
+            <emissive>0.0 0.2 0.8 1</emissive>
+
+            <specular>0.5 0.5 0.5 1</specular>
+
+          </material>
+
+        </visual>
+
+
+        <!-- ===================================================== -->
+        <!-- GOAL VERTICAL POLE                                   -->
+        <!-- ===================================================== -->
+
+        <visual name="goal_pole">
+
+          <pose>
+            0 0 0.7 0 0 0
+          </pose>
+
+          <geometry>
+
+            <cylinder>
+
+              <radius>0.04</radius>
+
+              <length>1.4</length>
+
+            </cylinder>
+
+          </geometry>
+
+          <material>
+
+            <ambient>0.0 0.3 1.0 1</ambient>
+
+            <diffuse>0.0 0.4 1.0 1</diffuse>
+
+            <emissive>0.0 0.1 0.5 1</emissive>
+
+            <specular>0.5 0.5 0.5 1</specular>
+
+          </material>
+
+        </visual>
+
+
+        <!-- ===================================================== -->
+        <!-- GOAL CROSS ARM 1                                      -->
+        <!-- ===================================================== -->
+
+        <visual name="goal_arm_x">
+
+          <pose>
+            0 0 1.35 0 0 0
+          </pose>
+
+          <geometry>
+
+            <box>
+
+              <size>1.2 0.08 0.08</size>
+
+            </box>
+
+          </geometry>
+
+          <material>
+
+            <ambient>0.0 0.4 1.0 1</ambient>
+
+            <diffuse>0.0 0.5 1.0 1</diffuse>
+
+            <emissive>0.0 0.2 0.8 1</emissive>
+
+            <specular>0.5 0.5 0.5 1</specular>
+
+          </material>
+
+        </visual>
+
+
+        <!-- ===================================================== -->
+        <!-- GOAL CROSS ARM 2                                      -->
+        <!-- ===================================================== -->
+
+        <visual name="goal_arm_y">
+
+          <pose>
+            0 0 1.35 0 0 1.5708
+          </pose>
+
+          <geometry>
+
+            <box>
+
+              <size>1.2 0.08 0.08</size>
+
+            </box>
+
+          </geometry>
+
+          <material>
+
+            <ambient>0.0 0.4 1.0 1</ambient>
+
+            <diffuse>0.0 0.5 1.0 1</diffuse>
+
+            <emissive>0.0 0.2 0.8 1</emissive>
+
+            <specular>0.5 0.5 0.5 1</specular>
+
+          </material>
+
+        </visual>
+
+
+        <!-- ===================================================== -->
+        <!-- GOAL SPHERE                                            -->
+        <!-- ===================================================== -->
+
+        <visual name="goal_top">
+
+          <pose>
+            0 0 1.55 0 0 0
+          </pose>
+
+          <geometry>
+
+            <sphere>
+
+              <radius>0.15</radius>
+
+            </sphere>
+
+          </geometry>
+
+          <material>
+
+            <ambient>0.0 0.6 1.0 1</ambient>
+
+            <diffuse>0.0 0.7 1.0 1</diffuse>
+
+            <emissive>0.0 0.3 1.0 1</emissive>
+
+            <specular>0.5 0.5 0.5 1</specular>
+
+          </material>
+
+        </visual>
+
+
+        <!--
+          IMPORTANT:
+
+          There is deliberately NO <collision> element
+          in the goal marker.
+
+          Therefore:
+            - Drone can fly through it
+            - LiDAR does not treat it as an obstacle
+            - It is purely a visual goal marker
+        -->
+
+      </link>
+
+    </model>
+
+
+  </world>
+
+</sdf>
