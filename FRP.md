@@ -2,7 +2,7 @@
 
 # Project Title
 
-**Rule-Based Obstacle Avoidance System for Autonomous Drones**
+**Obstacle Avoidance System for Autonomous Drones**
 
 ---
 
