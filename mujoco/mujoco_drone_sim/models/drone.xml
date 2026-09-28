@@ -1,0 +1,138 @@
+<mujoco model="quadcopter">
+  <compiler angle="degree" coordinate="local" inertiafromgeom="true"/>
+  
+  <default>
+    <geom friction="0.8 0.1 0.1" density="1000"/>
+    <site size="0.01" rgba="1 0 0 1"/>
+  </default>
+
+  <asset>
+    <texture type="2d" name="prop_tex" builtin="checker" rgb1="0.1 0.1 0.1" rgb2="0.8 0.1 0.1" width="100" height="100"/>
+    <material name="prop_mat" texture="prop_tex" specular="0.5" shininess="0.5"/>
+    <material name="body_mat" rgba="0.15 0.15 0.18 1.0" specular="0.8" shininess="0.8"/>
+    <material name="arm_mat" rgba="0.3 0.3 0.35 1.0"/>
+    <material name="front_mat" rgba="0.9 0.2 0.2 1.0"/>
+    <material name="rear_mat" rgba="0.2 0.4 0.9 1.0"/>
+  </asset>
+
+  <worldbody>
+    <!-- Quadcopter Body -->
+    <body name="drone" pos="0 0 1.0">
+      <freejoint name="root"/>
+
+      <!-- Central Body Hub -->
+      <geom name="drone_core" type="box" size="0.04 0.04 0.015" material="body_mat" mass="0.020"/>
+      <!-- Protective Top Dome -->
+      <geom name="drone_dome" type="sphere" size="0.025" pos="0 0 0.015" rgba="0.8 0.8 0.85 0.7" mass="0.005"/>
+
+      <!-- Cross Arms (X-Configuration) -->
+      <!-- Arm Front-Right to Rear-Left -->
+      <geom name="arm1" type="capsule" fromto="0.065 0.065 0 -0.065 -0.065 0" size="0.004" material="arm_mat" mass="0.004"/>
+      <!-- Arm Front-Left to Rear-Right -->
+      <geom name="arm2" type="capsule" fromto="-0.065 0.065 0 0.065 -0.065 0" size="0.004" material="arm_mat" mass="0.004"/>
+
+      <!-- Orientation Indicators (Front = Red, Rear = Blue) -->
+      <geom name="front_indicator" type="sphere" size="0.008" pos="0.045 0 0.005" material="front_mat" mass="0.0001"/>
+      <geom name="rear_indicator" type="sphere" size="0.008" pos="-0.045 0 0.005" material="rear_mat" mass="0.0001"/>
+
+      <!-- Motor Mounts and Visual Propellers -->
+      <!-- Motor 1 (Front-Right: +X, -Y) -->
+      <body name="motor1_body" pos="0.065 -0.065 0">
+        <geom name="m1_geom" type="cylinder" size="0.009 0.008" pos="0 0 0.008" rgba="0.2 0.2 0.2 1" mass="0.003"/>
+        <geom name="prop1_visual" type="cylinder" size="0.035 0.001" pos="0 0 0.016" rgba="0.9 0.2 0.2 0.6" mass="0.0005"/>
+        <site name="thrust_site1" pos="0 0 0.016"/>
+      </body>
+
+      <!-- Motor 2 (Rear-Right: -X, -Y) -->
+      <body name="motor2_body" pos="-0.065 -0.065 0">
+        <geom name="m2_geom" type="cylinder" size="0.009 0.008" pos="0 0 0.008" rgba="0.2 0.2 0.2 1" mass="0.003"/>
+        <geom name="prop2_visual" type="cylinder" size="0.035 0.001" pos="0 0 0.016" rgba="0.2 0.4 0.9 0.6" mass="0.0005"/>
+        <site name="thrust_site2" pos="0 0 0.016"/>
+      </body>
+
+      <!-- Motor 3 (Rear-Left: -X, +Y) -->
+      <body name="motor3_body" pos="-0.065 0.065 0">
+        <geom name="m3_geom" type="cylinder" size="0.009 0.008" pos="0 0 0.008" rgba="0.2 0.2 0.2 1" mass="0.003"/>
+        <geom name="prop3_visual" type="cylinder" size="0.035 0.001" pos="0 0 0.016" rgba="0.2 0.4 0.9 0.6" mass="0.0005"/>
+        <site name="thrust_site3" pos="0 0 0.016"/>
+      </body>
+
+      <!-- Motor 4 (Front-Left: +X, +Y) -->
+      <body name="motor4_body" pos="0.065 0.065 0">
+        <geom name="m4_geom" type="cylinder" size="0.009 0.008" pos="0 0 0.008" rgba="0.2 0.2 0.2 1" mass="0.003"/>
+        <geom name="prop4_visual" type="cylinder" size="0.035 0.001" pos="0 0 0.016" rgba="0.9 0.2 0.2 0.6" mass="0.0005"/>
+        <site name="thrust_site4" pos="0 0 0.016"/>
+      </body>
+
+      <!-- Camera for FPV view -->
+      <camera name="fpv_cam" pos="0.04 0 0.01" euler="0 10 0" mode="fixed"/>
+
+      <!-- Central Site for Tracking / IMU -->
+      <site name="imu_site" pos="0 0 0"/>
+
+      <!-- ============================================================ -->
+      <!-- LiDAR Rangefinder Sensor Array (Native MuJoCo Sensors)       -->
+      <!-- Rangefinders cast along the site's local -Z axis            -->
+      <!-- ============================================================ -->
+      <!-- Front (0 deg) : Pointing +X in body frame -> euler="0 90 0" -->
+      <site name="rf_front_site" pos="0.05 0 0" euler="0 90 0"/>
+      
+      <!-- Front-Left (+35 deg) -->
+      <site name="rf_left_site" pos="0.04 0.03 0" euler="0 90 35"/>
+      
+      <!-- Far-Left (+70 deg) -->
+      <site name="rf_far_left_site" pos="0.02 0.045 0" euler="0 90 70"/>
+
+      <!-- Left (+90 deg) -->
+      <site name="rf_side_left_site" pos="0 0.05 0" euler="0 90 90"/>
+
+      <!-- Front-Right (-35 deg) -->
+      <site name="rf_right_site" pos="0.04 -0.03 0" euler="0 90 -35"/>
+
+      <!-- Far-Right (-70 deg) -->
+      <site name="rf_far_right_site" pos="0.02 -0.045 0" euler="0 90 -70"/>
+
+      <!-- Right (-90 deg) -->
+      <site name="rf_side_right_site" pos="0 -0.05 0" euler="0 90 -90"/>
+
+      <!-- Rear (180 deg) -->
+      <site name="rf_rear_site" pos="-0.05 0 0" euler="0 90 180"/>
+
+      <!-- Up (+Z) -->
+      <site name="rf_up_site" pos="0 0 0.025" euler="180 0 0"/>
+
+      <!-- Down (-Z) -->
+      <site name="rf_down_site" pos="0 0 -0.015" euler="0 0 0"/>
+    </body>
+  </worldbody>
+
+  <!-- Actuators: 4 Vertical Rotor Thrusts at each motor site -->
+  <actuator>
+    <general name="thrust_m1" site="thrust_site1" gear="0 0 1 0 0 0.006" ctrllimited="true" ctrlrange="0 0.30"/>
+    <general name="thrust_m2" site="thrust_site2" gear="0 0 1 0 0 -0.006" ctrllimited="true" ctrlrange="0 0.30"/>
+    <general name="thrust_m3" site="thrust_site3" gear="0 0 1 0 0 0.006" ctrllimited="true" ctrlrange="0 0.30"/>
+    <general name="thrust_m4" site="thrust_site4" gear="0 0 1 0 0 -0.006" ctrllimited="true" ctrlrange="0 0.30"/>
+  </actuator>
+
+  <sensor>
+    <!-- IMU Sensors -->
+    <accelerometer name="drone_accel" site="imu_site"/>
+    <gyro name="drone_gyro" site="imu_site"/>
+    <framepos name="drone_pos" objtype="site" objname="imu_site"/>
+    <framequat name="drone_quat" objtype="site" objname="imu_site"/>
+    <framelinvel name="drone_vel" objtype="site" objname="imu_site"/>
+    <frameangvel name="drone_angvel" objtype="site" objname="imu_site"/>
+
+    <!-- Native Rangefinder Sensors -->
+    <rangefinder name="rf_front" site="rf_front_site"/>
+    <rangefinder name="rf_left" site="rf_left_site"/>
+    <rangefinder name="rf_far_left" site="rf_far_left_site"/>
+    <rangefinder name="rf_side_left" site="rf_side_left_site"/>
+    <rangefinder name="rf_right" site="rf_right_site"/>
+    <rangefinder name="rf_far_right" site="rf_far_right_site"/>
+    <rangefinder name="rf_side_right" site="rf_side_right_site"/>
+    <rangefinder name="rf_rear" site="rf_rear_site"/>
+    <rangefinder name="rf_up" site="rf_up_site"/>
+    <rangefinder name="rf_down" site="rf_down_site"/>
+  </sensor>
+</mujoco>
