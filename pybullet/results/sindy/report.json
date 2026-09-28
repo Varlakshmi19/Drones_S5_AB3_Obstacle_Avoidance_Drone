@@ -1,0 +1,45 @@
+{
+  "A_translational": {
+    "equations": [
+      "d(vx)/dt = +0.02174 -0.5315 pitch -0.03033 T -0.1153 vx +0.03132 T cos(roll)cos(pitch) +1.235 T sin(pitch) +12.39 roll pitch -1.455 T roll pitch",
+      "d(vy)/dt = -0.01262 -0.3634 roll +0.01123 T -0.08707 vy -0.009758 T cos(roll)cos(pitch) -1.113 T sin(roll) -12.98 roll pitch +1.573 T roll pitch",
+      "d(vz)/dt = -9.796 +1.17 T cos(roll)cos(pitch)"
+    ],
+    "heldout_r2": [
+      0.999111541401241,
+      0.9834775804208181,
+      0.9997836819618058
+    ],
+    "kf_over_m_true": null
+  },
+  "B_rotational": {
+    "equations": [
+      "d(wx)/dt = -63.87 r0 -63.7 r1 +63.34 r2 +64.23 r3",
+      "d(wy)/dt = -63.14 r0 +63.59 r1 +63.13 r2 -63.58 r3",
+      "d(wz)/dt = -35.7 r0 +36.82 r1 -36.55 r2 +35.44 r3"
+    ],
+    "heldout_r2": [
+      0.9981298634276781,
+      0.9997445701664156,
+      0.9988475789836683
+    ]
+  },
+  "C_closed_loop": {
+    "equations": [
+      "d(vx)/dt = +0.2088 -3.459 vx +8.762 vcx -1.641 vx^2 -3.507 vx vy +9.401 vx vcx +3.682 vx vcy -4.875 vy^2 +12.44 vy vcx +15.22 vy vcy -11.99 vcx^2 -15.08 vcx vcy",
+      "d(vy)/dt = -0.08036 +0.2534 vx -3.3 vy -0.7045 vcx +9.426 vcy -0.08255 vx^2 +0.9871 vx vy -0.315 vx vcx -0.9589 vx vcy -4.124 vy vcx +2.079 vcx^2"
+    ],
+    "heldout_derivative_r2": [
+      0.43597372695872505,
+      -0.11741791787275124
+    ],
+    "rollouts": [
+      {
+        "log": "brain_s4.npz",
+        "vel_rmse": 0.07539879258514581,
+        "end_err": 0.0210647694807371,
+        "path_len": 5.73977695432454
+      }
+    ]
+  }
+}
