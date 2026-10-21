@@ -26,7 +26,7 @@ This project implements an autonomous quadcopter obstacle avoidance system simul
 * **Physics Fidelity**: Native MuJoCo 6-DOF quadcopter model (Crazyflie 2.x scale, $m = 47.2\text{ g}$) simulated with Runge-Kutta 4th-order (RK4) integration at $500\text{ Hz}$ physics and $48\text{ Hz}$ control frequency.
 * **Kalman Filter Tracking**: 6-DOF Constant-Velocity Kalman Filter tracks moving obstacles with noisy LiDAR range measurements, achieving **~50% noise variance reduction** and projecting future obstacle trajectories 1.0 second into the future.
 * **Stochastic Dynamic Obstacles**: Moving obstacles do not follow predictable deterministic paths; they are driven by an **Ornstein-Uhlenbeck stochastic drift process** with random phase, frequency, and wandering drift.
-* **6 Navigation Strategies**:
+* ** Navigation Strategies**:
   1. **Reactive Sector State Machine** (with closing-velocity evasion and hysteresis side-switching)
 * **Dead-End & Trap Solving**: Autonomous 360° LiDAR perimeter inspection that detects concave U-traps and circular dead-ends, initiating 3D vertical climb-overs or finding horizontal escape gaps.
 * **Interactive Tooling**: Real-time Web Dashboard (`http://127.0.0.1:8080`) with mouse/keyboard obstacle placement, live LiDAR radar, Kalman trajectory curves, and desktop Tkinter visual arena editor.
@@ -67,7 +67,7 @@ The software architecture follows a modular sense-estimate-plan-control feedback
                                          v
 +--------------------------------------------------------------------------------+
 |                        AVOIDANCE & PLANNING SUBSYSTEM                          |
-|  * Reactive State Machine / APF / DWA / SINDy-DWA / 3D Volumetric              |
+|  * Reactive State Machine            |
 |  * Dynamic Sector Inflation based on Kalman closing-velocity                   |
 |  * Dead-End Reversal Monitor (3 reversals in 12s triggers 360° Scan)          |
 |  * Output: Desired Position & Velocity Setpoint [x_des, y_des, z_des]          |
@@ -386,7 +386,7 @@ python run_sim.py --sindy-train
 ## 10. Mathematical & Algorithmic Formulations
 
 ### 1. SE(3) Geometric Controller
-Given desired position $\mathbf{p}_{\text{des}}$, velocity $\mathbf{v}_{\text{des}}$, and acceleration $\mathbf{a}_{\text{des}}$, the position error dynamics are:
+Given desired position $$\mathbf{p}_{\text{des}}$$, velocity $$\mathbf{v}_{\text{des}}$$, and acceleration $$\mathbf{a}_{\text{des}}$$, the position error dynamics are:
 $$\mathbf{e}_p = \mathbf{p} - \mathbf{p}_{\text{des}}, \quad \mathbf{e}_v = \mathbf{v} - \mathbf{v}_{\text{des}}$$
 $$\mathbf{F}_{\text{des}} = -k_p \mathbf{e}_p - k_v \mathbf{e}_v + m g \hat{\mathbf{z}}_W + m \mathbf{a}_{\text{des}}$$
 
