@@ -405,7 +405,6 @@ $$
 \frac{\mathbf{F}_{\text{des}}}
 {\|\mathbf{F}_{\text{des}}\|}
 $$
-
 ### 2. Motor Allocation (Mixer Matrix)
 The 4 rotor thrusts $f_1, f_2, f_3, f_4$ are computed from total thrust $T$ and body moments $\tau_x, \tau_y, \tau_z$:
 $$\begin{bmatrix} T \\ \tau_x \\ \tau_y \\ \tau_z \end{bmatrix} = \begin{bmatrix} 1 & 1 & 1 & 1 \\ -d/\sqrt{2} & d/\sqrt{2} & d/\sqrt{2} & -d/\sqrt{2} \\ d/\sqrt{2} & -d/\sqrt{2} & d/\sqrt{2} & -d/\sqrt{2} \\ -k_m & -k_m & k_m & k_m \end{bmatrix} \begin{bmatrix} f_1 \\ f_2 \\ f_3 \\ f_4 \end{bmatrix}$$
