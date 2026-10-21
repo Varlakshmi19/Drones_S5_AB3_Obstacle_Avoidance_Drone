@@ -97,7 +97,7 @@ Across standardized test benchmarks (from simple frontal obstacles to moving int
 ## 2. Project Overview
 
 ### What the Project Does
-The project equips an autonomous quadrotor with omnidirectional virtual range perception and fast local planning algorithms that safely guide it from a launch coordinate $\mathbf{p}_0 = (0.0, 0.0, 1.0)\,\text{m}$ to a target waypoint $\mathbf{p}_{\text{goal}} = (6.0, 0.0, 1.0)\,\text{m}$. Along this route, the drone autonomously detects obstacles, dynamically computes collision-free trajectories, escapes traps, and stabilizes itself at $48\,\text{Hz}$ via position-attitude PID control.
+The project equips an autonomous quadrotor with omnidirectional virtual range perception and fast local planning algorithms that safely guide it from a launch coordinate $p_0 = (0.0, 0.0, 1.0)\\text{ m}$ to a target waypoint $p}_{\text{goal}} = (6.0, 0.0, 1.0)\\text{m}$. Along this route, the drone autonomously detects obstacles, dynamically computes collision-free trajectories, escapes traps, and stabilizes itself at $48\,\text{Hz}$ via position-attitude PID control.
 
 ### What Problem It Solves
 Traditional obstacle-avoidance techniques for micro-air vehicles (MAVs) present difficult trade-offs:
