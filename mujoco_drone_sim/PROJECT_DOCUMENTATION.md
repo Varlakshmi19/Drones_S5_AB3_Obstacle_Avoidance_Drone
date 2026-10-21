@@ -388,8 +388,8 @@ $$
 \mathbf{F}_{\text{des}} =
 -k_p \mathbf{e}_p
 -k_v \mathbf{e}_v
-+ mg \hat{\mathbf{z}}_W
-+ m \mathbf{a}_{\text{des}}
++mg \hat{\mathbf{z}}_W
++m \mathbf{a}_{\text{des}}
 $$
 
 Total scalar thrust command:
