@@ -1,0 +1,2480 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MuJoCo Drone Obstacle Avoidance | Telemetry Dashboard</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;600;700;800&family=JetBrains+Mono:wght@400;500;700&display=swap" rel="stylesheet">
+  <script src="/js/three.min.js"></script>
+  <script src="/js/OrbitControls.js"></script>
+  <script src="/js/chart.min.js"></script>
+  <script>
+    if (typeof THREE === "undefined") {
+      document.write('<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"><\\/script>');
+      document.write('<script src="https://cdn.jsdelivr.net/npm/three@0.128.0/examples/js/controls/OrbitControls.js"><\\/script>');
+    }
+    if (typeof Chart === "undefined") {
+      document.write('<script src="https://cdn.jsdelivr.net/npm/chart.js@3.9.1/dist/chart.min.js"><\\/script>');
+    }
+  </script>
+  <style>
+    :root {
+      --bg-dark: #0a0d14;
+      --card-bg: rgba(18, 24, 38, 0.75);
+      --card-border: rgba(0, 229, 255, 0.15);
+      --accent-cyan: #00e5ff;
+      --accent-green: #00e676;
+      --accent-amber: #ffab00;
+      --accent-red: #ff5252;
+      --accent-purple: #b388ff;
+      --text-main: #f0f4fc;
+      --text-muted: #8c9ba5;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+
+    body {
+      background-color: var(--bg-dark);
+      background-image: 
+        radial-gradient(circle at 10% 20%, rgba(0, 229, 255, 0.04) 0%, transparent 40%),
+        radial-gradient(circle at 90% 80%, rgba(179, 136, 255, 0.04) 0%, transparent 40%);
+      color: var(--text-main);
+      font-family: 'Outfit', sans-serif;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+
+    header {
+      padding: 1.25rem 2rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(10, 13, 20, 0.85);
+      backdrop-filter: blur(12px);
+      position: sticky;
+      top: 0;
+      z-index: 100;
+    }
+
+    .logo-container {
+      display: flex;
+      align-items: center;
+      gap: 0.85rem;
+    }
+
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      background: linear-gradient(135deg, var(--accent-cyan), var(--accent-purple));
+      border-radius: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-weight: 800;
+      color: #000;
+      box-shadow: 0 0 15px rgba(0, 229, 255, 0.4);
+    }
+
+    .logo-text h1 {
+      font-size: 1.25rem;
+      font-weight: 700;
+      letter-spacing: -0.5px;
+      background: linear-gradient(90deg, #fff, var(--text-muted));
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .logo-text p {
+      font-size: 0.75rem;
+      color: var(--accent-cyan);
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .header-badges {
+      display: flex;
+      gap: 0.75rem;
+    }
+
+    .pill-badge {
+      padding: 0.35rem 0.8rem;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: 20px;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+      display: flex;
+      align-items: center;
+      gap: 0.4rem;
+    }
+
+    .dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--accent-green);
+      box-shadow: 0 0 8px var(--accent-green);
+    }
+
+    /* Main Container Grid */
+    main {
+      padding: 1.5rem 2rem;
+      display: grid;
+      grid-template-columns: 340px 1fr 340px;
+      gap: 1.5rem;
+      flex: 1;
+    }
+
+    .card {
+      background: var(--card-bg);
+      border: 1px solid var(--card-border);
+      border-radius: 16px;
+      padding: 1.25rem;
+      backdrop-filter: blur(16px);
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.35);
+      display: flex;
+      flex-direction: column;
+      gap: 1rem;
+    }
+
+    .card-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      color: var(--accent-cyan);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    /* Form Controls */
+    .control-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.4rem;
+    }
+
+    .control-label {
+      font-size: 0.8rem;
+      color: var(--text-muted);
+      font-weight: 600;
+    }
+
+    select, button {
+      width: 100%;
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.9rem;
+      outline: none;
+      transition: all 0.2s ease;
+    }
+
+    select {
+      background: rgba(10, 15, 25, 0.8);
+      color: #fff;
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      cursor: pointer;
+    }
+
+    select:focus {
+      border-color: var(--accent-cyan);
+      box-shadow: 0 0 10px rgba(0, 229, 255, 0.2);
+    }
+
+    .btn-launch {
+      background: linear-gradient(135deg, var(--accent-cyan), #0091ea);
+      color: #000;
+      font-weight: 700;
+      border: none;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      box-shadow: 0 4px 20px rgba(0, 229, 255, 0.35);
+    }
+
+    .btn-launch:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 6px 25px rgba(0, 229, 255, 0.55);
+    }
+
+    .btn-launch:active {
+      transform: translateY(0);
+    }
+
+    /* Center Visualizer */
+    .center-col {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .arena-container {
+      flex: 1;
+      position: relative;
+      background: radial-gradient(circle at 50% 50%, rgba(20, 30, 50, 0.5) 0%, rgba(5, 8, 15, 0.9) 100%);
+      border-radius: 16px;
+      border: 1px solid var(--card-border);
+      overflow: hidden;
+      min-height: 480px;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .arena-header {
+      padding: 0.75rem 1.25rem;
+      background: rgba(0, 0, 0, 0.3);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+    }
+
+    #arenaCanvas {
+      flex: 1;
+      width: 100%;
+      height: 100%;
+      cursor: crosshair;
+    }
+
+    /* Playback Toolbar */
+    .playback-bar {
+      padding: 0.75rem 1.25rem;
+      background: rgba(10, 15, 25, 0.9);
+      border-top: 1px solid rgba(255, 255, 255, 0.08);
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+    }
+
+    .playback-btn {
+      width: 36px;
+      height: 36px;
+      padding: 0;
+      border-radius: 50%;
+      background: rgba(255, 255, 255, 0.1);
+      border: 1px solid rgba(255, 255, 255, 0.15);
+      color: #fff;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .playback-btn:hover {
+      background: var(--accent-cyan);
+      color: #000;
+    }
+
+    .progress-slider {
+      flex: 1;
+      accent-color: var(--accent-cyan);
+      cursor: pointer;
+    }
+
+    /* Telemetry Metrics Grid */
+    .metrics-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+    }
+
+    .metric-card {
+      background: rgba(15, 20, 32, 0.7);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      padding: 0.85rem;
+      display: flex;
+      flex-direction: column;
+      gap: 0.25rem;
+    }
+
+    .metric-label {
+      font-size: 0.75rem;
+      color: var(--text-muted);
+      text-transform: uppercase;
+      font-weight: 600;
+    }
+
+    .metric-val {
+      font-size: 1.35rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      color: #fff;
+    }
+
+    .mode-badge {
+      padding: 0.25rem 0.6rem;
+      border-radius: 6px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      font-family: 'JetBrains Mono', monospace;
+      display: inline-block;
+      text-align: center;
+      width: fit-content;
+    }
+
+    .mode-FORWARD { background: rgba(0, 230, 118, 0.2); color: var(--accent-green); border: 1px solid var(--accent-green); }
+    .mode-AVOID { background: rgba(255, 171, 0, 0.2); color: var(--accent-amber); border: 1px solid var(--accent-amber); }
+    .mode-EMERGENCY_REVERSE { background: rgba(255, 82, 82, 0.25); color: var(--accent-red); border: 1px solid var(--accent-red); }
+    .mode-RETURN { background: rgba(179, 136, 255, 0.2); color: var(--accent-purple); border: 1px solid var(--accent-purple); }
+    .mode-GOAL_REACHED { background: rgba(0, 229, 255, 0.2); color: var(--accent-cyan); border: 1px solid var(--accent-cyan); }
+
+    /* Radar Canvas */
+    #radarCanvas {
+      width: 100%;
+      height: 220px;
+    }
+
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      padding-bottom: 0.5rem;
+    }
+
+    .tab-btn {
+      padding: 0.4rem 0.8rem;
+      background: transparent;
+      border: none;
+      color: var(--text-muted);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+
+    .tab-btn.active {
+      background: rgba(0, 229, 255, 0.15);
+      color: var(--accent-cyan);
+    }
+
+    .tab-content {
+      display: none;
+      font-size: 0.85rem;
+      line-height: 1.5;
+    }
+
+    .tab-content.active {
+      display: block;
+    }
+
+    /* Benchmark Table */
+    .bench-table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 0.75rem;
+      font-family: 'JetBrains Mono', monospace;
+    }
+
+    .bench-table th, .bench-table td {
+      padding: 0.5rem;
+      text-align: left;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .bench-table th {
+      color: var(--accent-cyan);
+    }
+
+    .status-badge-ok {
+      color: var(--accent-green);
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+
+  <header>
+    <div class="logo-container">
+      <div class="logo-icon">M</div>
+      <div class="logo-text">
+        <h1>MuJoCo Quadcopter Obstacle Avoidance</h1>
+        <p>HIGH-FIDELITY FLIGHT SIMULATION & SENSOR TELEMETRY</p>
+      </div>
+    </div>
+    <div class="header-badges">
+      <div class="pill-badge"><div class="dot"></div> Physics: MuJoCo 3.13</div>
+      <div class="pill-badge">Control Freq: 48 Hz</div>
+      <div class="pill-badge">Integrator: RK4</div>
+    </div>
+  </header>
+
+  <main>
+    <!-- Left Sidebar: Controls & Scenario Details -->
+    <div class="card">
+      <div class="card-title">Flight Configuration</div>
+      
+      <div class="control-group">
+        <label class="control-label" for="scenarioSelect">Select Scenario</label>
+        <select id="scenarioSelect">
+          <option value="1">1: Direct Frontal Obstacle</option>
+          <option value="2">2: Obstacle Offset Left (+0.2m)</option>
+          <option value="3">3: Obstacle Offset Right (-0.2m)</option>
+          <option value="4">4: Narrow Passage Corridor</option>
+          <option value="5">5: Dead-End Concave U-Trap</option>
+          <option value="6">6: Staggered Forest Maze</option>
+          <option value="7">7: Dynamic Lateral Slider</option>
+          <option value="8">8: 3D Cluttered Overhang</option>
+          <option value="9">9: Dynamic Lateral Intruder</option>
+          <option value="10">10: Circular Dead-End Ring</option>
+        </select>
+      </div>
+
+      <div class="control-group">
+        <label class="control-label" for="algoSelect">Avoidance Algorithm</label>
+        <select id="algoSelect">
+          <option value="reactive">Reactive Sector State Machine (PyBullet Port)</option>
+          <option value="apf">Artificial Potential Field (APF)</option>
+          <option value="dwa">Dynamic Window Approach (DWA)</option>
+          <option value="3d">3D Volumetric Avoidance</option>
+          <option value="sindy_dwa">SINDy-Enhanced DWA (Discovered Nonlinear Dynamics)</option>
+        </select>
+      </div>
+
+      <div class="control-group" style="flex-direction: row; gap: 0.75rem; margin: 0.25rem 0;">
+        <label style="font-size: 0.75rem; color: #fbbf24; display: flex; align-items: center; gap: 0.35rem; cursor: pointer;">
+          <input type="checkbox" id="chkObsNoise" checked> Obstacle Noise
+        </label>
+        <label style="font-size: 0.75rem; color: #00e5ff; display: flex; align-items: center; gap: 0.35rem; cursor: pointer;">
+          <input type="checkbox" id="chkKalman" checked> Kalman Filter
+        </label>
+      </div>
+
+      <div class="tabs" style="margin-top: 0.25rem;">
+        <button class="tab-btn active" id="btnModePreset" onclick="setEditorMode(false)">Preset Scenarios</button>
+        <button class="tab-btn" id="btnModeCustom" onclick="setEditorMode(true)">Arena Customizer</button>
+      </div>
+
+      <div id="presetControlsPanel">
+        <button id="btnLaunch" class="btn-launch" style="margin-top: 0.5rem;">
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Execute Simulation Flight
+        </button>
+      </div>
+
+      <div id="customControlsPanel" style="display: none; margin-top: 0.5rem;">
+        <div style="display: flex; gap: 0.4rem; margin-bottom: 0.4rem;">
+          <button class="tab-btn" onclick="addCustomObs('box')" style="padding: 0.4rem; font-size: 0.75rem;">+ Box (A)</button>
+          <button class="tab-btn" onclick="addCustomObs('cylinder')" style="padding: 0.4rem; font-size: 0.75rem;">+ Cyl (C)</button>
+          <button class="tab-btn" onclick="toggleCustomDynamic()" style="padding: 0.4rem; font-size: 0.75rem; color: #fbbf24;">Dynamic (D)</button>
+          <button class="tab-btn" onclick="deleteCustomObs()" style="padding: 0.4rem; font-size: 0.75rem; color: #ff5252;">Del</button>
+        </div>
+        <div style="display: flex; gap: 0.4rem; margin-bottom: 0.5rem;">
+          <button class="tab-btn" onclick="saveCustomArena()" style="padding: 0.4rem; font-size: 0.75rem;">💾 Save Layout</button>
+          <button class="tab-btn" onclick="loadCustomArena()" style="padding: 0.4rem; font-size: 0.75rem;">📂 Load Saved</button>
+        </div>
+        <p style="font-size: 0.72rem; color: #9ca3af; margin-bottom: 0.5rem;">
+          Mouse: Click & Drag to arrange | Keys: A, C, D, Del, Space to Run
+        </p>
+        <button id="btnLaunchCustom" class="btn-launch" onclick="runCustomFlight()" style="background: linear-gradient(135deg, #00e676, #00b0ff); margin-bottom: 0.4rem;">
+          ▶ Run Custom Flight in Web
+        </button>
+      </div>
+
+      <div class="card-title" style="margin-top: 1rem;">Scenario Description</div>
+      <p id="scenarioDesc" style="font-size: 0.85rem; color: var(--text-muted); min-height: 50px;">
+        Single obstacle placed directly in the drone's forward line of sight.
+      </p>
+
+      <div class="tabs">
+        <button class="tab-btn active" onclick="switchTab('tabFlightInfo')">Flight Info</button>
+        <button class="tab-btn" onclick="switchTab('tabBenchmark')">Benchmark</button>
+        <button class="tab-btn" onclick="switchTab('tabKinematics')">Analysis</button>
+      </div>
+
+      <div id="tabFlightInfo" class="tab-content active">
+        <div style="display: flex; flex-direction: column; gap: 0.5rem;">
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: var(--text-muted);">Start Position:</span>
+            <span class="mono" id="startPosTxt">(0.0, 0.0, 1.0)m</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: var(--text-muted);">Target Goal:</span>
+            <span class="mono" id="goalPosTxt">(6.0, 0.0, 1.0)m</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: var(--text-muted);">Controller:</span>
+            <span style="color: var(--accent-cyan);">Calibrated SE(3)/DSL-PID</span>
+          </div>
+        </div>
+      </div>
+
+      <div id="tabBenchmark" class="tab-content">
+        <div style="max-height: 220px; overflow-y: auto;">
+          <table class="bench-table" id="benchTable">
+            <thead>
+              <tr><th>Sc</th><th>Algo</th><th>Result</th><th>Time</th></tr>
+            </thead>
+            <tbody id="benchBody"></tbody>
+          </table>
+        </div>
+      </div>
+
+      <div id="tabKinematics" class="tab-content">
+        <div style="display: flex; flex-direction: column; gap: 0.5rem; font-size: 0.78rem;">
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: var(--text-muted);">Max / Avg Speed:</span>
+            <span id="tabAnaSpeed" style="color: var(--accent-cyan); font-family: 'JetBrains Mono';">-- / -- m/s</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: var(--text-muted);">Path Efficiency:</span>
+            <span id="tabAnaEff" style="color: var(--accent-green); font-family: 'JetBrains Mono';">-- %</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: var(--text-muted);">Moving Obstacle:</span>
+            <span id="tabAnaObs" style="color: var(--accent-amber); font-family: 'JetBrains Mono';">--</span>
+          </div>
+          <div style="display: flex; justify-content: space-between;">
+            <span style="color: var(--text-muted);">Kalman RMSE:</span>
+            <span id="tabAnaRMSE" style="color: var(--accent-cyan); font-family: 'JetBrains Mono';">-- m</span>
+          </div>
+          <button onclick="switchViewMode('analytics')" class="tab-btn active" style="margin-top: 0.4rem; padding: 0.45rem; font-size: 0.75rem; border-radius: 6px; width: 100%; border: 1px solid rgba(0,229,255,0.4); background: rgba(0,229,255,0.15); color: #00e5ff; cursor: pointer;">
+            📊 Open Detailed Charts
+          </button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Center Column: 2D Arena & Metrics -->
+    <div class="center-col">
+      <div class="arena-container">
+        <div class="arena-header">
+          <div style="display: flex; align-items: center; gap: 0.75rem; flex-wrap: wrap;">
+            <span style="font-size: 0.85rem; font-weight: 700; color: #fff;">ARENA VISUALIZER</span>
+            <div style="display: flex; gap: 0.25rem; background: rgba(0,0,0,0.5); padding: 3px; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08);">
+              <button id="btnView2D" class="tab-btn active" onclick="switchViewMode('2d')" style="padding: 0.25rem 0.65rem; font-size: 0.72rem; border-radius: 6px;">2D Top-Down</button>
+              <button id="btnView3D" class="tab-btn" onclick="switchViewMode('3d')" style="padding: 0.25rem 0.65rem; font-size: 0.72rem; border-radius: 6px; color: #00e5ff;">3D Orbit View</button>
+              <button id="btnViewSplit" class="tab-btn" onclick="switchViewMode('split')" style="padding: 0.25rem 0.65rem; font-size: 0.72rem; border-radius: 6px;">Split (2D + 3D)</button>
+              <button id="btnViewAnalytics" class="tab-btn" onclick="switchViewMode('analytics')" style="padding: 0.25rem 0.65rem; font-size: 0.72rem; border-radius: 6px; color: #b388ff;">📊 Analysis & Graphs</button>
+            </div>
+          </div>
+          <span id="flightStatusBadge" class="mode-badge mode-FORWARD">FORWARD</span>
+        </div>
+
+        <div id="viewportsWrapper" style="flex: 1; display: flex; width: 100%; height: 100%; min-height: 440px; position: relative; overflow: hidden; border-radius: 8px;">
+          <canvas id="arenaCanvas" style="flex: 1; width: 100%; height: 100%; cursor: crosshair;"></canvas>
+          <div id="arena3DContainer" style="display: none; flex: 1; width: 100%; height: 100%; position: relative; background: #070b14;">
+            <div id="arena3DHint" style="position: absolute; top: 10px; left: 14px; background: rgba(10,15,25,0.85); padding: 4px 10px; border-radius: 6px; font-size: 0.70rem; font-family: 'JetBrains Mono', monospace; color: #00e5ff; border: 1px solid rgba(0,229,255,0.3); pointer-events: none; z-index: 10; display: flex; align-items: center; gap: 0.4rem;">
+              <span style="display: inline-block; width: 7px; height: 7px; border-radius: 50%; background: #00e676; box-shadow: 0 0 6px #00e676;"></span>
+              3D ORBIT VIEW: Left-Click: Orbit | Right-Click: Pan | Scroll: Zoom
+            </div>
+            <div id="arena3DControls" style="position: absolute; top: 10px; right: 14px; display: flex; gap: 4px; z-index: 10;">
+              <button onclick="set3DCameraPreset('iso')" class="tab-btn" style="padding: 3px 8px; font-size: 0.68rem; border-radius: 4px; background: rgba(10,15,25,0.85); border: 1px solid rgba(0,229,255,0.3); color: #00e5ff; cursor: pointer;">Isometric</button>
+              <button onclick="set3DCameraPreset('top')" class="tab-btn" style="padding: 3px 8px; font-size: 0.68rem; border-radius: 4px; background: rgba(10,15,25,0.85); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; cursor: pointer;">Top-Down</button>
+              <button onclick="set3DCameraPreset('side')" class="tab-btn" style="padding: 3px 8px; font-size: 0.68rem; border-radius: 4px; background: rgba(10,15,25,0.85); border: 1px solid rgba(255,255,255,0.15); color: #cbd5e1; cursor: pointer;">Side</button>
+              <button onclick="set3DCameraPreset('drone')" class="tab-btn" style="padding: 3px 8px; font-size: 0.68rem; border-radius: 4px; background: rgba(10,15,25,0.85); border: 1px solid rgba(0,230,118,0.3); color: #00e676; cursor: pointer;">Follow Drone</button>
+            </div>
+          </div>
+          <div id="arenaAnalyticsContainer" style="display: none; flex: 1; width: 100%; height: 100%; min-height: 440px; overflow-y: auto; padding: 0.85rem; background: #070b14; color: var(--text-main);">
+            <!-- Analytics Sub-Tabs -->
+            <div style="display: flex; justify-content: space-between; align-items: center; border-bottom: 1px solid rgba(255,255,255,0.1); padding-bottom: 0.5rem; margin-bottom: 0.85rem; flex-wrap: wrap; gap: 0.5rem;">
+              <div style="display: flex; gap: 0.4rem; flex-wrap: wrap;">
+                <button id="subTabDrone" class="tab-btn active" onclick="switchAnalyticsSubTab('drone')" style="padding: 0.3rem 0.75rem; font-size: 0.75rem; border-radius: 6px;">🛸 Drone Movement Analysis</button>
+                <button id="subTabObstacle" class="tab-btn" onclick="switchAnalyticsSubTab('obstacle')" style="padding: 0.3rem 0.75rem; font-size: 0.75rem; border-radius: 6px; color: #ffab00;">🎯 Moving Objects & Kalman Graph</button>
+                <button id="subTabTelemetry" class="tab-btn" onclick="switchAnalyticsSubTab('telemetry')" style="padding: 0.3rem 0.75rem; font-size: 0.75rem; border-radius: 6px; color: #00e5ff;">📋 Kinematics Data Table</button>
+              </div>
+              <div style="display: flex; gap: 0.4rem; align-items: center;">
+                <span id="analyticsScenarioBadge" style="font-size: 0.70rem; font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan); background: rgba(0,229,255,0.1); padding: 3px 8px; border-radius: 4px; border: 1px solid rgba(0,229,255,0.25);">Scenario: Ready</span>
+                <button onclick="exportAnalyticsCSV()" class="tab-btn" style="padding: 0.25rem 0.6rem; font-size: 0.70rem; border-radius: 6px; background: rgba(255,255,255,0.08); border: 1px solid rgba(255,255,255,0.15); color: #f0f4fc;">⬇ Export CSV</button>
+              </div>
+            </div>
+
+            <!-- SubTab 1: Drone Movement Analysis -->
+            <div id="analyticsPanelDrone" class="analytics-subpanel">
+              <!-- KPI Cards Row -->
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; margin-bottom: 0.85rem;">
+                <div class="metric-card" style="padding: 0.6rem; border-left: 3px solid #00e5ff;">
+                  <span class="metric-label" style="font-size: 0.65rem;">Peak / Avg Speed</span>
+                  <span class="metric-val" id="anaPeakSpeed" style="font-size: 0.95rem; color: #00e5ff;">0.00 / 0.00 m/s</span>
+                </div>
+                <div class="metric-card" style="padding: 0.6rem; border-left: 3px solid #00e676;">
+                  <span class="metric-label" style="font-size: 0.65rem;">Path Efficiency</span>
+                  <span class="metric-val" id="anaPathEff" style="font-size: 0.95rem; color: #00e676;">0.0 %</span>
+                </div>
+                <div class="metric-card" style="padding: 0.6rem; border-left: 3px solid #b388ff;">
+                  <span class="metric-label" style="font-size: 0.65rem;">Max Alt. Deviation (ΔZ)</span>
+                  <span class="metric-val" id="anaAltDev" style="font-size: 0.95rem; color: #b388ff;">0.00 m</span>
+                </div>
+                <div class="metric-card" style="padding: 0.6rem; border-left: 3px solid #ffab00;">
+                  <span class="metric-label" style="font-size: 0.65rem;">Closest Obstacle Margin</span>
+                  <span class="metric-val" id="anaMinClearance" style="font-size: 0.95rem; color: #ffab00;">0.00 m</span>
+                </div>
+                <div class="metric-card" style="padding: 0.6rem; border-left: 3px solid #38bdf8;">
+                  <span class="metric-label" style="font-size: 0.65rem;">Flight Time & Status</span>
+                  <span class="metric-val" id="anaFlightTime" style="font-size: 0.95rem; color: #38bdf8;">0.00s (READY)</span>
+                </div>
+              </div>
+
+              <!-- Flight Mode Distribution Timeline Bar -->
+              <div style="background: rgba(18, 24, 38, 0.6); padding: 0.65rem 0.85rem; border-radius: 8px; border: 1px solid rgba(255,255,255,0.08); margin-bottom: 0.85rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.4rem;">
+                  <span style="font-size: 0.72rem; font-weight: 700; color: #cbd5e1; text-transform: uppercase; letter-spacing: 0.5px;">Flight Phase Distribution (Timeline Breakdown)</span>
+                  <span id="anaDominantPhase" style="font-size: 0.68rem; font-family: 'JetBrains Mono', monospace; color: var(--accent-cyan);">--</span>
+                </div>
+                <div id="anaPhaseBar" style="display: flex; height: 14px; width: 100%; border-radius: 7px; overflow: hidden; background: rgba(0,0,0,0.4); border: 1px solid rgba(255,255,255,0.1);"></div>
+                <div id="anaPhaseLegend" style="display: flex; flex-wrap: wrap; gap: 0.75rem; margin-top: 0.4rem; font-size: 0.68rem; font-family: 'JetBrains Mono', monospace;"></div>
+              </div>
+
+              <!-- Drone Charts 2-Column Grid -->
+              <div style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+                <!-- Chart 1: Speed, Vx, Vy, Vz vs Time -->
+                <div style="background: rgba(18, 24, 38, 0.75); border: 1px solid rgba(0,229,255,0.18); border-radius: 8px; padding: 0.75rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: #00e5ff;">Velocity & Speed Profile (Vx, Vy, Speed)</span>
+                    <span style="font-size: 0.65rem; color: var(--text-muted);">m/s vs Time (s)</span>
+                  </div>
+                  <div style="position: relative; height: 210px; width: 100%;">
+                    <canvas id="chartDroneVelocity"></canvas>
+                  </div>
+                </div>
+
+                <!-- Chart 2: 3D Altitude Profile & Goal Distance vs Time -->
+                <div style="background: rgba(18, 24, 38, 0.75); border: 1px solid rgba(0,229,255,0.18); border-radius: 8px; padding: 0.75rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: #00e676;">Altitude Profile (Z) & Goal Convergence</span>
+                    <span style="font-size: 0.65rem; color: var(--text-muted);">Meters vs Time (s)</span>
+                  </div>
+                  <div style="position: relative; height: 210px; width: 100%;">
+                    <canvas id="chartDroneAltitude"></canvas>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- SubTab 2: Moving Objects & Kalman Graph -->
+            <div id="analyticsPanelObstacle" class="analytics-subpanel" style="display: none;">
+              <!-- Dynamic Obstacle KPI Cards Row -->
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(130px, 1fr)); gap: 0.6rem; margin-bottom: 0.85rem;">
+                <div class="metric-card" style="padding: 0.6rem; border-left: 3px solid #ffab00;">
+                  <span class="metric-label" style="font-size: 0.65rem;">Moving Obstacle Target</span>
+                  <span class="metric-val" id="anaObsName" style="font-size: 0.90rem; color: #ffab00;">None</span>
+                </div>
+                <div class="metric-card" style="padding: 0.6rem; border-left: 3px solid #00e676;">
+                  <span class="metric-label" style="font-size: 0.65rem;">Closest Proximity (d_min)</span>
+                  <span class="metric-val" id="anaObsClosestDist" style="font-size: 0.90rem; color: #00e676;">-- m</span>
+                </div>
+                <div class="metric-card" style="padding: 0.6rem; border-left: 3px solid #00e5ff;">
+                  <span class="metric-label" style="font-size: 0.65rem;">Kalman Filter RMSE</span>
+                  <span class="metric-val" id="anaObsKalmanRMSE" style="font-size: 0.90rem; color: #00e5ff;">-- m</span>
+                </div>
+                <div class="metric-card" style="padding: 0.6rem; border-left: 3px solid #00e676;">
+                  <span class="metric-label" style="font-size: 0.65rem;">Sensor Noise Damping</span>
+                  <span class="metric-val" id="anaObsNoiseRed" style="font-size: 0.90rem; color: #00e676;">-- %</span>
+                </div>
+                <div class="metric-card" style="padding: 0.6rem; border-left: 3px solid #b388ff;">
+                  <span class="metric-label" style="font-size: 0.65rem;">Slide Oscillation Range</span>
+                  <span class="metric-val" id="anaObsRange" style="font-size: 0.90rem; color: #b388ff;">-- m</span>
+                </div>
+              </div>
+
+              <!-- Static Warning if no dynamic obstacle -->
+              <div id="anaNoDynObsAlert" style="display: none; background: rgba(255, 171, 0, 0.1); border: 1px solid rgba(255,171,0,0.3); border-radius: 8px; padding: 0.85rem; margin-bottom: 0.85rem; align-items: center; justify-content: space-between;">
+                <div>
+                  <div style="font-weight: 700; color: #ffab00; font-size: 0.82rem; margin-bottom: 0.2rem;">ℹ️ Static Scenario Active: No Moving Obstacles Detected</div>
+                  <div style="font-size: 0.72rem; color: #cbd5e1;">Scenario 7 and Scenario 9 feature stochastic dynamic intruders. Click below to simulate Scenario 7 with moving obstacle tracking!</div>
+                </div>
+                <button onclick="loadScenario(7, 'reactive')" class="tab-btn" style="padding: 0.4rem 0.85rem; font-size: 0.75rem; border-radius: 6px; background: rgba(255,171,0,0.2); border: 1px solid #ffab00; color: #fff; white-space: nowrap;">▶ Load Scenario 7 (Dynamic)</button>
+              </div>
+
+              <!-- Moving Objects Charts 2-Column Grid -->
+              <div id="anaDynChartsWrapper" style="display: grid; grid-template-columns: 1fr 1fr; gap: 0.85rem;">
+                <!-- Chart 3: True vs Noisy vs Kalman Filter Position Graph -->
+                <div style="background: rgba(18, 24, 38, 0.75); border: 1px solid rgba(255,171,0,0.25); border-radius: 8px; padding: 0.75rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: #ffab00;">Moving Object Trajectory: True vs Noisy vs Kalman Filter</span>
+                    <span style="font-size: 0.65rem; color: var(--text-muted);">Y-Position (m) vs Time (s)</span>
+                  </div>
+                  <div style="position: relative; height: 210px; width: 100%;">
+                    <canvas id="chartObstacleKalman"></canvas>
+                  </div>
+                </div>
+
+                <!-- Chart 4: Drone-to-Obstacle Separation Distance & Danger Threshold -->
+                <div style="background: rgba(18, 24, 38, 0.75); border: 1px solid rgba(0,229,255,0.18); border-radius: 8px; padding: 0.75rem;">
+                  <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                    <span style="font-size: 0.75rem; font-weight: 700; color: #00e5ff;">Relative Separation Distance & Safety Margin</span>
+                    <span style="font-size: 0.65rem; color: var(--text-muted);">Distance (m) vs Time (s)</span>
+                  </div>
+                  <div style="position: relative; height: 210px; width: 100%;">
+                    <canvas id="chartObstacleSeparation"></canvas>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Chart 5: Obstacle Lateral Velocity Estimation & Error Residuals -->
+              <div id="anaDynVelocityWrapper" style="margin-top: 0.85rem; background: rgba(18, 24, 38, 0.75); border: 1px solid rgba(179,136,255,0.25); border-radius: 8px; padding: 0.75rem;">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.5rem;">
+                  <span style="font-size: 0.75rem; font-weight: 700; color: #b388ff;">Obstacle Velocity & Sensor Noise Residual Analysis (|Y_noisy - Y_true| vs |Y_kalman - Y_true|)</span>
+                  <span style="font-size: 0.65rem; color: var(--text-muted);">Error (m) vs Time (s)</span>
+                </div>
+                <div style="position: relative; height: 180px; width: 100%;">
+                  <canvas id="chartObstacleVelocity"></canvas>
+                </div>
+              </div>
+            </div>
+
+            <!-- SubTab 3: Kinematics Data Table -->
+            <div id="analyticsPanelTelemetry" class="analytics-subpanel" style="display: none;">
+              <div style="max-height: 380px; overflow-y: auto; border: 1px solid rgba(255,255,255,0.08); border-radius: 6px;">
+                <table class="bench-table" style="width: 100%; font-size: 0.72rem; text-align: left;">
+                  <thead style="position: sticky; top: 0; background: #0e1526; z-index: 2;">
+                    <tr>
+                      <th>Time (s)</th>
+                      <th>Drone Position (X, Y, Z)</th>
+                      <th>Speed</th>
+                      <th>Flight Mode</th>
+                      <th>Goal Dist</th>
+                      <th>Min Clearance</th>
+                      <th>Moving Obstacle Pos</th>
+                    </tr>
+                  </thead>
+                  <tbody id="telemetryTableBody"></tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="playback-bar">
+          <button id="btnPlay" class="playback-btn">
+            <svg id="playIcon" width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          </button>
+          <input type="range" id="timeSlider" class="progress-slider" min="0" max="100" value="0">
+          <span id="timeDisplay" style="font-family: 'JetBrains Mono', monospace; font-size: 0.85rem; min-width: 60px;">0.00s</span>
+          <select id="speedSelect" style="width: 80px; padding: 0.3rem 0.5rem; font-size: 0.8rem;">
+            <option value="1">1x</option>
+            <option value="2">2x</option>
+            <option value="4">4x</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Telemetry Grid -->
+      <div class="metrics-grid">
+        <div class="metric-card">
+          <span class="metric-label">Flight Position (X, Y, Z)</span>
+          <span class="metric-val" id="telemetryPos">(0.00, 0.00, 1.00)</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Velocity / Speed</span>
+          <span class="metric-val" id="telemetrySpeed">0.00 m/s</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Distance to Goal</span>
+          <span class="metric-val" id="telemetryGoalDist">6.00 m</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right Sidebar: LiDAR Polar Radar & Experiment Summary -->
+    <div class="card">
+      <div class="card-title">LiDAR Sector Radar</div>
+      <canvas id="radarCanvas"></canvas>
+
+      <div class="card-title" style="margin-top: 1rem;">Flight Performance</div>
+      
+      <div style="display: flex; flex-direction: column; gap: 0.75rem;">
+        <div class="metric-card">
+          <span class="metric-label">Flight Result</span>
+          <span class="metric-val" id="resSummaryResult" style="color: var(--accent-green); font-size: 1.1rem;">READY</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Total Path Length</span>
+          <span class="metric-val" id="resSummaryPath">0.00 m</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Minimum Obstacle Clearance</span>
+          <span class="metric-val" id="resSummaryClearance">-- m</span>
+        </div>
+        <div class="metric-card">
+          <span class="metric-label">Collision Steps</span>
+          <span class="metric-val" id="resSummaryCollisions" style="color: var(--accent-green);">0</span>
+        </div>
+        <div class="metric-card" id="cardKalmanRMSE" style="border-left: 3px solid var(--accent-cyan);">
+          <span class="metric-label">Kalman Est. Error (RMSE)</span>
+          <span class="metric-val" id="resKalmanRMSE" style="color: var(--accent-cyan); font-size: 0.95rem;">-- m</span>
+        </div>
+        <div class="metric-card" id="cardNoiseReduction" style="border-left: 3px solid var(--accent-green);">
+          <span class="metric-label">Noise Variance Reduction</span>
+          <span class="metric-val" id="resNoiseReduction" style="color: var(--accent-green); font-size: 0.95rem;">-- %</span>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <script>
+    let simData = null;
+    let currentFrameIdx = 0;
+    let isPlaying = false;
+    let playInterval = null;
+    let playbackSpeed = 1;
+
+    const canvas = document.getElementById("arenaCanvas");
+    const ctx = canvas.getContext("2d");
+
+    const radarCanvas = document.getElementById("radarCanvas");
+    const radarCtx = radarCanvas.getContext("2d");
+
+    // ==========================================
+    // 2D & 3D Dual-Viewport Management
+    // ==========================================
+    let activeViewMode = "2d"; // "2d", "3d", or "split"
+    let scene3D = null, camera3D = null, renderer3D = null, controls3D = null;
+    let droneGroup3D = null, droneRotorDiscs = [];
+    let pathLine3D = null, lidarRaysGroup3D = null, obstaclesGroup3D = null, kalmanLine3D = null;
+    let is3DInitialized = false;
+
+    let is3DFollowDrone = false;
+
+    function switchViewMode(mode) {
+      activeViewMode = mode;
+      const btn2D = document.getElementById("btnView2D");
+      const btn3D = document.getElementById("btnView3D");
+      const btnSplit = document.getElementById("btnViewSplit");
+      const btnAnalytics = document.getElementById("btnViewAnalytics");
+      const canvas2D = document.getElementById("arenaCanvas");
+      const container3D = document.getElementById("arena3DContainer");
+      const containerAnalytics = document.getElementById("arenaAnalyticsContainer");
+      const wrapper = document.getElementById("viewportsWrapper");
+
+      if (btn2D) btn2D.classList.toggle("active", mode === "2d");
+      if (btn3D) btn3D.classList.toggle("active", mode === "3d");
+      if (btnSplit) btnSplit.classList.toggle("active", mode === "split");
+      if (btnAnalytics) btnAnalytics.classList.toggle("active", mode === "analytics");
+
+      if (mode === "2d") {
+        canvas2D.style.display = "block";
+        canvas2D.style.flex = "1";
+        container3D.style.display = "none";
+        if (containerAnalytics) containerAnalytics.style.display = "none";
+        if (wrapper) {
+          wrapper.style.gap = "0px";
+          wrapper.style.background = "transparent";
+        }
+      } else if (mode === "3d") {
+        canvas2D.style.display = "none";
+        container3D.style.display = "block";
+        container3D.style.flex = "1";
+        if (containerAnalytics) containerAnalytics.style.display = "none";
+        if (wrapper) {
+          wrapper.style.gap = "0px";
+          wrapper.style.background = "transparent";
+        }
+        if (!is3DInitialized) init3D();
+        update3DObstacles();
+        update3DFrame();
+      } else if (mode === "split") {
+        canvas2D.style.display = "block";
+        canvas2D.style.flex = "1";
+        container3D.style.display = "block";
+        container3D.style.flex = "1";
+        if (containerAnalytics) containerAnalytics.style.display = "none";
+        if (wrapper) {
+          wrapper.style.gap = "3px";
+          wrapper.style.background = "rgba(0, 229, 255, 0.25)";
+        }
+        if (!is3DInitialized) init3D();
+        update3DObstacles();
+        update3DFrame();
+      } else if (mode === "analytics") {
+        canvas2D.style.display = "none";
+        container3D.style.display = "none";
+        if (containerAnalytics) containerAnalytics.style.display = "block";
+        if (wrapper) {
+          wrapper.style.gap = "0px";
+          wrapper.style.background = "transparent";
+        }
+        updateAnalyticsUI();
+      }
+
+      setTimeout(() => {
+        resizeCanvases();
+        if (is3DInitialized) resize3DView();
+      }, 50);
+    }
+
+    // ==========================================
+    // Flight & Moving Obstacle Analytics Subsystem
+    // ==========================================
+    let activeAnalyticsSubTab = "drone";
+    let chartDroneVelocity = null;
+    let chartDroneAltitude = null;
+    let chartObstacleKalman = null;
+    let chartObstacleSeparation = null;
+    let chartObstacleVelocity = null;
+
+    function switchAnalyticsSubTab(tabName) {
+      activeAnalyticsSubTab = tabName;
+      document.getElementById("subTabDrone").classList.toggle("active", tabName === "drone");
+      document.getElementById("subTabObstacle").classList.toggle("active", tabName === "obstacle");
+      document.getElementById("subTabTelemetry").classList.toggle("active", tabName === "telemetry");
+
+      document.getElementById("analyticsPanelDrone").style.display = tabName === "drone" ? "block" : "none";
+      document.getElementById("analyticsPanelObstacle").style.display = tabName === "obstacle" ? "block" : "none";
+      document.getElementById("analyticsPanelTelemetry").style.display = tabName === "telemetry" ? "block" : "none";
+
+      setTimeout(() => {
+        if (tabName === "drone") {
+          if (chartDroneVelocity) chartDroneVelocity.resize();
+          if (chartDroneAltitude) chartDroneAltitude.resize();
+        } else if (tabName === "obstacle") {
+          if (chartObstacleKalman) chartObstacleKalman.resize();
+          if (chartObstacleSeparation) chartObstacleSeparation.resize();
+          if (chartObstacleVelocity) chartObstacleVelocity.resize();
+        }
+      }, 50);
+    }
+
+    function updateAnalyticsUI() {
+      if (!simData || !simData.frames || simData.frames.length === 0) return;
+
+      const scBadge = document.getElementById("analyticsScenarioBadge");
+      if (scBadge) {
+        const scName = simData.summary ? (simData.summary.scenario_name || `Scenario ${document.getElementById("scenarioSelect").value}`) : "Flight Trace";
+        const algoName = simData.summary ? (simData.summary.algorithm || "").toUpperCase() : "";
+        scBadge.innerText = `${scName} (${algoName})`;
+      }
+
+      // 1. Drone Metrics
+      const frames = simData.frames;
+      const speeds = frames.map(f => f.speed || 0);
+      const peakSpeed = Math.max(...speeds).toFixed(2);
+      const avgSpeed = (speeds.reduce((a, b) => a + b, 0) / speeds.length).toFixed(2);
+      document.getElementById("anaPeakSpeed").innerText = `${peakSpeed} / ${avgSpeed} m/s`;
+
+      const pathLen = simData.summary ? (simData.summary.path_length || 6.0) : 6.0;
+      const pathEff = ((6.0 / Math.max(0.1, pathLen)) * 100).toFixed(1);
+      document.getElementById("anaPathEff").innerText = `${pathEff} %`;
+
+      const altDevs = frames.map(f => Math.abs((f.pos ? f.pos[2] : 1.0) - 1.0));
+      const maxAltDev = Math.max(...altDevs).toFixed(2);
+      document.getElementById("anaAltDev").innerText = `${maxAltDev} m`;
+
+      const minClear = simData.summary ? (simData.summary.min_clearance || 0).toFixed(2) : Math.min(...frames.map(f => f.min_dist)).toFixed(2);
+      document.getElementById("anaMinClearance").innerText = `${minClear} m`;
+
+      const totalTime = frames[frames.length - 1].t.toFixed(2);
+      const resText = simData.summary ? simData.summary.result : "COMPLETED";
+      document.getElementById("anaFlightTime").innerText = `${totalTime}s (${resText})`;
+
+      // Update left sidebar quick-metrics
+      const tabSpeedEl = document.getElementById("tabAnaSpeed");
+      if (tabSpeedEl) tabSpeedEl.innerText = `${peakSpeed} / ${avgSpeed} m/s`;
+      const tabEffEl = document.getElementById("tabAnaEff");
+      if (tabEffEl) tabEffEl.innerText = `${pathEff} %`;
+      const tabObsEl = document.getElementById("tabAnaObs");
+      if (tabObsEl) {
+        const hasDyn = frames.some(f => f.dyn_obstacles && f.dyn_obstacles.length > 0);
+        tabObsEl.innerText = hasDyn ? "Active (Moving)" : "None (Static)";
+        tabObsEl.style.color = hasDyn ? "var(--accent-amber)" : "var(--text-muted)";
+      }
+      const tabRmseEl = document.getElementById("tabAnaRMSE");
+      if (tabRmseEl) {
+        tabRmseEl.innerText = (simData.summary && simData.summary.kalman_rmse_pos) ? (simData.summary.kalman_rmse_pos.toFixed(4) + " m") : "-- m";
+      }
+
+      // 2. Flight Phase Timeline Bar
+      renderFlightPhaseBar(frames);
+
+      // 3. Drone Movement Charts
+      renderDroneMovementCharts(frames);
+
+      // 4. Moving Obstacle Charts & Kalman Telemetry
+      renderMovingObstacleCharts(simData);
+
+      // 5. Numerical Data Table
+      renderTelemetryTable(frames);
+    }
+
+    function renderFlightPhaseBar(frames) {
+      const modeCounts = {};
+      frames.forEach(f => {
+        const m = f.mode || "FORWARD";
+        modeCounts[m] = (modeCounts[m] || 0) + 1;
+      });
+
+      const totalF = frames.length;
+      const bar = document.getElementById("anaPhaseBar");
+      const legend = document.getElementById("anaPhaseLegend");
+      bar.innerHTML = "";
+      legend.innerHTML = "";
+
+      const modeColors = {
+        "FORWARD": "#00e5ff",
+        "AVOID_LEFT": "#00e676",
+        "AVOID_RIGHT": "#b388ff",
+        "CLIMB": "#ffab00",
+        "REVERSE": "#ff5252",
+        "GOAL_APPROACH": "#38bdf8",
+        "HOVER": "#94a3b8"
+      };
+
+      let dominantMode = "FORWARD", maxCnt = 0;
+
+      Object.keys(modeCounts).forEach(m => {
+        const cnt = modeCounts[m];
+        if (cnt > maxCnt) { maxCnt = cnt; dominantMode = m; }
+        const pct = ((cnt / totalF) * 100).toFixed(1);
+        const col = modeColors[m] || "#94a3b8";
+
+        const seg = document.createElement("div");
+        seg.style.width = `${pct}%`;
+        seg.style.background = col;
+        seg.title = `${m}: ${pct}% (${(cnt * (1/12)).toFixed(1)}s)`;
+        bar.appendChild(seg);
+
+        const leg = document.createElement("span");
+        leg.style.display = "inline-flex";
+        leg.style.alignItems = "center";
+        leg.style.gap = "4px";
+        leg.innerHTML = `<span style="width:8px; height:8px; border-radius:50%; background:${col};"></span> ${m}: ${pct}%`;
+        legend.appendChild(leg);
+      });
+
+      const domEl = document.getElementById("anaDominantPhase");
+      if (domEl) domEl.innerText = `Dominant: ${dominantMode} (${((maxCnt/totalF)*100).toFixed(0)}%)`;
+    }
+
+    function renderDroneMovementCharts(frames) {
+      if (typeof Chart === "undefined") return;
+
+      const labels = frames.map(f => f.t.toFixed(2));
+      const speeds = frames.map(f => f.speed);
+      const vx = frames.map(f => f.vel[0]);
+      const vy = frames.map(f => f.vel[1]);
+      const vz = frames.map(f => f.vel[2]);
+      const altitudes = frames.map(f => f.pos[2]);
+      const goalDists = frames.map(f => f.dist_to_goal);
+
+      // Chart 1: Velocity & Speed
+      const ctxVel = document.getElementById("chartDroneVelocity");
+      if (ctxVel) {
+        if (chartDroneVelocity) chartDroneVelocity.destroy();
+        chartDroneVelocity = new Chart(ctxVel, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              { label: "Total Speed (m/s)", data: speeds, borderColor: "#00e5ff", backgroundColor: "rgba(0, 229, 255, 0.1)", borderWidth: 2, tension: 0.3, pointRadius: 0 },
+              { label: "Vx Forward (m/s)", data: vx, borderColor: "#00e676", borderWidth: 1.5, tension: 0.3, pointRadius: 0 },
+              { label: "Vy Lateral (m/s)", data: vy, borderColor: "#b388ff", borderWidth: 1.5, tension: 0.3, pointRadius: 0 },
+              { label: "Vz Vertical (m/s)", data: vz, borderColor: "#ffab00", borderWidth: 1, borderDash: [2, 2], pointRadius: 0 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 350 },
+            scales: {
+              x: { grid: { color: "rgba(255, 255, 255, 0.05)" }, ticks: { maxTicksLimit: 8, font: { family: "'JetBrains Mono'", size: 9 }, color: "#94a3b8" } },
+              y: { grid: { color: "rgba(255, 255, 255, 0.05)" }, ticks: { font: { family: "'JetBrains Mono'", size: 9 }, color: "#94a3b8" } }
+            },
+            plugins: {
+              legend: { labels: { font: { family: "'JetBrains Mono'", size: 9 }, color: "#cbd5e1", boxWidth: 10 } },
+              tooltip: { backgroundColor: "rgba(10, 15, 25, 0.95)", borderColor: "rgba(0, 229, 255, 0.4)", borderWidth: 1, padding: 8 }
+            }
+          }
+        });
+      }
+
+      // Chart 2: Altitude & Goal Distance
+      const ctxAlt = document.getElementById("chartDroneAltitude");
+      if (ctxAlt) {
+        if (chartDroneAltitude) chartDroneAltitude.destroy();
+        chartDroneAltitude = new Chart(ctxAlt, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              { label: "Altitude Z (m)", data: altitudes, borderColor: "#00e676", backgroundColor: "rgba(0, 230, 118, 0.12)", fill: true, borderWidth: 2, tension: 0.25, pointRadius: 0, yAxisID: "y" },
+              { label: "Dist to Goal (m)", data: goalDists, borderColor: "#ffab00", borderWidth: 2, borderDash: [4, 4], pointRadius: 0, yAxisID: "y1" }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 350 },
+            scales: {
+              x: { grid: { color: "rgba(255, 255, 255, 0.05)" }, ticks: { maxTicksLimit: 8, font: { family: "'JetBrains Mono'", size: 9 }, color: "#94a3b8" } },
+              y: { type: "linear", position: "left", title: { display: true, text: "Altitude (m)", color: "#00e676", font: { size: 9 } }, grid: { color: "rgba(255, 255, 255, 0.05)" }, ticks: { font: { family: "'JetBrains Mono'", size: 9 }, color: "#94a3b8" } },
+              y1: { type: "linear", position: "right", title: { display: true, text: "Goal Dist (m)", color: "#ffab00", font: { size: 9 } }, grid: { drawOnChartArea: false }, ticks: { font: { family: "'JetBrains Mono'", size: 9 }, color: "#94a3b8" } }
+            },
+            plugins: {
+              legend: { labels: { font: { family: "'JetBrains Mono'", size: 9 }, color: "#cbd5e1", boxWidth: 10 } },
+              tooltip: { backgroundColor: "rgba(10, 15, 25, 0.95)", borderColor: "rgba(0, 229, 255, 0.4)", borderWidth: 1, padding: 8 }
+            }
+          }
+        });
+      }
+    }
+
+    function renderMovingObstacleCharts(simData) {
+      if (typeof Chart === "undefined") return;
+
+      const hasKalman = simData.kalman_telemetry && simData.kalman_telemetry.length > 0;
+      const hasDynObs = simData.frames.some(f => f.dyn_obstacles && f.dyn_obstacles.length > 0);
+
+      const alertEl = document.getElementById("anaNoDynObsAlert");
+      const chartsWrap = document.getElementById("anaDynChartsWrapper");
+      const velWrap = document.getElementById("anaDynVelocityWrapper");
+
+      if (!hasKalman && !hasDynObs) {
+        if (alertEl) alertEl.style.display = "flex";
+        if (chartsWrap) chartsWrap.style.display = "none";
+        if (velWrap) velWrap.style.display = "none";
+        document.getElementById("anaObsName").innerText = "None in arena";
+        document.getElementById("anaObsClosestDist").innerText = "-- m";
+        document.getElementById("anaObsKalmanRMSE").innerText = "-- m";
+        document.getElementById("anaObsNoiseRed").innerText = "-- %";
+        document.getElementById("anaObsRange").innerText = "-- m";
+        return;
+      }
+
+      if (alertEl) alertEl.style.display = "none";
+      if (chartsWrap) chartsWrap.style.display = "grid";
+      if (velWrap) velWrap.style.display = "block";
+
+      let labels = [], trueY = [], noisyY = [], kalmanY = [], distDrone = [], errNoisy = [], errKalman = [];
+      let obsTargetName = "obs_dynamic";
+
+      if (hasKalman) {
+        const kt = simData.kalman_telemetry;
+        obsTargetName = kt[0].obs_name || "obs_dynamic";
+        labels = kt.map(k => k.time.toFixed(2));
+        trueY = kt.map(k => k.true_pos[1]);
+        noisyY = kt.map(k => k.noisy_pos[1]);
+        kalmanY = kt.map(k => k.filtered_pos ? k.filtered_pos[1] : (k.kalman_pos ? k.kalman_pos[1] : k.true_pos[1]));
+        distDrone = kt.map(k => k.distance_to_drone !== undefined ? k.distance_to_drone : k.drone_obs_dist);
+        errNoisy = kt.map(k => k.err_noisy || Math.abs(k.noisy_pos[1] - k.true_pos[1]));
+        errKalman = kt.map(k => k.err_kalman || Math.abs((k.filtered_pos ? k.filtered_pos[1] : k.kalman_pos[1]) - k.true_pos[1]));
+      } else {
+        const dynFrames = simData.frames.filter(f => f.dyn_obstacles && f.dyn_obstacles.length > 0);
+        obsTargetName = dynFrames[0].dyn_obstacles[0].name || "obs_dynamic";
+        labels = dynFrames.map(f => f.t.toFixed(2));
+        trueY = dynFrames.map(f => f.dyn_obstacles[0].pos[1]);
+        noisyY = trueY;
+        kalmanY = trueY;
+        distDrone = dynFrames.map(f => {
+          const dp = f.pos, op = f.dyn_obstacles[0].pos;
+          return Math.hypot(dp[0]-op[0], dp[1]-op[1], dp[2]-op[2]);
+        });
+        errNoisy = trueY.map(() => 0);
+        errKalman = trueY.map(() => 0);
+      }
+
+      // Update KPI Cards
+      document.getElementById("anaObsName").innerText = obsTargetName;
+      const minD = Math.min(...distDrone);
+      const minDEl = document.getElementById("anaObsClosestDist");
+      minDEl.innerText = `${minD.toFixed(2)} m`;
+      minDEl.style.color = minD > 0.35 ? "#00e676" : "#ff5252";
+
+      const sum = simData.summary || {};
+      document.getElementById("anaObsKalmanRMSE").innerText = sum.kalman_rmse_pos ? sum.kalman_rmse_pos.toFixed(4) + " m" : "-- m";
+      document.getElementById("anaObsNoiseRed").innerText = sum.kalman_noise_reduction_pct ? sum.kalman_noise_reduction_pct.toFixed(1) + " %" : "-- %";
+      const ySpan = (Math.max(...trueY) - Math.min(...trueY)).toFixed(2);
+      document.getElementById("anaObsRange").innerText = `±${(ySpan / 2).toFixed(2)} m`;
+
+      // Chart 3: True vs Noisy vs Kalman Position
+      const ctxObs = document.getElementById("chartObstacleKalman");
+      if (ctxObs) {
+        if (chartObstacleKalman) chartObstacleKalman.destroy();
+        chartObstacleKalman = new Chart(ctxObs, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              { label: "Ground Truth Y (MuJoCo)", data: trueY, borderColor: "#00e676", borderWidth: 2.5, tension: 0.3, pointRadius: 0 },
+              { label: "Noisy Measurement Y (Sensor)", data: noisyY, borderColor: "#ffab00", borderWidth: 1.5, borderDash: [2, 2], pointRadius: 2, pointBackgroundColor: "#ffab00" },
+              { label: "Kalman Filter Estimate Y", data: kalmanY, borderColor: "#00e5ff", borderWidth: 2, tension: 0.3, pointRadius: 0 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 350 },
+            scales: {
+              x: { grid: { color: "rgba(255, 255, 255, 0.05)" }, ticks: { maxTicksLimit: 8, font: { family: "'JetBrains Mono'", size: 9 }, color: "#94a3b8" } },
+              y: { title: { display: true, text: "Y Position (m)", color: "#ffab00", font: { size: 9 } }, grid: { color: "rgba(255, 255, 255, 0.05)" }, ticks: { font: { family: "'JetBrains Mono'", size: 9 }, color: "#94a3b8" } }
+            },
+            plugins: {
+              legend: { labels: { font: { family: "'JetBrains Mono'", size: 9 }, color: "#cbd5e1", boxWidth: 10 } },
+              tooltip: { backgroundColor: "rgba(10, 15, 25, 0.95)", borderColor: "rgba(255, 171, 0, 0.4)", borderWidth: 1, padding: 8 }
+            }
+          }
+        });
+      }
+
+      // Chart 4: Separation Distance & Safety Threshold
+      const ctxSep = document.getElementById("chartObstacleSeparation");
+      if (ctxSep) {
+        if (chartObstacleSeparation) chartObstacleSeparation.destroy();
+        const safetyBubble = labels.map(() => 0.35);
+        chartObstacleSeparation = new Chart(ctxSep, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              { label: "Drone-Obstacle Distance (m)", data: distDrone, borderColor: "#00e5ff", backgroundColor: "rgba(0, 229, 255, 0.08)", fill: true, borderWidth: 2, tension: 0.3, pointRadius: 0 },
+              { label: "Safety Bubble Threshold (0.35m)", data: safetyBubble, borderColor: "#ff5252", borderWidth: 2, borderDash: [5, 4], pointRadius: 0 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 350 },
+            scales: {
+              x: { grid: { color: "rgba(255, 255, 255, 0.05)" }, ticks: { maxTicksLimit: 8, font: { family: "'JetBrains Mono'", size: 9 }, color: "#94a3b8" } },
+              y: { title: { display: true, text: "Separation (m)", color: "#00e5ff", font: { size: 9 } }, grid: { color: "rgba(255, 255, 255, 0.05)" }, ticks: { font: { family: "'JetBrains Mono'", size: 9 }, color: "#94a3b8" } }
+            },
+            plugins: {
+              legend: { labels: { font: { family: "'JetBrains Mono'", size: 9 }, color: "#cbd5e1", boxWidth: 10 } },
+              tooltip: { backgroundColor: "rgba(10, 15, 25, 0.95)", borderColor: "rgba(0, 229, 255, 0.4)", borderWidth: 1, padding: 8 }
+            }
+          }
+        });
+      }
+
+      // Chart 5: Error Residuals
+      const ctxRes = document.getElementById("chartObstacleVelocity");
+      if (ctxRes) {
+        if (chartObstacleVelocity) chartObstacleVelocity.destroy();
+        chartObstacleVelocity = new Chart(ctxRes, {
+          type: "line",
+          data: {
+            labels: labels,
+            datasets: [
+              { label: "Raw Sensor Noise Error |Y_noisy - Y_true| (m)", data: errNoisy, borderColor: "#ff5252", borderWidth: 1.5, borderDash: [2, 2], pointRadius: 0 },
+              { label: "Kalman Filter Residual Error |Y_kalman - Y_true| (m)", data: errKalman, borderColor: "#00e5ff", backgroundColor: "rgba(0, 229, 255, 0.12)", fill: true, borderWidth: 2, tension: 0.2, pointRadius: 0 }
+            ]
+          },
+          options: {
+            responsive: true,
+            maintainAspectRatio: false,
+            animation: { duration: 350 },
+            scales: {
+              x: { grid: { color: "rgba(255, 255, 255, 0.05)" }, ticks: { maxTicksLimit: 10, font: { family: "'JetBrains Mono'", size: 9 }, color: "#94a3b8" } },
+              y: { title: { display: true, text: "Error (m)", color: "#b388ff", font: { size: 9 } }, grid: { color: "rgba(255, 255, 255, 0.05)" }, ticks: { font: { family: "'JetBrains Mono'", size: 9 }, color: "#94a3b8" } }
+            },
+            plugins: {
+              legend: { labels: { font: { family: "'JetBrains Mono'", size: 9 }, color: "#cbd5e1", boxWidth: 10 } },
+              tooltip: { backgroundColor: "rgba(10, 15, 25, 0.95)", borderColor: "rgba(179, 136, 255, 0.4)", borderWidth: 1, padding: 8 }
+            }
+          }
+        });
+      }
+    }
+
+    function renderTelemetryTable(frames) {
+      const tbody = document.getElementById("telemetryTableBody");
+      if (!tbody) return;
+      tbody.innerHTML = "";
+
+      const step = Math.max(1, Math.floor(frames.length / 40));
+      for (let i = 0; i < frames.length; i += step) {
+        const f = frames[i];
+        const tr = document.createElement("tr");
+        tr.style.cursor = "pointer";
+        tr.onclick = () => {
+          currentFrameIdx = i;
+          document.getElementById("timeSlider").value = i;
+          updateFrameUI();
+        };
+
+        const dynPosStr = (f.dyn_obstacles && f.dyn_obstacles.length > 0)
+          ? `(${f.dyn_obstacles[0].pos[0].toFixed(2)}, ${f.dyn_obstacles[0].pos[1].toFixed(2)}, ${f.dyn_obstacles[0].pos[2].toFixed(2)})`
+          : "--";
+
+        tr.innerHTML = `
+          <td style="font-family:'JetBrains Mono'; color:#00e5ff;">${f.t.toFixed(2)}s</td>
+          <td style="font-family:'JetBrains Mono';">(${f.pos[0].toFixed(2)}, ${f.pos[1].toFixed(2)}, ${f.pos[2].toFixed(2)})</td>
+          <td style="font-family:'JetBrains Mono';">${f.speed.toFixed(2)} m/s</td>
+          <td><span class="mode-badge mode-${f.mode.replace(" ", "_")}" style="font-size:0.65rem; padding:1px 6px;">${f.mode}</span></td>
+          <td style="font-family:'JetBrains Mono';">${f.dist_to_goal.toFixed(2)} m</td>
+          <td style="font-family:'JetBrains Mono'; color:${f.min_dist > 0.35 ? '#00e676' : '#ff5252'};">${f.min_dist.toFixed(2)} m</td>
+          <td style="font-family:'JetBrains Mono'; color:#ffab00;">${dynPosStr}</td>
+        `;
+        tbody.appendChild(tr);
+      }
+    }
+
+    function exportAnalyticsCSV() {
+      if (!simData || !simData.frames || simData.frames.length === 0) {
+        alert("No flight data available to export.");
+        return;
+      }
+      let csv = "time_s,drone_x,drone_y,drone_z,vx,vy,vz,speed_mps,flight_mode,dist_to_goal_m,min_clearance_m,dyn_obs_x,dyn_obs_y,dyn_obs_z\\n";
+      simData.frames.forEach(f => {
+        const dx = (f.dyn_obstacles && f.dyn_obstacles[0]) ? f.dyn_obstacles[0].pos[0] : "";
+        const dy = (f.dyn_obstacles && f.dyn_obstacles[0]) ? f.dyn_obstacles[0].pos[1] : "";
+        const dz = (f.dyn_obstacles && f.dyn_obstacles[0]) ? f.dyn_obstacles[0].pos[2] : "";
+        csv += `${f.t.toFixed(3)},${f.pos[0].toFixed(3)},${f.pos[1].toFixed(3)},${f.pos[2].toFixed(3)},${f.vel[0].toFixed(3)},${f.vel[1].toFixed(3)},${f.vel[2].toFixed(3)},${f.speed.toFixed(3)},${f.mode},${f.dist_to_goal.toFixed(3)},${f.min_dist.toFixed(3)},${dx},${dy},${dz}\\n`;
+      });
+
+      const blob = new Blob([csv], { type: "text/csv;charset=utf-8;" });
+      const url = URL.createObjectURL(blob);
+      const link = document.createElement("a");
+      link.setAttribute("href", url);
+      link.setAttribute("download", `drone_flight_analytics_${Date.now()}.csv`);
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+    }
+
+    function set3DCameraPreset(preset) {
+      if (!camera3D || !controls3D) return;
+      is3DFollowDrone = (preset === "drone");
+      if (preset === "iso") {
+        camera3D.position.set(-2.0, -4.2, 3.8);
+        camera3D.up.set(0, 0, 1);
+        controls3D.target.set(3.0, 0.0, 1.0);
+      } else if (preset === "top") {
+        camera3D.position.set(3.0, 0.0, 8.5);
+        camera3D.up.set(0, 1, 0);
+        controls3D.target.set(3.0, 0.0, 0.0);
+      } else if (preset === "side") {
+        camera3D.position.set(3.0, -6.5, 1.5);
+        camera3D.up.set(0, 0, 1);
+        controls3D.target.set(3.0, 0.0, 1.0);
+      } else if (preset === "drone") {
+        if (droneGroup3D) {
+          const dp = droneGroup3D.position;
+          camera3D.position.set(dp.x - 1.8, dp.y - 1.2, dp.z + 1.2);
+          camera3D.up.set(0, 0, 1);
+          controls3D.target.set(dp.x, dp.y, dp.z);
+        }
+      }
+      controls3D.update();
+    }
+
+    function resizeCanvases() {
+      const wrapper = document.getElementById("viewportsWrapper");
+      if (canvas.style.display !== "none") {
+        const w = canvas.clientWidth || (wrapper ? wrapper.clientWidth : 600);
+        const h = canvas.clientHeight || (wrapper ? wrapper.clientHeight : 440);
+        canvas.width = Math.max(100, w);
+        canvas.height = Math.max(100, h);
+        drawArena();
+      }
+      if (radarCanvas && radarCanvas.parentElement) {
+        radarCanvas.width = radarCanvas.parentElement.clientWidth;
+        radarCanvas.height = 200;
+        drawRadar();
+      }
+      if (is3DInitialized) resize3DView();
+    }
+
+    function resize3DView() {
+      if (!renderer3D || !camera3D) return;
+      const container = document.getElementById("arena3DContainer");
+      if (!container || container.style.display === "none") return;
+      const w = container.clientWidth;
+      const h = container.clientHeight;
+      if (w > 0 && h > 0) {
+        camera3D.aspect = w / h;
+        camera3D.updateProjectionMatrix();
+        renderer3D.setSize(w, h);
+      }
+    }
+
+    // ==========================================
+    // Three.js 3D Arena & Flight Subsystem
+    // ==========================================
+    function init3D() {
+      if (typeof THREE === "undefined") {
+        console.warn("[3D] Three.js library not loaded yet.");
+        return;
+      }
+      const container = document.getElementById("arena3DContainer");
+      if (!container || is3DInitialized) return;
+
+      // 1. Scene
+      scene3D = new THREE.Scene();
+      scene3D.background = new THREE.Color(0x060913);
+      scene3D.fog = new THREE.FogExp2(0x060913, 0.035);
+
+      // 2. Camera with Z-UP coordinates matching MuJoCo
+      const w = container.clientWidth || 600;
+      const h = container.clientHeight || 440;
+      camera3D = new THREE.PerspectiveCamera(45, w / h, 0.1, 80);
+      camera3D.up.set(0, 0, 1);
+      camera3D.position.set(-2.0, -4.2, 3.8);
+
+      // 3. WebGL Renderer
+      renderer3D = new THREE.WebGLRenderer({ antialias: true, alpha: false });
+      renderer3D.setSize(w, h);
+      renderer3D.setPixelRatio(Math.min(window.devicePixelRatio, 2));
+      renderer3D.shadowMap.enabled = true;
+      renderer3D.shadowMap.type = THREE.PCFSoftShadowMap;
+      container.appendChild(renderer3D.domElement);
+
+      // 4. OrbitControls
+      const OrbitCtrl = THREE.OrbitControls || (typeof OrbitControls !== "undefined" ? OrbitControls : null);
+      if (OrbitCtrl) {
+        controls3D = new OrbitCtrl(camera3D, renderer3D.domElement);
+        controls3D.enableDamping = true;
+        controls3D.dampingFactor = 0.08;
+        controls3D.target.set(3.0, 0.0, 1.0);
+        controls3D.maxPolarAngle = Math.PI / 2 + 0.05;
+      }
+
+      // 5. Lights
+      const ambLight = new THREE.AmbientLight(0xffffff, 0.7);
+      scene3D.add(ambLight);
+
+      const dirLight1 = new THREE.DirectionalLight(0x00e5ff, 0.65);
+      dirLight1.position.set(-4, -6, 8);
+      dirLight1.castShadow = true;
+      scene3D.add(dirLight1);
+
+      const dirLight2 = new THREE.DirectionalLight(0xffffff, 0.5);
+      dirLight2.position.set(8, 6, 8);
+      scene3D.add(dirLight2);
+
+      buildArenaEnvironment3D();
+      buildDroneModel3D();
+
+      obstaclesGroup3D = new THREE.Group();
+      scene3D.add(obstaclesGroup3D);
+
+      lidarRaysGroup3D = new THREE.Group();
+      scene3D.add(lidarRaysGroup3D);
+
+      // Flight Path History Strip
+      const pathGeo = new THREE.BufferGeometry();
+      const pathMat = new THREE.LineBasicMaterial({ color: 0x00e5ff, linewidth: 3, transparent: true, opacity: 0.85 });
+      pathLine3D = new THREE.Line(pathGeo, pathMat);
+      scene3D.add(pathLine3D);
+
+      // Kalman Projected Trajectory Line
+      const kfGeo = new THREE.BufferGeometry();
+      const kfMat = new THREE.LineDashedMaterial({ color: 0x00e5ff, dashSize: 0.15, gapSize: 0.1, linewidth: 2 });
+      kalmanLine3D = new THREE.Line(kfGeo, kfMat);
+      scene3D.add(kalmanLine3D);
+
+      is3DInitialized = true;
+      update3DObstacles();
+      update3DFrame();
+      animate3D();
+    }
+
+    function buildArenaEnvironment3D() {
+      // Floor
+      const floorGeo = new THREE.PlaneGeometry(24, 18);
+      const floorMat = new THREE.MeshStandardMaterial({ color: 0x0a0f1d, roughness: 0.85, metalness: 0.1 });
+      const floor = new THREE.Mesh(floorGeo, floorMat);
+      floor.receiveShadow = true;
+      scene3D.add(floor);
+
+      // Grid helper (rotated to Z-up)
+      const grid = new THREE.GridHelper(18, 18, 0x00e5ff, 0x1e293b);
+      grid.rotation.x = Math.PI / 2;
+      grid.position.z = 0.005;
+      scene3D.add(grid);
+
+      // Start Marker (cyan ring at 0, 0, 0)
+      const startGeo = new THREE.RingGeometry(0.12, 0.28, 32);
+      const startMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff, side: THREE.DoubleSide });
+      const startMarker = new THREE.Mesh(startGeo, startMat);
+      startMarker.position.set(0, 0, 0.01);
+      scene3D.add(startMarker);
+
+      // Goal Beacon Group (at 6.0, 0.0, 1.0)
+      const goalGroup = new THREE.Group();
+      goalGroup.position.set(6.0, 0.0, 1.0);
+
+      const sphereGeo = new THREE.SphereGeometry(0.14, 24, 24);
+      const sphereMat = new THREE.MeshStandardMaterial({ color: 0x00e676, emissive: 0x00e676, emissiveIntensity: 0.7 });
+      const sphere = new THREE.Mesh(sphereGeo, sphereMat);
+      goalGroup.add(sphere);
+
+      const ringGeo = new THREE.TorusGeometry(0.24, 0.015, 16, 32);
+      const ringMat = new THREE.MeshBasicMaterial({ color: 0x00e676 });
+      const ring = new THREE.Mesh(ringGeo, ringMat);
+      goalGroup.add(ring);
+
+      const postGeo = new THREE.CylinderGeometry(0.015, 0.015, 1.0, 16);
+      postGeo.rotateX(Math.PI / 2);
+      const postMat = new THREE.MeshStandardMaterial({ color: 0x22c55e, opacity: 0.45, transparent: true });
+      const post = new THREE.Mesh(postGeo, postMat);
+      post.position.set(0, 0, -0.5);
+      goalGroup.add(post);
+
+      scene3D.add(goalGroup);
+
+      // Low boundary curbs
+      const curbMat = new THREE.MeshStandardMaterial({ color: 0x334155, opacity: 0.4, transparent: true });
+      const curbN = new THREE.Mesh(new THREE.BoxGeometry(14, 0.1, 0.2), curbMat);
+      curbN.position.set(3.0, 4.0, 0.1);
+      scene3D.add(curbN);
+      const curbS = new THREE.Mesh(new THREE.BoxGeometry(14, 0.1, 0.2), curbMat);
+      curbS.position.set(3.0, -4.0, 0.1);
+      scene3D.add(curbS);
+    }
+
+    function buildDroneModel3D() {
+      droneGroup3D = new THREE.Group();
+      droneGroup3D.position.set(0, 0, 1.0);
+
+      // Main chassis
+      const bodyGeo = new THREE.BoxGeometry(0.12, 0.12, 0.035);
+      const bodyMat = new THREE.MeshStandardMaterial({ color: 0x1e293b, roughness: 0.3, metalness: 0.8 });
+      const body = new THREE.Mesh(bodyGeo, bodyMat);
+      body.castShadow = true;
+      droneGroup3D.add(body);
+
+      // Glowing LED on top
+      const ledGeo = new THREE.CylinderGeometry(0.03, 0.03, 0.01, 16);
+      ledGeo.rotateX(Math.PI / 2);
+      const ledMat = new THREE.MeshStandardMaterial({ color: 0x00e5ff, emissive: 0x00e5ff, emissiveIntensity: 0.8 });
+      const led = new THREE.Mesh(ledGeo, ledMat);
+      led.position.set(0, 0, 0.022);
+      droneGroup3D.add(led);
+
+      // Front Heading Pointer (+X)
+      const frontGeo = new THREE.ConeGeometry(0.02, 0.05, 8);
+      frontGeo.rotateZ(-Math.PI / 2);
+      const frontMat = new THREE.MeshBasicMaterial({ color: 0x00e676 });
+      const frontMesh = new THREE.Mesh(frontGeo, frontMat);
+      frontMesh.position.set(0.08, 0, 0.01);
+      droneGroup3D.add(frontMesh);
+
+      // 4 Arms & Rotors (Crazyflie X layout)
+      const armLength = 0.13;
+      const angles = [Math.PI / 4, 3 * Math.PI / 4, 5 * Math.PI / 4, 7 * Math.PI / 4];
+      droneRotorDiscs = [];
+
+      angles.forEach((ang) => {
+        const armGeo = new THREE.CylinderGeometry(0.005, 0.005, armLength, 8);
+        armGeo.rotateZ(ang - Math.PI / 2);
+        const armMat = new THREE.MeshStandardMaterial({ color: 0x475569 });
+        const arm = new THREE.Mesh(armGeo, armMat);
+        const mx = (armLength / 2) * Math.cos(ang);
+        const my = (armLength / 2) * Math.sin(ang);
+        arm.position.set(mx, my, 0);
+        droneGroup3D.add(arm);
+
+        const motGeo = new THREE.CylinderGeometry(0.014, 0.014, 0.02, 12);
+        motGeo.rotateX(Math.PI / 2);
+        const motMat = new THREE.MeshStandardMaterial({ color: 0x0f172a, metalness: 0.9 });
+        const mot = new THREE.Mesh(motGeo, motMat);
+        const ex = armLength * Math.cos(ang);
+        const ey = armLength * Math.sin(ang);
+        mot.position.set(ex, ey, 0.01);
+        droneGroup3D.add(mot);
+
+        const propGeo = new THREE.RingGeometry(0.01, 0.055, 16);
+        const propMat = new THREE.MeshBasicMaterial({ color: 0x00e5ff, transparent: true, opacity: 0.4, side: THREE.DoubleSide });
+        const prop = new THREE.Mesh(propGeo, propMat);
+        prop.position.set(ex, ey, 0.022);
+        droneGroup3D.add(prop);
+        droneRotorDiscs.push(prop);
+      });
+
+      scene3D.add(droneGroup3D);
+    }
+
+    function update3DObstacles() {
+      if (!scene3D || !obstaclesGroup3D) return;
+      while (obstaclesGroup3D.children.length > 0) {
+        const obj = obstaclesGroup3D.children[0];
+        obstaclesGroup3D.remove(obj);
+        if (obj.geometry) obj.geometry.dispose();
+      }
+
+      const obsSource = isCustomizerMode ? customObstacles : (simData ? simData.obstacles : []);
+      if (!obsSource) return;
+
+      obsSource.forEach((obs, idx) => {
+        const pos = obs.pos || [3.0, 0.0, 1.0];
+        const size = obs.size || [0.18, 0.18, 0.50];
+        const isDyn = !!obs.is_dynamic;
+        const isCyl = (obs.type === "cylinder");
+
+        let col = 0xef4444;
+        if (isDyn) col = 0xf97316;
+        else if (isCyl) col = 0xa855f7;
+        else if (obs.rgba) col = new THREE.Color(obs.rgba[0], obs.rgba[1], obs.rgba[2]);
+
+        let mesh;
+        if (isCyl) {
+          const r = size[0];
+          const h = (size.length >= 3 ? size[2] : size[1]) * 2;
+          const geo = new THREE.CylinderGeometry(r, r, h, 24);
+          geo.rotateX(Math.PI / 2);
+          const mat = new THREE.MeshStandardMaterial({ color: col, roughness: 0.35, metalness: 0.3 });
+          mesh = new THREE.Mesh(geo, mat);
+        } else {
+          const sx = size[0] * 2, sy = size[1] * 2, sz = size[2] * 2;
+          const geo = new THREE.BoxGeometry(sx, sy, sz);
+          const mat = new THREE.MeshStandardMaterial({ color: col, roughness: 0.35, metalness: 0.2 });
+          mesh = new THREE.Mesh(geo, mat);
+        }
+
+        mesh.position.set(pos[0], pos[1], pos[2]);
+        mesh.castShadow = true;
+        mesh.receiveShadow = true;
+        mesh.name = obs.name || `obs_${idx}`;
+        mesh.userData = { is_dynamic: isDyn, baseName: (obs.name || "").replace("_slide", "") };
+        obstaclesGroup3D.add(mesh);
+      });
+    }
+
+    function update3DFrame() {
+      if (!is3DInitialized || !scene3D) return;
+      if (!simData || !simData.frames || !simData.frames[currentFrameIdx]) {
+        if (droneGroup3D) droneGroup3D.position.set(0, 0, 1.0);
+        return;
+      }
+      const curFrame = simData.frames[currentFrameIdx];
+
+      // 1. Position & Attitude
+      const px = curFrame.pos[0], py = curFrame.pos[1], pz = curFrame.pos[2];
+      droneGroup3D.position.set(px, py, pz);
+
+      const vx = curFrame.vel[0], vy = curFrame.vel[1];
+      const maxTilt = 0.35;
+      const targetPitch = Math.max(-maxTilt, Math.min(maxTilt, vx * 0.22));
+      const targetRoll = Math.max(-maxTilt, Math.min(maxTilt, -vy * 0.22));
+      droneGroup3D.rotation.set(targetRoll, targetPitch, 0);
+
+      // 2. Move Dynamic Obstacles in 3D
+      if (curFrame.dyn_obstacles && obstaclesGroup3D) {
+        const dynMap = {};
+        curFrame.dyn_obstacles.forEach(d => {
+          dynMap[d.name.replace("_slide", "")] = d.pos;
+          if (d.body_name) dynMap[d.body_name] = d.pos;
+        });
+        obstaclesGroup3D.children.forEach(m => {
+          if (m.userData && m.userData.is_dynamic) {
+            const p = dynMap[m.name] || dynMap[m.userData.baseName];
+            if (p) m.position.set(p[0], p[1], p[2]);
+          }
+        });
+      }
+
+      // 3. LiDAR 3D Rays
+      while (lidarRaysGroup3D.children.length > 0) {
+        const r = lidarRaysGroup3D.children[0];
+        lidarRaysGroup3D.remove(r);
+        if (r.geometry) r.geometry.dispose();
+      }
+
+      if (curFrame.rays) {
+        curFrame.rays.forEach(r => {
+          const startPt = new THREE.Vector3(r.start[0], r.start[1], pz);
+          let endZ = pz;
+          if (r.name === "up") endZ = pz + (r.dist || 0.6);
+          else if (r.name === "down") endZ = Math.max(0, pz - (r.dist || 0.6));
+          const endPt = new THREE.Vector3(r.end[0], r.end[1], endZ);
+
+          const rCol = new THREE.Color(r.color[0], r.color[1], r.color[2]);
+          const lineGeo = new THREE.BufferGeometry().setFromPoints([startPt, endPt]);
+          const lineMat = new THREE.LineBasicMaterial({ color: rCol, linewidth: 2 });
+          const rayLine = new THREE.Line(lineGeo, lineMat);
+          lidarRaysGroup3D.add(rayLine);
+
+          if (r.dist < 1.95) {
+            const dotGeo = new THREE.SphereGeometry(0.025, 8, 8);
+            const dotMat = new THREE.MeshBasicMaterial({ color: rCol });
+            const dot = new THREE.Mesh(dotGeo, dotMat);
+            dot.position.copy(endPt);
+            lidarRaysGroup3D.add(dot);
+          }
+        });
+      }
+
+      // 4. Flight Path Strip
+      const pathPts = [];
+      for (let i = 0; i <= currentFrameIdx; i++) {
+        const f = simData.frames[i];
+        pathPts.push(new THREE.Vector3(f.pos[0], f.pos[1], f.pos[2]));
+      }
+      if (pathPts.length > 1) {
+        pathLine3D.geometry.setFromPoints(pathPts);
+        pathLine3D.visible = true;
+      } else {
+        pathLine3D.visible = false;
+      }
+
+      // 5. Kalman Predicted Future Trajectory
+      if (curFrame.kalman_tracks) {
+        const kfPts = [];
+        Object.values(curFrame.kalman_tracks).forEach(kf => {
+          if (kf.trajectory_prediction && kf.trajectory_prediction.length > 0) {
+            kf.trajectory_prediction.forEach(pt => {
+              kfPts.push(new THREE.Vector3(pt.pos[0], pt.pos[1], pt.pos[2]));
+            });
+          }
+        });
+        if (kfPts.length > 1) {
+          kalmanLine3D.geometry.setFromPoints(kfPts);
+          kalmanLine3D.computeLineDistances();
+          kalmanLine3D.visible = true;
+        } else {
+          kalmanLine3D.visible = false;
+        }
+      }
+    }
+
+    function animate3D() {
+      requestAnimationFrame(animate3D);
+      if (!is3DInitialized) return;
+
+      if (droneRotorDiscs && droneRotorDiscs.length > 0) {
+        droneRotorDiscs.forEach(p => p.rotation.z += 0.45);
+      }
+
+      if (controls3D) controls3D.update();
+      if (renderer3D && scene3D && camera3D) {
+        renderer3D.render(scene3D, camera3D);
+      }
+    }
+
+    window.addEventListener("resize", resizeCanvases);
+
+    // Fetch initial scenario info & benchmarks
+    async function init() {
+      resizeCanvases();
+      init3D();
+      fetchBenchmarks();
+      loadScenario(1, "reactive");
+    }
+
+    async function fetchBenchmarks() {
+      try {
+        const res = await fetch("/api/benchmark");
+        const json = await res.json();
+        if (json.status === "success") {
+          const tbody = document.getElementById("benchBody");
+          tbody.innerHTML = "";
+          json.results.forEach(r => {
+            const tr = document.createElement("tr");
+            tr.innerHTML = `
+              <td>${r.scenario_id}</td>
+              <td>${r.algorithm.toUpperCase()}</td>
+              <td class="${r.result === 'SUCCESS' ? 'status-badge-ok' : ''}">${r.result}</td>
+              <td>${r.completion_time}s</td>
+            `;
+            tbody.appendChild(tr);
+          });
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    }
+
+    let isCustomizerMode = false;
+    let customObstacles = [
+      { name: "obs_dynamic_1", pos: [2.8, 0.0, 1.0], size: [0.18, 0.18, 0.5], type: "box", rgba: [0.95, 0.45, 0.1, 1.0], is_dynamic: true }
+    ];
+    let selectedCustomIdx = 0;
+    let isDragging = false;
+
+    function setEditorMode(isCustom) {
+      isCustomizerMode = isCustom;
+      document.getElementById("btnModePreset").classList.toggle("active", !isCustom);
+      document.getElementById("btnModeCustom").classList.toggle("active", isCustom);
+      document.getElementById("presetControlsPanel").style.display = isCustom ? "none" : "block";
+      document.getElementById("customControlsPanel").style.display = isCustom ? "block" : "none";
+      pauseSimulation();
+      if (isCustom) {
+        simData = null;
+        updateSummaryToInitial();
+        loadCustomArena(true);
+      } else {
+        const sc = document.getElementById("scenarioSelect").value;
+        const algo = document.getElementById("algoSelect").value;
+        loadScenario(sc, algo);
+      }
+      drawArena();
+      if (is3DInitialized) {
+        update3DObstacles();
+        update3DFrame();
+      }
+    }
+
+    function addCustomObs(type) {
+      const idx = customObstacles.length + 1;
+      const isCyl = (type === "cylinder");
+      const newObs = {
+        name: isCyl ? `obs_cyl_${idx}` : `obs_box_${idx}`,
+        pos: [3.0, 0.0, 1.0],
+        size: [0.18, 0.18, 0.50],
+        type: type,
+        rgba: isCyl ? [0.75, 0.25, 0.85, 1.0] : [0.85, 0.25, 0.25, 1.0],
+        is_dynamic: false
+      };
+      customObstacles.push(newObs);
+      selectedCustomIdx = customObstacles.length - 1;
+      simData = null;
+      updateSummaryToInitial();
+      drawArena();
+      if (is3DInitialized) {
+        update3DObstacles();
+        update3DFrame();
+      }
+    }
+
+    function toggleCustomDynamic() {
+      if (selectedCustomIdx !== null && selectedCustomIdx < customObstacles.length) {
+        const obs = customObstacles[selectedCustomIdx];
+        obs.is_dynamic = !obs.is_dynamic;
+        const idx = selectedCustomIdx + 1;
+        if (obs.is_dynamic) {
+          obs.name = `obs_dynamic_${idx}`;
+          obs.rgba = [0.95, 0.45, 0.1, 1.0];
+        } else {
+          obs.name = (obs.type === "cylinder") ? `obs_cyl_${idx}` : `obs_box_${idx}`;
+          obs.rgba = (obs.type === "cylinder") ? [0.75, 0.25, 0.85, 1.0] : [0.85, 0.25, 0.25, 1.0];
+        }
+        simData = null;
+        updateSummaryToInitial();
+        drawArena();
+        if (is3DInitialized) {
+          update3DObstacles();
+          update3DFrame();
+        }
+      }
+    }
+
+    function deleteCustomObs() {
+      if (selectedCustomIdx !== null && selectedCustomIdx < customObstacles.length) {
+        customObstacles.splice(selectedCustomIdx, 1);
+        selectedCustomIdx = customObstacles.length > 0 ? 0 : null;
+        simData = null;
+        updateSummaryToInitial();
+        drawArena();
+        if (is3DInitialized) {
+          update3DObstacles();
+          update3DFrame();
+        }
+      }
+    }
+
+    async function saveCustomArena() {
+      try {
+        const res = await fetch("/api/save_custom", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ obstacles: customObstacles })
+        });
+        const data = await res.json();
+        alert(data.message || "Custom arena layout saved to custom_arena.json!");
+      } catch (e) {
+        alert("Error saving custom arena: " + e.message);
+      }
+    }
+
+    async function loadCustomArena(silent = false) {
+      try {
+        const res = await fetch("/api/load_custom");
+        const json = await res.json();
+        if (json.status === "success" && json.data) {
+          const obsList = json.data.obstacles || (Array.isArray(json.data) ? json.data : []);
+          if (obsList && obsList.length > 0) {
+            customObstacles = obsList;
+            selectedCustomIdx = 0;
+            simData = null;
+            drawArena();
+            if (is3DInitialized) {
+              update3DObstacles();
+              update3DFrame();
+            }
+            if (!silent) alert(`Loaded ${customObstacles.length} obstacles from custom_arena.json!`);
+          }
+        } else if (!silent) {
+          alert("No saved layout found on server.");
+        }
+      } catch (e) {
+        if (!silent) console.error("Failed to load custom arena:", e);
+      }
+    }
+
+    async function runCustomFlight() {
+      const algo = document.getElementById("algoSelect").value;
+      const obsNoise = document.getElementById("chkObsNoise").checked;
+      const kalman = document.getElementById("chkKalman").checked;
+      const btn = document.getElementById("btnLaunchCustom");
+      btn.innerText = "Simulating Custom Flight...";
+      btn.disabled = true;
+
+      try {
+        const res = await fetch("/api/run_custom", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            obstacles: customObstacles,
+            algo: algo,
+            obstacle_noise: obsNoise,
+            enable_kalman: kalman
+          })
+        });
+        simData = await res.json();
+        if (simData.status === "success") {
+          currentFrameIdx = 0;
+          document.getElementById("timeSlider").max = simData.frames.length - 1;
+          document.getElementById("timeSlider").value = 0;
+          updateSummaryUI(simData.summary);
+          drawArena();
+          drawRadar();
+          if (is3DInitialized) {
+            update3DObstacles();
+            update3DFrame();
+          }
+          updateAnalyticsUI();
+          playSimulation();
+        } else {
+          alert("Simulation Error: " + (simData.message || "Unknown error"));
+        }
+      } catch (e) {
+        console.error(e);
+        alert("Failed to connect to simulation server: " + e.message);
+      } finally {
+        btn.innerText = "▶ Run Custom Flight in Web";
+        btn.disabled = false;
+      }
+    }
+
+    async function loadScenario(scenarioId, algo) {
+      document.getElementById("btnLaunch").innerHTML = "Running Flight Sim...";
+      const obsNoise = document.getElementById("chkObsNoise").checked ? 1 : 0;
+      const kalman = document.getElementById("chkKalman").checked ? 1 : 0;
+
+      try {
+        const res = await fetch(`/api/run?scenario=${scenarioId}&algo=${algo}&obs_noise=${obsNoise}&enable_kalman=${kalman}`);
+        simData = await res.json();
+        if (simData.status === "success") {
+          currentFrameIdx = 0;
+          document.getElementById("timeSlider").max = simData.frames.length - 1;
+          document.getElementById("timeSlider").value = 0;
+          updateSummaryUI(simData.summary);
+          drawArena();
+          drawRadar();
+          if (is3DInitialized) {
+            update3DObstacles();
+            update3DFrame();
+          }
+          updateAnalyticsUI();
+          playSimulation();
+        }
+      } catch (e) {
+        console.error(e);
+      } finally {
+        document.getElementById("btnLaunch").innerHTML = `
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M8 5v14l11-7z"/></svg>
+          Execute Simulation Flight
+        `;
+      }
+    }
+
+    function updateSummaryToInitial() {
+      document.getElementById("resSummaryResult").innerText = "READY";
+      document.getElementById("resSummaryResult").style.color = "var(--accent-cyan)";
+      document.getElementById("resSummaryPath").innerText = "-- m";
+      document.getElementById("resSummaryClearance").innerText = "-- m";
+      document.getElementById("resSummaryCollisions").innerText = "--";
+      document.getElementById("resSummaryCollisions").style.color = "var(--text-muted)";
+      document.getElementById("resKalmanRMSE").innerText = "-- m";
+      document.getElementById("resNoiseReduction").innerText = "-- %";
+    }
+
+    function updateSummaryUI(sum) {
+      if (!sum) return;
+      document.getElementById("resSummaryResult").innerText = sum.result;
+      document.getElementById("resSummaryResult").style.color = sum.result === "SUCCESS" ? "var(--accent-green)" : "var(--accent-red)";
+      document.getElementById("resSummaryPath").innerText = (sum.path_length || 0).toFixed(2) + " m";
+      document.getElementById("resSummaryClearance").innerText = (sum.min_clearance || 0).toFixed(2) + " m";
+      document.getElementById("resSummaryCollisions").innerText = sum.collision_steps !== undefined ? sum.collision_steps : 0;
+      document.getElementById("resSummaryCollisions").style.color = sum.collision_steps === 0 ? "var(--accent-green)" : "var(--accent-amber)";
+
+      if (sum.kalman_rmse_pos !== undefined && sum.kalman_rmse_pos > 0) {
+        document.getElementById("resKalmanRMSE").innerText = sum.kalman_rmse_pos.toFixed(4) + " m";
+        document.getElementById("resNoiseReduction").innerText = (sum.kalman_noise_reduction_pct || 0).toFixed(1) + " %";
+      } else {
+        document.getElementById("resKalmanRMSE").innerText = "-- m";
+        document.getElementById("resNoiseReduction").innerText = "-- %";
+      }
+    }
+
+    function playSimulation() {
+      isPlaying = true;
+      document.getElementById("playIcon").innerHTML = '<path d="M6 19h4V5H6v14zm8-14v14h4V5h-4z"/>';
+      clearInterval(playInterval);
+      playInterval = setInterval(() => {
+        if (!simData || currentFrameIdx >= simData.frames.length - 1) {
+          pauseSimulation();
+          return;
+        }
+        currentFrameIdx++;
+        document.getElementById("timeSlider").value = currentFrameIdx;
+        updateFrameUI();
+      }, (1000 / 12) / playbackSpeed);
+    }
+
+    function pauseSimulation() {
+      isPlaying = false;
+      document.getElementById("playIcon").innerHTML = '<path d="M8 5v14l11-7z"/>';
+      clearInterval(playInterval);
+    }
+
+    function updateFrameUI() {
+      if (!simData || !simData.frames[currentFrameIdx]) return;
+      const f = simData.frames[currentFrameIdx];
+      document.getElementById("timeDisplay").innerText = f.t.toFixed(2) + "s";
+      document.getElementById("telemetryPos").innerText = `(${f.pos[0].toFixed(2)}, ${f.pos[1].toFixed(2)}, ${f.pos[2].toFixed(2)})`;
+      document.getElementById("telemetrySpeed").innerText = `${f.speed.toFixed(2)} m/s`;
+      document.getElementById("telemetryGoalDist").innerText = `${f.dist_to_goal.toFixed(2)} m`;
+
+      const badge = document.getElementById("flightStatusBadge");
+      badge.innerText = f.mode;
+      badge.className = `mode-badge mode-${f.mode.replace(" ", "_")}`;
+
+      drawArena();
+      drawRadar();
+      if (is3DInitialized) {
+        update3DFrame();
+      }
+    }
+
+    function worldToCanvas(wx, wy) {
+      const minX = -1.0, maxX = 7.5;
+      const minY = -2.2, maxY = 2.2;
+      const cx = ((wx - minX) / (maxX - minX)) * canvas.width;
+      const cy = canvas.height - ((wy - minY) / (maxY - minY)) * canvas.height;
+      return { x: cx, y: cy };
+    }
+
+    function canvasToWorld(cx, cy) {
+      const minX = -1.0, maxX = 7.5;
+      const minY = -2.2, maxY = 2.2;
+      const wx = minX + (cx / canvas.width) * (maxX - minX);
+      const wy = maxY - (cy / canvas.height) * (maxY - minY);
+      return { x: Math.round(wx * 10) / 10, y: Math.round(wy * 10) / 10 };
+    }
+
+    function drawArena() {
+      ctx.clearRect(0, 0, canvas.width, canvas.height);
+
+      // Draw Grid
+      ctx.strokeStyle = "rgba(255, 255, 255, 0.05)";
+      ctx.lineWidth = 1;
+      for (let x = 0; x <= 7; x += 1.0) {
+        const p1 = worldToCanvas(x, -2.0);
+        const p2 = worldToCanvas(x, 2.0);
+        ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+      }
+      for (let y = -2; y <= 2; y += 1.0) {
+        const p1 = worldToCanvas(-1.0, y);
+        const p2 = worldToCanvas(7.0, y);
+        ctx.beginPath(); ctx.moveTo(p1.x, p1.y); ctx.lineTo(p2.x, p2.y); ctx.stroke();
+      }
+
+      // Draw Start & Goal
+      const startPt = worldToCanvas(0.0, 0.0);
+      ctx.fillStyle = "rgba(0, 229, 255, 0.4)";
+      ctx.beginPath(); ctx.arc(startPt.x, startPt.y, 8, 0, Math.PI * 2); ctx.fill();
+
+      const goalPt = worldToCanvas(6.0, 0.0);
+      ctx.fillStyle = "rgba(0, 230, 118, 0.8)";
+      ctx.beginPath(); ctx.arc(goalPt.x, goalPt.y, 14, 0, Math.PI * 2); ctx.fill();
+      ctx.fillStyle = "#fff";
+      ctx.font = "10px JetBrains Mono";
+      ctx.fillText("GOAL", goalPt.x - 12, goalPt.y - 18);
+
+      const hasReplay = simData && simData.frames && simData.frames.length > 0;
+      const curFrame = (hasReplay && simData.frames[currentFrameIdx]) ? simData.frames[currentFrameIdx] : null;
+
+      // Dynamic obstacle positions lookup
+      const dynMap = {};
+      if (curFrame && curFrame.dyn_obstacles) {
+        curFrame.dyn_obstacles.forEach(d => {
+          dynMap[d.name.replace("_slide", "")] = d.pos;
+          if (d.body_name) dynMap[d.body_name] = d.pos;
+        });
+      }
+
+      if (isCustomizerMode) {
+        // Mode header text
+        ctx.fillStyle = "rgba(0, 229, 255, 0.9)";
+        ctx.font = "12px JetBrains Mono";
+        if (hasReplay) {
+          ctx.fillText("ARENA CUSTOMIZER: Flight Replay Active (Click obstacle or canvas to re-edit)", 20, 25);
+        } else {
+          ctx.fillText("ARENA CUSTOMIZER: Click to place, Drag with Mouse, Del to remove, Space to Run", 20, 25);
+        }
+
+        // Draw custom obstacles
+        customObstacles.forEach((obs, idx) => {
+          let wx = obs.pos[0], wy = obs.pos[1];
+          if (hasReplay && obs.is_dynamic) {
+            if (dynMap[obs.name]) {
+              wx = dynMap[obs.name][0];
+              wy = dynMap[obs.name][1];
+            } else if (curFrame && curFrame.dyn_obstacles && curFrame.dyn_obstacles[idx]) {
+              wx = curFrame.dyn_obstacles[idx].pos[0];
+              wy = curFrame.dyn_obstacles[idx].pos[1];
+            }
+          }
+
+          const p = worldToCanvas(wx, wy);
+          const isSel = (idx === selectedCustomIdx && !hasReplay);
+
+          if (obs.is_dynamic) {
+            ctx.fillStyle = "rgba(251, 146, 60, 0.85)";
+            ctx.strokeStyle = isSel ? "#00e5ff" : "#ea580c";
+          } else {
+            ctx.fillStyle = obs.type === "cylinder" ? "rgba(168, 85, 247, 0.85)" : "rgba(239, 68, 68, 0.85)";
+            ctx.strokeStyle = isSel ? "#00e5ff" : (obs.type === "cylinder" ? "#c084fc" : "#f87171");
+          }
+          ctx.lineWidth = isSel ? 3 : 1.5;
+
+          if (obs.type === "cylinder") {
+            ctx.beginPath(); ctx.arc(p.x, p.y, 14, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+          } else {
+            ctx.fillRect(p.x - 14, p.y - 14, 28, 28);
+            ctx.strokeRect(p.x - 14, p.y - 14, 28, 28);
+          }
+
+          ctx.fillStyle = "#fff";
+          ctx.font = "9px Outfit";
+          ctx.fillText(obs.is_dynamic ? "DYN" : (obs.type === "cylinder" ? "CYL" : "BOX"), p.x - 9, p.y + 3);
+
+          // Obstacle World Coordinates
+          ctx.fillStyle = "rgba(255, 255, 255, 0.65)";
+          ctx.font = "8px JetBrains Mono";
+          ctx.fillText(`(${wx.toFixed(1)}, ${wy.toFixed(1)})`, p.x - 14, p.y + 24);
+        });
+
+      } else {
+        // Preset Scenarios Obstacles
+        if (simData && simData.obstacles) {
+          simData.obstacles.forEach(obs => {
+            let wx = obs.pos[0], wy = obs.pos[1];
+            if (dynMap[obs.name]) {
+              wx = dynMap[obs.name][0];
+              wy = dynMap[obs.name][1];
+            }
+            const p = worldToCanvas(wx, wy);
+
+            if (obs.is_dynamic) {
+              ctx.fillStyle = "rgba(251, 146, 60, 0.85)";
+              ctx.strokeStyle = "#ea580c";
+            } else {
+              ctx.fillStyle = obs.type === "cylinder" ? "rgba(168, 85, 247, 0.75)" : "rgba(255, 82, 82, 0.75)";
+              ctx.strokeStyle = obs.type === "cylinder" ? "#c084fc" : "#ff5252";
+            }
+            ctx.lineWidth = 2;
+
+            if (obs.type === "cylinder") {
+              ctx.beginPath(); ctx.arc(p.x, p.y, 14, 0, Math.PI * 2); ctx.fill(); ctx.stroke();
+            } else {
+              ctx.fillRect(p.x - 14, p.y - 14, 28, 28);
+              ctx.strokeRect(p.x - 14, p.y - 14, 28, 28);
+            }
+
+            // Obstacle World Coordinates
+            ctx.fillStyle = "rgba(255, 255, 255, 0.65)";
+            ctx.font = "8px JetBrains Mono";
+            ctx.fillText(`(${wx.toFixed(1)}, ${wy.toFixed(1)})`, p.x - 14, p.y + 24);
+          });
+        }
+      }
+
+      // If replay is available, draw Kalman track predictions, flight trajectory, LiDAR rays, and drone!
+      if (hasReplay && curFrame) {
+        // Draw Kalman predicted trajectory if dynamic obstacle detected
+        if (curFrame.kalman_tracks) {
+          Object.values(curFrame.kalman_tracks).forEach(kf => {
+            if (kf.trajectory_prediction && kf.trajectory_prediction.length > 0) {
+              ctx.beginPath();
+              ctx.strokeStyle = "#00e5ff";
+              ctx.lineWidth = 2;
+              ctx.setLineDash([4, 4]);
+              kf.trajectory_prediction.forEach((pt, idx) => {
+                const cp = worldToCanvas(pt.pos[0], pt.pos[1]);
+                if (idx === 0) ctx.moveTo(cp.x, cp.y);
+                else ctx.lineTo(cp.x, cp.y);
+              });
+              ctx.stroke();
+              ctx.setLineDash([]);
+            }
+          });
+        }
+
+        // Draw Flight Path History
+        ctx.beginPath();
+        ctx.strokeStyle = "rgba(0, 229, 255, 0.6)";
+        ctx.lineWidth = 3;
+        for (let i = 0; i <= currentFrameIdx; i++) {
+          const pt = worldToCanvas(simData.frames[i].pos[0], simData.frames[i].pos[1]);
+          if (i === 0) ctx.moveTo(pt.x, pt.y);
+          else ctx.lineTo(pt.x, pt.y);
+        }
+        ctx.stroke();
+
+        // Current Drone Position
+        const dronePt = worldToCanvas(curFrame.pos[0], curFrame.pos[1]);
+
+        // Draw LiDAR Rays
+        curFrame.rays.forEach(r => {
+          const start = worldToCanvas(r.start[0], r.start[1]);
+          const end = worldToCanvas(r.end[0], r.end[1]);
+          ctx.beginPath();
+          ctx.strokeStyle = `rgba(${r.color[0]*255}, ${r.color[1]*255}, ${r.color[2]*255}, 0.8)`;
+          ctx.lineWidth = 2;
+          ctx.moveTo(start.x, start.y);
+          ctx.lineTo(end.x, end.y);
+          ctx.stroke();
+        });
+
+        // Drone Icon
+        ctx.fillStyle = "#fff";
+        ctx.beginPath();
+        ctx.arc(dronePt.x, dronePt.y, 7, 0, Math.PI * 2);
+        ctx.fill();
+        ctx.strokeStyle = "var(--accent-cyan)";
+        ctx.lineWidth = 2;
+        ctx.stroke();
+
+        // Live Drone Coordinates Floating Badge
+        ctx.fillStyle = "rgba(10, 15, 25, 0.88)";
+        ctx.fillRect(dronePt.x - 45, dronePt.y - 30, 90, 17);
+        ctx.strokeStyle = "rgba(0, 229, 255, 0.6)";
+        ctx.lineWidth = 1;
+        ctx.strokeRect(dronePt.x - 45, dronePt.y - 30, 90, 17);
+        ctx.fillStyle = "#00e5ff";
+        ctx.font = "bold 9px JetBrains Mono";
+        ctx.fillText(`(${curFrame.pos[0].toFixed(2)}, ${curFrame.pos[1].toFixed(2)}, ${curFrame.pos[2].toFixed(2)})m`, dronePt.x - 42, dronePt.y - 18);
+      }
+
+      // Bottom Coordinate HUD Bar
+      ctx.fillStyle = "rgba(10, 15, 25, 0.82)";
+      ctx.fillRect(10, canvas.height - 28, 410, 20);
+      ctx.strokeStyle = "rgba(0, 229, 255, 0.25)";
+      ctx.lineWidth = 1;
+      ctx.strokeRect(10, canvas.height - 28, 410, 20);
+      ctx.fillStyle = "#9ca3af";
+      ctx.font = "9px JetBrains Mono";
+      const droneCoordTxt = curFrame ? `DRONE: (${curFrame.pos[0].toFixed(2)}, ${curFrame.pos[1].toFixed(2)}, ${curFrame.pos[2].toFixed(2)})m` : "DRONE: (0.00, 0.00, 1.00)m";
+      const mouseCoordTxt = (hoverWorldX !== null && hoverWorldY !== null) ? ` | CURSOR: (${hoverWorldX.toFixed(2)}, ${hoverWorldY.toFixed(2)})m` : "";
+      ctx.fillText(droneCoordTxt + mouseCoordTxt, 16, canvas.height - 14);
+    }
+
+    // Canvas Mouse & Keyboard Event Handlers for Custom Obstacle Placement
+    let hoverWorldX = null;
+    let hoverWorldY = null;
+
+    canvas.addEventListener("mousedown", (e) => {
+      if (!isCustomizerMode) return;
+      const rect = canvas.getBoundingClientRect();
+      const cx = (e.clientX - rect.left) * (canvas.width / rect.width);
+      const cy = (e.clientY - rect.top) * (canvas.height / rect.height);
+      const wpos = canvasToWorld(cx, cy);
+
+      // Check if clicked on existing obstacle
+      let found = false;
+      for (let i = 0; i < customObstacles.length; i++) {
+        const obs = customObstacles[i];
+        if (Math.abs(obs.pos[0] - wpos.x) < 0.40 && Math.abs(obs.pos[1] - wpos.y) < 0.40) {
+          selectedCustomIdx = i;
+          isDragging = true;
+          found = true;
+          pauseSimulation();
+          simData = null;
+          updateSummaryToInitial();
+          break;
+        }
+      }
+
+      if (!found) {
+        // Place new obstacle at clicked coordinate
+        const idx = customObstacles.length + 1;
+        customObstacles.push({
+          name: `obs_box_${idx}`,
+          pos: [wpos.x, wpos.y, 1.0],
+          size: [0.18, 0.18, 0.50],
+          type: "box",
+          rgba: [0.85, 0.25, 0.25, 1.0],
+          is_dynamic: false
+        });
+        selectedCustomIdx = customObstacles.length - 1;
+        isDragging = true;
+        pauseSimulation();
+        simData = null;
+        updateSummaryToInitial();
+      }
+      drawArena();
+      if (is3DInitialized) {
+        update3DObstacles();
+      }
+    });
+
+    canvas.addEventListener("mousemove", (e) => {
+      const rect = canvas.getBoundingClientRect();
+      const cx = (e.clientX - rect.left) * (canvas.width / rect.width);
+      const cy = (e.clientY - rect.top) * (canvas.height / rect.height);
+      const wpos = canvasToWorld(cx, cy);
+      hoverWorldX = wpos.x;
+      hoverWorldY = wpos.y;
+
+      if (!isCustomizerMode || !isDragging || selectedCustomIdx === null) {
+        drawArena();
+        return;
+      }
+      customObstacles[selectedCustomIdx].pos[0] = Math.max(-0.5, Math.min(6.5, wpos.x));
+      customObstacles[selectedCustomIdx].pos[1] = Math.max(-2.0, Math.min(2.0, wpos.y));
+      simData = null;
+      drawArena();
+      if (is3DInitialized) {
+        update3DObstacles();
+      }
+    });
+
+    canvas.addEventListener("mouseleave", () => {
+      hoverWorldX = null;
+      hoverWorldY = null;
+      drawArena();
+    });
+
+    window.addEventListener("mouseup", () => {
+      isDragging = false;
+    });
+
+    canvas.addEventListener("contextmenu", (e) => {
+      e.preventDefault();
+      if (!isCustomizerMode) return;
+      toggleCustomDynamic();
+    });
+
+    // Keyboard Shortcuts
+    window.addEventListener("keydown", (e) => {
+      if (e.target.tagName === "INPUT" || e.target.tagName === "SELECT") return;
+
+      if (e.key === "a" || e.key === "A") {
+        if (isCustomizerMode) addCustomObs("box");
+      } else if (e.key === "c" || e.key === "C") {
+        if (isCustomizerMode) addCustomObs("cylinder");
+      } else if (e.key === "d" || e.key === "D") {
+        if (isCustomizerMode) toggleCustomDynamic();
+      } else if (e.key === "s" || e.key === "S") {
+        if (isCustomizerMode) saveCustomArena();
+      } else if (e.key === "l" || e.key === "L") {
+        if (isCustomizerMode) loadCustomArena();
+      } else if (e.key === "Delete" || e.key === "Backspace") {
+        if (isCustomizerMode) deleteCustomObs();
+      } else if (e.key === " " || e.key === "Spacebar") {
+        if (isCustomizerMode) {
+          if (simData && simData.frames && simData.frames.length > 0) {
+            if (isPlaying) pauseSimulation();
+            else playSimulation();
+          } else {
+            runCustomFlight();
+          }
+        } else {
+          if (isPlaying) pauseSimulation();
+          else playSimulation();
+        }
+      }
+    });
+
+    function drawRadar() {
+      radarCtx.clearRect(0, 0, radarCanvas.width, radarCanvas.height);
+      const cx = radarCanvas.width / 2;
+      const cy = radarCanvas.height / 2;
+      const radius = Math.min(cx, cy) - 20;
+
+      // Draw Range Circles
+      for (let r = 0.5; r <= 2.0; r += 0.5) {
+        const rad = (r / 2.0) * radius;
+        radarCtx.beginPath();
+        radarCtx.strokeStyle = "rgba(255, 255, 255, 0.1)";
+        radarCtx.arc(cx, cy, rad, 0, Math.PI * 2);
+        radarCtx.stroke();
+      }
+
+      if (!simData || !simData.frames[currentFrameIdx]) return;
+      const rays = simData.frames[currentFrameIdx].rays;
+
+      // Draw Sector Wedges
+      rays.forEach(r => {
+        const angles = {
+          "front": 0, "left": -35, "far_left": -70, "side_left": -90,
+          "right": 35, "far_right": 70, "side_right": 90, "rear": 180
+        };
+        const deg = angles[r.name] !== undefined ? angles[r.name] : 0;
+        const rad = (deg - 90) * (Math.PI / 180);
+        const distLen = Math.min(r.dist / 2.0, 1.0) * radius;
+
+        const ex = cx + distLen * Math.cos(rad);
+        const ey = cy + distLen * Math.sin(rad);
+
+        radarCtx.beginPath();
+        radarCtx.strokeStyle = `rgba(${r.color[0]*255}, ${r.color[1]*255}, ${r.color[2]*255}, 0.9)`;
+        radarCtx.lineWidth = 3;
+        radarCtx.moveTo(cx, cy);
+        radarCtx.lineTo(ex, ey);
+        radarCtx.stroke();
+      });
+    }
+
+    // UI Event Handlers
+    document.getElementById("scenarioSelect").addEventListener("change", (e) => {
+      const descs = {
+        1: "Single obstacle placed directly in the drone's forward line of sight.",
+        2: "Obstacle shifted slightly to the left (+0.20m), testing rightward bias decision.",
+        3: "Obstacle shifted slightly to the right (-0.20m), testing leftward bias decision.",
+        4: "Narrow corridor formed by twin pairs of obstacles with a tight clearance gap.",
+        5: "Concave U-shaped dead end trapping the drone, requiring emergency reverse and lateral escape.",
+        6: "Staggered forest maze of cylindrical pillars requiring multi-stage continuous avoidance.",
+        7: "Dynamic moving obstacle sliding laterally across the flight corridor with stochastic process noise.",
+        8: "3D cluttered environment featuring low walls, high overhangs, and vertical clearance challenges.",
+        9: "Dynamic lateral intruder sliding rapidly across path; tracked via Kalman Filter for closing velocity prediction.",
+        10: "Circular dead-end ring (54 cubes); drone detects trap signature and escapes via vertical climb or horizontal gap."
+      };
+      document.getElementById("scenarioDesc").innerText = descs[e.target.value] || "";
+    });
+
+    document.getElementById("btnLaunch").addEventListener("click", () => {
+      const sc = document.getElementById("scenarioSelect").value;
+      const algo = document.getElementById("algoSelect").value;
+      loadScenario(sc, algo);
+    });
+
+    document.getElementById("btnPlay").addEventListener("click", () => {
+      if (isPlaying) pauseSimulation();
+      else playSimulation();
+    });
+
+    document.getElementById("timeSlider").addEventListener("input", (e) => {
+      currentFrameIdx = parseInt(e.target.value);
+      updateFrameUI();
+    });
+
+    document.getElementById("speedSelect").addEventListener("change", (e) => {
+      playbackSpeed = parseFloat(e.target.value);
+      if (isPlaying) playSimulation();
+    });
+
+    function switchTab(tabId) {
+      document.querySelectorAll(".tab-btn").forEach(b => b.classList.remove("active"));
+      document.querySelectorAll(".tab-content").forEach(c => c.classList.remove("active"));
+      event.target.classList.add("active");
+      document.getElementById(tabId).classList.add("active");
+    }
+
+    window.onload = init;
+  </script>
+</body>
+</html>
