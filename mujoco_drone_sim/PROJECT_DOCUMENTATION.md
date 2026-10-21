@@ -196,18 +196,6 @@ If a drone gets trapped in a concave structure (such as Scenario 5's U-Trap or S
    - **Case A (Solid Enclosure)**: If horizontal sectors are blocked and upward vertical LiDAR is clear, it enters `VERTICAL_ESCAPE`: climbs over the wall ($Z = 1.60\text{ m}$), flies across the obstacle footprint (`CROSS_OVER`), and descends back to cruise altitude (`DESCEND`).
    - **Case B (Enclosure with Gap)**: If an opening arc $\ge 15^\circ$ is found (e.g. at bearing $142.5^\circ$), it calculates the gap centroid, sets heading toward the opening, and slips through (`ESCAPING_THROUGH_GAP`).
 
-### 3. Artificial Potential Field (`avoidance/apf_avoidance.py`)
-Computes an attractive potential gradient toward the goal combined with repulsive fields from all obstacle points:
-$$U_{\text{att}} = \frac{1}{2} k_{\text{att}} \|\mathbf{p} - \mathbf{p}_{\text{goal}}\|^2$$
-$$U_{\text{rep}} = \begin{cases} \frac{1}{2} k_{\text{rep}} \left(\frac{1}{d} - \frac{1}{d_0}\right)^2 & d \le d_0 \\ 0 & d > d_0 \end{cases}$$
-
-### 4. Dynamic Window Approach (`avoidance/dwa_avoidance.py`)
-Samples a grid of linear and angular velocities within the drone's reachable acceleration window, projecting forward trajectories and picking the path that maximizes heading alignment, clearance margin, and forward speed.
-
-### 5. SINDy-Enhanced DWA (`avoidance/sindy_dwa_avoidance.py`)
-Combines DWA with Sparse Identification of Nonlinear Dynamics (SINDy). Discovers the drone's true nonlinear equations of motion from flight telemetry:
-$$\dot{\mathbf{x}} = \mathbf{\Theta}(\mathbf{x}, \mathbf{u}) \mathbf{\Xi}$$
-Predicts rollout paths with aerodynamic drag and rotor-induced cross-coupling effects modeled directly from data.
 
 ---
 
@@ -300,19 +288,19 @@ Open **`http://127.0.0.1:8080`** in any modern web browser.
    * **Bottom Telemetry Bar**: Shows real-time drone coordinates and live mouse cursor position `(X, Y)m`.
 
 4. **Flight Kinematics & Moving Obstacle Analytics Suite**:
-   * **`📊 Analysis & Graphs` Mode**:
+   * **`Analysis & Graphs` Mode**:
      Accessible directly from the viewport mode switcher in the arena header or from the left sidebar's **Analysis** tab.
-   * **Sub-Tab 1: 🛸 Drone Movement Analysis**:
+   * **Sub-Tab 1:  Drone Movement Analysis**:
      * **KPI Cards**: Peak Velocity ($V_{max}$), Average Velocity ($V_{avg}$), Path Efficiency ($6.0\text{m} / L_{path} \times 100\%$), Max Altitude Deviation ($\Delta Z_{max}$), and Closest Obstacle Margin.
      * **Flight Phase Distribution Timeline**: Multi-segmented color-coded bar displaying exact seconds and percentages spent across avoidance states (`FORWARD`, `AVOID_LEFT`, `AVOID_RIGHT`, `CLIMB`, `REVERSE`, `GOAL_APPROACH`, `HOVER`).
      * **Interactive Velocity & Speed Chart**: Time-series plot of Total Speed, Forward Velocity ($V_x$), Lateral Velocity ($V_y$), and Vertical Velocity ($V_z$).
      * **Interactive Altitude & Goal Convergence Chart**: Cruise altitude profile ($Z$) with dual-axis Distance-to-Goal curve.
-   * **Sub-Tab 2: 🎯 Moving Objects & Kalman Filter Graphs**:
+   * **Sub-Tab 2:  Moving Objects & Kalman Filter Graphs**:
      * **Dynamic Obstacle KPI Cards**: Active moving obstacle target name, Closest Drone Proximity ($d_{min}$), Kalman Filter Position RMSE, Noise Variance Reduction %, and Lateral Oscillation Amplitude.
      * **Moving Object Trajectory Graph (True vs Noisy vs Kalman)**: Compares **Ground Truth Position ($Y_{true}$)** (Green), **Noisy Sensor Reading ($Y_{noisy}$)** with stochastic Ornstein-Uhlenbeck jitter (Orange dashed), and **Kalman Filter Estimated Position ($\hat{Y}_{kalman}$)** (Cyan glowing line).
      * **Separation Distance & Safety Margin Chart**: Euclidean distance between quadcopter and moving obstacle over time, annotated with the red **$0.35\text{m}$ Collision Safety Bubble**.
      * **Velocity & Noise Residual Analysis Chart**: Residual error curves comparing raw sensor noise error $|Y_{noisy} - Y_{true}|$ against Kalman residual error $|Y_{kalman} - Y_{true}|$, visually proving noise variance damping.
-   * **Sub-Tab 3: 📋 Kinematics Data Table & CSV Export**:
+   * **Sub-Tab 3:  Kinematics Data Table & CSV Export**:
      * Frame-by-frame numerical data log: Timestamp, 3D Position $(X, Y, Z)$, Speed, Flight State, Distance to Goal, Minimum Clearance, and Dynamic Obstacle Coordinates.
      * **Interactive Row Seeking**: Clicking any table row immediately jumps the playback slider and 3D quadcopter model to that exact moment in flight.
      * **`⬇ Export CSV`**: One-click download of the complete flight trace (`.csv`) for MATLAB, Python, or thesis plotting.
