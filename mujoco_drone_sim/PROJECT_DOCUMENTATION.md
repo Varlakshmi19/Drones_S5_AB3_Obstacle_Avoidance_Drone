@@ -372,17 +372,39 @@ python run_sim.py --sindy-train
 ---
 
 ## 10. Mathematical & Algorithmic Formulations
-
 ### 1. SE(3) Geometric Controller
-Given desired position $$\mathbf{p}_{\text{des}}$$, velocity $$\mathbf{v}_{\text{des}}$$, and acceleration $$\mathbf{a}_{\text{des}}$$, the position error dynamics are:
-$$\mathbf{e}_p = \mathbf{p} - \mathbf{p}_{\text{des}}, \quad \mathbf{e}_v = \mathbf{v} - \mathbf{v}_{\text{des}}$$
-$$\mathbf{F}_{\text{des}} = -k_p \mathbf{e}_p - k_v \mathbf{e}_v + m g \hat{\mathbf{z}}_W + m \mathbf{a}_{\text{des}}$$
+
+Given desired position \(\mathbf{p}_{\text{des}}\), velocity \(\mathbf{v}_{\text{des}}\), and acceleration \(\mathbf{a}_{\text{des}}\), the position error dynamics are:
+
+$$
+\mathbf{e}_p = \mathbf{p} - \mathbf{p}_{\text{des}},
+\qquad
+\mathbf{e}_v = \mathbf{v} - \mathbf{v}_{\text{des}}
+$$
+
+The desired force is:
+
+$$
+\mathbf{F}_{\text{des}} =
+-k_p\mathbf{e}_p
+-k_v\mathbf{e}_v
++ mg\hat{\mathbf{z}}_W
++ m\mathbf{a}_{\text{des}}
+$$
 
 Total scalar thrust command:
-$$T = \mathbf{F}_{\text{des}} \cdot (\mathbf{R} \hat{\mathbf{z}}_B)$$
+
+$$
+T = \mathbf{F}_{\text{des}} \cdot (\mathbf{R}\hat{\mathbf{z}}_B)
+$$
 
 Desired body Z-axis:
-$$\mathbf{z}_{B,\text{des}} = \frac{\mathbf{F}_{\text{des}}}{\|\mathbf{F}_{\text{des}}\|}$$
+
+$$
+\mathbf{z}_{B,\text{des}} =
+\frac{\mathbf{F}_{\text{des}}}
+{\|\mathbf{F}_{\text{des}}\|}
+$$
 
 ### 2. Motor Allocation (Mixer Matrix)
 The 4 rotor thrusts $f_1, f_2, f_3, f_4$ are computed from total thrust $T$ and body moments $\tau_x, \tau_y, \tau_z$:
