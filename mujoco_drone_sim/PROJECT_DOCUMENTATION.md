@@ -417,10 +417,7 @@ mujoco_drone_sim/
 ├── avoidance/
 │   ├── base_avoidance.py          # Abstract base class for avoidance algorithms
 │   ├── reactive_avoidance.py      # State machine with dynamic evasion & 360° trap escape
-│   ├── apf_avoidance.py           # Artificial Potential Field (APF) implementation
-│   ├── dwa_avoidance.py           # Dynamic Window Approach (DWA) implementation
-│   ├── avoidance_3d.py            # 3D Volumetric altitude-adaptive avoidance
-│   ├── sindy_dwa_avoidance.py     # SINDy-enhanced data-driven DWA
+│ 
 │   └── neural_brain_avoidance.py  # Adaptive neural network avoidance
 │
 ├── controllers/
