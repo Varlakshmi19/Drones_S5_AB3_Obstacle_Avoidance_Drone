@@ -374,12 +374,12 @@ python run_sim.py --sindy-train
 ## 10. Mathematical & Algorithmic Formulations
 ### 1. SE(3) Geometric Controller
 
-Given desired position $\mathbf{p}_{\text{des}}$, velocity $\mathbf{v}_{\text{des}}$, and acceleration $\mathbf{a}_{\text{des}}$, the position error dynamics are:
+Given desired position $\mathbf{p}{\text{des}}$, velocity $\mathbf{v}{\text{des}}$, and acceleration $\mathbf{a}_{\text{des}}$, the position error dynamics are:
 
 $$
-\mathbf{e}_p = \mathbf{p} - \mathbf{p}_{\text{des}},
+\mathbf{e}p = \mathbf{p} - \mathbf{p}{\text{des}},
 \qquad
-\mathbf{e}_v = \mathbf{v} - \mathbf{v}_{\text{des}}
+\mathbf{e}v = \mathbf{v} - \mathbf{v}{\text{des}}
 $$
 
 The desired force is:
@@ -401,9 +401,9 @@ $$
 Desired body Z-axis:
 
 $$
-\mathbf{z}_{B,\text{des}} =
-\frac{\mathbf{F}_{\text{des}}}
-{\|\mathbf{F}_{\text{des}}\|}
+\mathbf{z}{B,\text{des}} =
+\frac{\mathbf{F}{\text{des}}}
+{|\mathbf{F}_{\text{des}}\|}
 $$
 ### 2. Motor Allocation (Mixer Matrix)
 The 4 rotor thrusts $f_1, f_2, f_3, f_4$ are computed from total thrust $T$ and body moments $\tau_x, \tau_y, \tau_z$:
