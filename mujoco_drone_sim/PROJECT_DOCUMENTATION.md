@@ -374,7 +374,7 @@ python run_sim.py --sindy-train
 ## 10. Mathematical & Algorithmic Formulations
 ### 1. SE(3) Geometric Controller
 
-Given desired position \(\mathbf{p}_{\text{des}}\), velocity \(\mathbf{v}_{\text{des}}\), and acceleration \(\mathbf{a}_{\text{des}}\), the position error dynamics are:
+Given desired position $\mathbf{p}_{\text{des}}$, velocity $\mathbf{v}_{\text{des}}$, and acceleration $\mathbf{a}_{\text{des}}$, the position error dynamics are:
 
 $$
 \mathbf{e}_p = \mathbf{p} - \mathbf{p}_{\text{des}},
@@ -386,10 +386,10 @@ The desired force is:
 
 $$
 \mathbf{F}_{\text{des}} =
--k_p\mathbf{e}_p
--k_v\mathbf{e}_v
-+ mg\hat{\mathbf{z}}_W
-+ m\mathbf{a}_{\text{des}}
+-k_p \mathbf{e}_p
+-k_v \mathbf{e}_v
++ mg \hat{\mathbf{z}}_W
++ m \mathbf{a}_{\text{des}}
 $$
 
 Total scalar thrust command:
