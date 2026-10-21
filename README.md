@@ -21,7 +21,7 @@
 | 1 | Gade Varshitha | CB.SC.U4AIE24114 | varshithareddygade54@gmail.com |
 | 2 | Jampana Lakshmi Tejaswi | CB.SC.U4AIE24116 | jlakshmitejaswi@gmail.com |
 | 3 | Konkimalla Laxmi Vignesh | CB.SC.U4AIE24124 | laxmivigneshkonkimalla@gmail.com |
-| 4 | Koruprolu Sri Durga Varalakshmi | CB.SC.U4AIE24125 | varshakoruprolu19@gmail.com|
+| 4 | Koruprolu Sri Durga Varalakshmi | CB.SC.U4AIE24125 | varshakoruprolu19@gmail.com |
 | 5 | Ch. Mounica | CB.SC.U4AIE24169 | mounikachevvakula@gmail.com |
 
 **Amrita Vishwa Vidyapeetham** | School of Artificial Intelligence | Coimbatore Campus | 2026
