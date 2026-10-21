@@ -28,11 +28,6 @@ This project implements an autonomous quadcopter obstacle avoidance system simul
 * **Stochastic Dynamic Obstacles**: Moving obstacles do not follow predictable deterministic paths; they are driven by an **Ornstein-Uhlenbeck stochastic drift process** with random phase, frequency, and wandering drift.
 * **6 Navigation Strategies**:
   1. **Reactive Sector State Machine** (with closing-velocity evasion and hysteresis side-switching)
-  2. **Artificial Potential Fields (APF)** (continuous potential gradients)
-  3. **Dynamic Window Approach (DWA)** (velocity-space rollout optimization)
-  4. **3D Volumetric Avoidance** (vertical overflight of walls and ducking under overhangs)
-  5. **SINDy-Enhanced DWA** (data-driven discovered non-linear quadcopter dynamics)
-  6. **Adaptive Neural Brain** (neural weight updates)
 * **Dead-End & Trap Solving**: Autonomous 360° LiDAR perimeter inspection that detects concave U-traps and circular dead-ends, initiating 3D vertical climb-overs or finding horizontal escape gaps.
 * **Interactive Tooling**: Real-time Web Dashboard (`http://127.0.0.1:8080`) with mouse/keyboard obstacle placement, live LiDAR radar, Kalman trajectory curves, and desktop Tkinter visual arena editor.
 
