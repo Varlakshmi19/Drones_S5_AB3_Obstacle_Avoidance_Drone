@@ -236,7 +236,7 @@ The main obstacle-avoidance implementation is located at:
         obstacle_avoidance.py
 
 ```
-## 6.2 Drone Model
+## 6.2 Drone Model 
 
 The simulation uses the Crazyflie 2.X quadrotor model (`CF2X`) provided by the `gym-pybullet-drones` framework.
 
