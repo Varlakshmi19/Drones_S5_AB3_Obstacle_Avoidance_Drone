@@ -1,23 +1,29 @@
 <p align="center">
-  <img src="assets/amrita_logo.jpg"
-       alt="Amrita Vishwa Vidyapeetham Logo"
-       width="300">
+  <img src="assets/amrita_logo.jpg" alt="Amrita Vishwa Vidyapeetham Logo" width="300">
 </p>
 
 <h1 align="center">Autonomous Obstacle Avoidance for Quadrotor Drones</h1>
 
 <p align="center">
-  <b>Data-Driven Control of Drones</b><br>
-  Team S5 AB3<br>
-  Amrita Vishwa Vidyapeetham
+  <b>Data-Driven Control & Bio-Inspired Reactive Navigation in PyBullet Simulation</b><br>
+  Team S5 AB3 &bull; Amrita Vishwa Vidyapeetham &bull; School of Artificial Intelligence
+</p>
+
+<p align="center">
+  <img src="https://img.shields.io/badge/Python-3.10%2B-blue.svg" alt="Python">
+  <img src="https://img.shields.io/badge/Simulator-PyBullet-orange.svg" alt="PyBullet">
+  <img src="https://img.shields.io/badge/Framework-gym--pybullet--drones-green.svg" alt="gym-pybullet-drones">
+  <img src="https://img.shields.io/badge/Physics_Frequency-240_Hz-lightgrey.svg" alt="240Hz">
+  <img src="https://img.shields.io/badge/Control_Frequency-48_Hz-blueviolet.svg" alt="48Hz">
+  <img src="https://img.shields.io/badge/Success_Rate-100%25-brightgreen.svg" alt="100% Success">
 </p>
 
 ---
 
-# Team Members
+## Team Members
 
 | S. No. | Name | Roll Number | Email |
-|---:|---|---|---|
+|:---:|---|---|---|
 | 1 | Gade Varshitha | CB.SC.U4AIE24114 | varshithareddygade54@gmail.com |
 | 2 | Jampana Lakshmi Tejaswi | CB.SC.U4AIE24116 | jlakshmitejaswi@gmail.com |
 | 3 | Konkimalla Laxmi Vignesh | CB.SC.U4AIE24124 | laxmivigneshkonkimalla@gmail.com |
@@ -27,1003 +33,1123 @@
 **Amrita Vishwa Vidyapeetham** | School of Artificial Intelligence | Coimbatore Campus | 2026
 
 ---
+
 <a id="table-of-contents"></a>
-# Table of Contents
- [Abstract](#abstract)
-1. [Introduction](#introduction)
-2. [Problem Statement](#problem-statement)
-3. [Objectives](#objectives)
-4. [Base Paper](#base-paper)
-5. [Project Scope](#project-scope)
+## Table of Contents
 
-6. [Methodology](#methodology)
-   - [6.1 Simulation Environment](#61-simulation-environment)
-   - [6.2 Drone Model](#62-drone-model)
-   - [6.3 Obstacle Configuration](#63-obstacle-configuration)
-   - [6.4 Virtual Obstacle Sensing](#64-virtual-obstacle-sensing)
-   - [6.5 Goal Direction Calculation](#65-goal-direction-calculation)
-   - [6.6 Obstacle-Avoidance Decision](#66-obstacle-avoidance-decision)
-   - [6.7 Navigation State Machine](#67-navigation-state-machine)
-   - [6.8 Velocity Command Generation](#68-velocity-command-generation)
-   - [6.9 PID-Based Drone Control](#69-pid-based-drone-control)
-   - [6.10 Emergency Recovery](#610-emergency-recovery)
-   - [6.11 Stuck Detection](#611-stuck-detection)
-   - [6.12 Complete Control Loop](#612-complete-control-loop)
-
-7. [Experimental Setup](#experimental-setup)
-
-8. [Experimental Results](#experimental-results)
-   - [8.1 Scenario Results](#81-scenario-results)
-   - [8.2 Direct Obstacle](#82-scenario-1---direct-obstacle)
-   - [8.3 Left-Side Obstacle](#83-scenario-2---left-side-obstacle)
-   - [8.4 Right-Side Obstacle](#84-scenario-3---right-side-obstacle)
-   - [8.5 Narrow Passage](#85-scenario-4---narrow-passage)
-   - [8.6 Dead-End-Like Configuration](#86-scenario-5---dead-end-like-configuration)
-   - [8.7 Multiple Staggered Obstacles](#87-scenario-6---multiple-staggered-obstacles)
-
-9. [Performance Analysis](#performance-analysis)
-10. [Key Observations](#key-observations)
-11. [Project Structure](#project-structure)
-12. [Technologies Used](#technologies-used)
-13. [How to Run](#how-to-run)
-14. [Experimental Metrics](#experimental-metrics)
-15. [Limitations](#limitations)
-16. [Future Work](#future-work)
-17. [Conclusion](#conclusion)
-18. [References](#references)
+- [1. Project Title & Executive Summary](#1-project-title--executive-summary)
+- [2. Project Overview](#2-project-overview)
+- [3. Key Features](#3-key-features)
+- [4. How the Project Works (Architecture & Workflow)](#4-how-the-project-works-architecture--workflow)
+- [5. Technologies Used](#5-technologies-used)
+- [6. Project Folder Structure](#6-project-folder-structure)
+- [7. Complete Mathematical Foundations & Equations](#7-complete-mathematical-foundations--equations)
+  - [7.1 Coordinate Systems & Vector Kinematics](#71-coordinate-systems--vector-kinematics)
+  - [7.2 Virtual Ray-Casting & Obstacle Perception](#72-virtual-ray-casting--obstacle-perception)
+  - [7.3 Reactive State Machine (FSM) Decision Mathematics](#73-reactive-state-machine-fsm-decision-mathematics)
+  - [7.4 Bio-Inspired Adaptive Neural Brain Dynamics](#74-bio-inspired-adaptive-neural-brain-dynamics)
+  - [7.5 Synaptic Plasticity & Memory Hysteresis](#75-synaptic-plasticity--memory-hysteresis)
+  - [7.6 Frustration Dynamics & Deadlock Detour Vector](#76-frustration-dynamics--deadlock-detour-vector)
+  - [7.7 Speed Neuron & Safe Braking Distance](#77-speed-neuron--safe-braking-distance)
+  - [7.8 DSLPID Flight Control Mathematics](#78-dslpid-flight-control-mathematics)
+  - [7.9 Data-Driven Physics Discovery via SINDy & SINDYc](#79-data-driven-physics-discovery-via-sindy--sindyc)
+- [8. Test Scenarios (1 to 10)](#8-test-scenarios-1-to-10)
+- [9. Prerequisites](#9-prerequisites)
+- [10. Installation and Setup](#10-installation-and-setup)
+- [11. How to Run the Project](#11-how-to-run-the-project)
+  - [11.1 Running the Reactive FSM Controller](#111-running-the-reactive-fsm-controller)
+  - [11.2 Running the Adaptive Neural Brain](#112-running-the-adaptive-neural-brain)
+  - [11.3 Running SINDy Dynamic Identification](#113-running-sindy-dynamic-identification)
+- [12. Example Usage & Step-by-Step Walkthrough](#12-example-usage--step-by-step-walkthrough)
+- [13. Code and Module Explanation](#13-code-and-module-explanation)
+- [14. Datasets, Logs & Input Specifications](#14-datasets-logs--input-specifications)
+- [15. Experimental Results and Outputs](#15-experimental-results-and-outputs)
+  - [15.1 Reactive FSM Scenario Benchmark](#151-reactive-fsm-scenario-benchmark)
+  - [15.2 Scenario Visualizations & Trajectories](#152-scenario-visualizations--trajectories)
+  - [15.3 SINDy Discovered Mathematical Models & Accuracy](#153-sindy-discovered-mathematical-models--accuracy)
+- [16. Testing and Validation](#16-testing-and-validation)
+- [17. Troubleshooting Guide](#17-troubleshooting-guide)
+- [18. Limitations](#18-limitations)
+- [19. Future Improvements](#19-future-improvements)
+- [20. Contributing](#20-contributing)
+- [21. License and Acknowledgements](#21-license-and-acknowledgements)
+- [22. References](#22-references)
 
 ---
-# Abstract                                                                                 <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
 
+<a id="1-project-title--executive-summary"></a>
+## 1. Project Title & Executive Summary
 
-Autonomous navigation in cluttered environments is an important capability for quadrotor drones used in applications such as inspection, surveillance, search and rescue, and indoor navigation. A drone operating autonomously must detect nearby obstacles, select a safe direction of motion, recover from difficult configurations, and reach a predefined target without collision.
+**Autonomous Obstacle Avoidance for Quadrotor Drones: Data-Driven Control & Bio-Inspired Navigation**
 
-This project implements and evaluates a reactive obstacle-avoidance framework for a quadrotor drone in a PyBullet-based simulation environment. The system uses virtual range sensing to obtain obstacle-distance information around the drone. These measurements are processed to determine whether the drone can continue toward the goal or should initiate an avoidance maneuver. A state-based navigation mechanism handles normal movement, obstacle avoidance, return-to-goal behavior, and emergency recovery, while PID-based position control is used for drone motion.
+This repository implements, evaluates, and mathematically identifies an end-to-end autonomous navigation and obstacle-avoidance system for a micro-quadrotor drone (Bitcraze Crazyflie 2.X) in the **PyBullet** physics engine using the **gym-pybullet-drones** environment.
 
-The implementation was evaluated using six predefined obstacle configurations. The performance was measured using control steps, completion time, travelled path length, collision steps, avoidance events, and emergency reversals. All six test scenarios successfully reached the target, giving a 100% success rate with zero recorded collision steps. The average completion time was 12.97 seconds and the average path length was 7.881 m.
+The system addresses the challenge of real-time collision avoidance in cluttered, unknown, dynamic, and dead-end environments without requiring heavy SLAM or expensive GPUs. It provides two distinct, fully implemented navigation paradigms:
+1. **Hierarchical Finite State Machine (FSM):** A deterministic, rule-based controller that evaluates directional range sensors, balances lateral opening scores, executes emergency reversals, and checks progress with a sliding-window stuck detector.
+2. **Bio-Inspired Adaptive Neural Brain:** An implementation inspired by the research of *Arne Devos, Emad Ebeid, and Poramate Manoonpong (2018)*, employing a recurrent non-spiking neural network with plastic Hebbian self-synapses, mutual inhibition, and an internal frustration leaky integrator to escape complex local minima, traps, and U-shaped dead ends.
+3. **Data-Driven Equation Discovery (SINDy / SINDYc):** A machine learning pipeline utilizing *Sparse Identification of Nonlinear Dynamics* (Brunton et al., PNAS 2016) that mines the raw flight simulation telemetry to discover the true underlying translational physics (recovering gravitational acceleration $g = 9.80\,\text{m/s}^2$ with $R^2 > 0.999$), quadrotor rotor mixing torques, and closed-loop control dynamics.
 
----
-<a id="introduction"></a>
-# 1. Introduction                                                                               <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
-
-Quadrotor drones are increasingly being used in environments where autonomous navigation is required. Although a drone can follow a predefined trajectory in an obstacle-free environment, navigation becomes more challenging when obstacles are present.
-
-An autonomous obstacle-avoidance system must continuously determine whether the current direction is safe and, when necessary, select an alternative direction that allows the drone to continue toward its target.
-
-Traditional approaches can use cameras, LiDAR, SLAM, or other sensing systems to construct detailed representations of the environment. Such approaches can provide rich information but may require greater computational resources and more complex sensing systems.
-
-The base paper considered in this project investigates computationally inexpensive adaptive obstacle avoidance for autonomous drones. The work focuses on enabling a drone to adapt its motion to obstacles and avoid difficult situations such as deadlocks and corners.
-
-This project studies the obstacle-avoidance problem through simulation and implements a reactive navigation framework in the `gym-pybullet-drones` environment. The system is evaluated under multiple predefined obstacle configurations.
+Across standardized test benchmarks (from simple frontal obstacles to moving intruders and circular ring traps), the system achieves a **100% mission success rate** with **zero recorded collisions**.
 
 ---
-<a id="problem-statement"></a>
-# 2. Problem Statement                                                                           <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
 
-The objective of this project is to develop and evaluate an autonomous quadrotor navigation system capable of reaching a predefined target while avoiding obstacles in a simulated environment.
+<a id="2-project-overview"></a>
+## 2. Project Overview
 
-The system should:
+### What the Project Does
+The project equips an autonomous quadrotor with omnidirectional virtual range perception and fast local planning algorithms that safely guide it from a launch coordinate $\mathbf{p}_0 = (0.0, 0.0, 1.0)\,\text{m}$ to a target waypoint $\mathbf{p}_{\text{goal}} = (6.0, 0.0, 1.0)\,\text{m}$. Along this route, the drone autonomously detects obstacles, dynamically computes collision-free trajectories, escapes traps, and stabilizes itself at $48\,\text{Hz}$ via position-attitude PID control.
 
-- Detect obstacles surrounding the drone.
-- Estimate obstacle proximity using virtual sensing.
-- Determine whether the current direction is safe.
-- Select an appropriate avoidance direction when an obstacle is detected.
-- Continue navigation toward the target after obstacle avoidance.
-- Recover from difficult navigation situations.
-- Reach the target without collision.
-- Provide measurable performance results for different environments.
+### What Problem It Solves
+Traditional obstacle-avoidance techniques for micro-air vehicles (MAVs) present difficult trade-offs:
+- **Global Path Planners (A\*, RRT\*, PRM):** Require a full prior 3D map of the environment and cannot handle dynamic moving obstacles in real time.
+- **Deep Reinforcement Learning (DRL):** Demands millions of trial-and-error training steps, functions as an uninterpretable "black box", and frequently fails when encountering out-of-distribution obstacle shapes.
+- **Vision/LiDAR SLAM Pipelines:** Demand massive onboard computing power and heavy payload sensors that drain miniature drone batteries within minutes.
 
----
-<a id="objectives"></a>
-# 3. Objectives                                                                                  <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
+This project solves these limitations by implementing computationally lightweight reactive and bio-inspired controllers that operate using only low-dimensional distance measurements.
 
-The main objectives of the project are:
-
-### 3.1 Obstacle Detection
-
-Detect nearby obstacles using virtual range-sensing directions.
-
-### 3.2 Reactive Obstacle Avoidance
-
-Select an appropriate direction when the drone encounters an obstacle.
-
-### 3.3 Goal-Oriented Navigation
-
-Ensure that obstacle avoidance remains oriented toward the predefined target.
-
-### 3.4 Recovery Mechanism
-
-Provide an emergency recovery mechanism when normal obstacle avoidance is insufficient.
-
-### 3.5 Stable Drone Control
-
-Use position control to generate stable motion toward the desired position.
-
-### 3.6 Experimental Evaluation
-
-Evaluate the system under multiple obstacle configurations using quantitative performance metrics.
+### Why the Project Is Useful & Who Benefits
+- **Robotics Researchers & Students:** Provides a transparent, fully open-source PyBullet codebase with reproducible benchmarks, exact mathematical derivations, and clean modular code.
+- **Micro-UAV Developers:** Demonstrates real-time obstacle avoidance that can be executed on ultra-low-power microcontrollers (such as STM32 / ARM Cortex-M4 running at 168 MHz) onboard drones like the Crazyflie 2.1.
+- **System Identification Engineers:** Demonstrates how SINDy can be applied to real drone telemetry to extract interpretable, sparse governing differential equations directly from flight logs.
 
 ---
-<a id="base-paper"></a>
-# 4. Base Paper                                                                                  <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
-## Development of Autonomous Drones for Adaptive Obstacle Avoidance in Real World Environments
 
-The project is based on the study:
+<a id="3-key-features"></a>
+## 3. Key Features
 
-**Arne Devos, Emad Ebeid, and Poramate Manoonpong, "Development of Autonomous Drones for Adaptive Obstacle Avoidance in Real World Environments."**
-
-The paper investigates an adaptive obstacle-avoidance approach designed to be computationally inexpensive. The motivation is to allow autonomous drones to operate in complex environments while avoiding difficult configurations such as deadlocks and corners.
-
-The paper discusses a closed-loop obstacle-avoidance system and validates the approach through simulation and implementation on a physical drone platform.
-
-### Relation to the Present Project
-
-The present project studies the obstacle-avoidance problem described in the base paper and implements a simulation-based reactive obstacle-avoidance framework using the `gym-pybullet-drones` environment.
-
-The project focuses on:
-
-- Virtual obstacle sensing
-- Reactive obstacle avoidance
-- Goal-oriented navigation
-- State-based recovery
-- PID-based drone control
-- Quantitative simulation evaluation
-
-The implementation is therefore be an implementation and experimental study of the obstacle-avoidance problem rather than  reproducing every component of the base paper exactly.
+- **Dual Navigation Architectures:**
+  - **Deterministic FSM Engine (`obstacle_avoidance.py`):** 5-state navigation machine (`FORWARD`, `AVOID`, `RETURN`, `EMERGENCY_REVERSE`, `GOAL_REACHED`).
+  - **Bio-Inspired Neural Brain (`brain_avoidance.py` & `brain/neural_brain.py`):** 2-neuron recurrent steering network with Hebbian plasticity, continuous heading steering, speed regulation neuron, and frustration-driven goal detours.
+- **Comprehensive 10-Scenario Benchmark Suite:**
+  - Stationary cube barriers, offset obstacles, narrow slits, U-traps, cylindrical forest slaloms, oscillating lateral obstacles, 3D vertical climbing tiers, dynamic high-speed intruders, and 54-cube circular ring traps.
+- **Dynamic Obstacle Physics Support:**
+  - Real-time kinematics update for time-varying moving obstacles ($y(t) = y_0 + A \sin(\omega t)$) with active collision checking.
+- **Virtual Range Sensor Array:**
+  - 6-beam horizontal array in FSM ($0^\circ, \pm 35^\circ, \pm 70^\circ, 180^\circ$) and 12-beam body-fixed ray fan in Neural Brain ($-90^\circ$ to $+180^\circ$) simulated via PyBullet ray-testing.
+- **Full Closed-Loop Physics Simulation:**
+  - 240 Hz PyBullet multi-body rigid-body dynamics coupled with 48 Hz `DSLPIDControl` computing individual rotor RPMs ($0$ to $21{,}702\,\text{RPM}$).
+- **SINDy Telemetry Discovery Engine:**
+  - STLSQ (Sequentially Thresholded Least Squares) sparse regressor discovering translational forces, motor torque mixing matrices, and closed-loop velocity transfer functions directly from `.npz` flight logs.
+- **Automatic Trajectory & Metric Logging:**
+  - Tracks total flight time, distance travelled, control iterations, collision contact counts, avoidance transitions, and emergency reversals.
 
 ---
-<a id="project-scope"></a>
-# 5. Project Scope                                                                               <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
 
-The project is currently focused on simulation-based autonomous obstacle avoidance.
+<a id="4-how-the-project-works-architecture--workflow"></a>
+## 4. How the Project Works (Architecture & Workflow)
 
-The overall feedback loop can be represented as:
+The system operates as a closed-loop perception-planning-control pipeline executed at $48\,\text{Hz}$ on top of the $240\,\text{Hz}$ PyBullet physical simulator.
+
+### System Architecture Diagram
 
 ```text
-             ┌──────────────────────┐
-             │      Drone State     │
-             └──────────┬───────────┘
-                        │
-                        ▼
-             ┌──────────────────────┐
-             │  Virtual Sensing     │
-             │  / Ray Measurements  │
-             └──────────┬───────────┘
-                        │
-                        ▼
-             ┌──────────────────────┐
-             │ Obstacle Evaluation  │
-             └──────────┬───────────┘
-                        │
-                        ▼
-             ┌──────────────────────┐
-             │ Navigation State     │
-             │      Machine         │
-             └──────────┬───────────┘
-                        │
-                        ▼
-             ┌──────────────────────┐
-             │ Desired Position /   │
-             │ Navigation Command   │
-             └──────────┬───────────┘
-                        │
-                        ▼
-             ┌──────────────────────┐
-             │    PID Controller    │
-             └──────────┬───────────┘
-                        │
-                        ▼
-             ┌──────────────────────┐
-             │   Drone Simulation   │
-             │      in PyBullet     │
-             └──────────┬───────────┘
-                        │
-                        └───────────────► Feedback
+ ┌────────────────────────────────────────────────────────────────────────┐
+ │                      PyBullet Physics Engine (240 Hz)                  │
+ │   - CF2X Quadrotor Rigid Body Dynamics                                │
+ │   - Obstacle Geometries (Boxes, Cylinders, Dynamic Moving Bodies)      │
+ │   - Contact Point Collision Detection                                  │
+ └──────────────────────────────────┬─────────────────────────────────────┘
+                                    │ Drone State: [p, q, v, w]
+                                    ▼
+ ┌────────────────────────────────────────────────────────────────────────┐
+ │                 Virtual Range Perception (48 Hz)                       │
+ │   - PyBullet rayTest / rayTestBatch                                    │
+ │   - Ray starts with radial offset outside rotor diameter (d = 0.18 m)  │
+ │   - Returns distance vector d_i in [0, R_sensor]                       │
+ └──────────────────────────────────┬─────────────────────────────────────┘
+                                    │ Distances & Bearing Angles
+                                    ▼
+         ┌──────────────────────────┴──────────────────────────┐
+         │                                                     │
+         ▼ (Paradigm 1: FSM)                                   ▼ (Paradigm 2: Neural Brain)
+ ┌───────────────────────────────┐                     ┌───────────────────────────────┐
+ │ Reactive Navigation FSM       │                     │ Bio-Inspired Neural Brain     │
+ │ - Weighted Spatial Scores     │                     │ - Tanh Recurrent Steering     │
+ │ - Threshold Conditionals      │                     │ - Plastic Hebbian Synapses    │
+ │ - Stuck Sliding Window        │                     │ - Leaky Frustration Monitor   │
+ │ - Emergency Reversals         │                     │ - Speed & Detour Modulation   │
+ └───────────────┬───────────────┘                     └───────────────┬───────────────┘
+                 │                                                     │
+                 └──────────────────────────┬──────────────────────────┘
+                                            │ Desired Velocity Vector v_des
+                                            ▼
+ ┌────────────────────────────────────────────────────────────────────────┐
+ │                  Target Position Generator (Lookahead)                 │
+ │            p_target = p_current + v_des * lookahead_time               │
+ └──────────────────────────────────┬─────────────────────────────────────┘
+                                    │ Target State [p_target, v_des, yaw]
+                                    ▼
+ ┌────────────────────────────────────────────────────────────────────────┐
+ │                   DSLPIDControl Position & Attitude Controller         │
+ │   - Position PD -> Desired Virtual Acceleration vector                 │
+ │   - Geometric Attitude Extraction -> Desired Orientation Quaternion    │
+ │   - Angular Velocity PD -> Desired Torques [tau_x, tau_y, tau_z, T]    │
+ │   - Motor Mixing Matrix -> Individual Rotor RPM Commands (Motors 0..3) │
+ └──────────────────────────────────┬─────────────────────────────────────┘
+                                    │ Rotor RPM Commands (action[0, :])
+                                    ▼
+ ┌────────────────────────────────────────────────────────────────────────┐
+ │                  PyBullet Step (5 physics ticks per control tick)      │
+ └──────────────────────────────────┬─────────────────────────────────────┘
+                                    │ Telemetry Streaming
+                                    ▼
+ ┌────────────────────────────────────────────────────────────────────────┐
+ │         Logging & SINDy Dynamical Identification Pipeline              │
+ │   - Saves logs/*.npz (Position, Orientation, Rates, RPM, Rays)         │
+ │   - Identifies Governing Differential Equations via STLSQ              │
+ └────────────────────────────────────────────────────────────────────────┘
 ```
-<a id="methodology"></a>
-# 6. Methodology                                                                                 <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
-
-## 6.1 Simulation Environment
-
-The project uses the `gym-pybullet-drones` simulation framework together with the PyBullet physics simulator.
-
-PyBullet provides the physics-based simulation environment in which the quadrotor interacts with the surrounding environment and obstacles. The `gym-pybullet-drones` framework provides the drone model, simulation environment, control interfaces, and supporting utilities required for quadrotor simulation.
-
-The main obstacle-avoidance implementation is located at:
-
-```text  
-
-        obstacle_avoidance.py
-
-```
-## 6.2 Drone Model 
-
-The simulation uses the Crazyflie 2.X quadrotor model (`CF2X`) provided by the `gym-pybullet-drones` framework.
-
-The drone is initialized at:
-
-- Start position: `(0.0, 0.0, 1.0)` m
-- Goal position: `(6.0, 0.0, 1.0)` m
-- Flight altitude: `1.0` m
-
-The drone is simulated using PyBullet physics with:
-
-- Physics frequency: 240 Hz
-- Control frequency: 48 Hz
-
-The controller used for the drone is `DSLPIDControl`.
-
-The drone maintains approximately the same altitude while the obstacle-avoidance system primarily modifies its horizontal motion.
-
-
-## 6.3 Obstacle Configuration
-
-Six predefined obstacle scenarios are implemented to evaluate different navigation situations.
-
-| Scenario | Configuration |
-|---:|---|
-| 1 | One obstacle directly ahead |
-| 2 | One obstacle slightly toward the left |
-| 3 | One obstacle slightly toward the right |
-| 4 | Narrow passage formed by multiple obstacles |
-| 5 | Dead-end-like arrangement with both sides partially blocked |
-| 6 | Multiple staggered obstacles |
-
-Each obstacle is represented as a stationary cube in the PyBullet environment.
-
-The obstacle size used in the experiments is:
-
-$$
-0.30m \times 0.30m \times 0.30m
-$$
-
-The obstacle configurations are created using the `create_test_scenario()` function.
 
 ---
 
-## 6.4 Virtual Obstacle Sensing
+<a id="5-technologies-used"></a>
+## 5. Technologies Used
 
-The system uses six virtual distance sensors implemented using PyBullet ray casting.
-
-The six sensing directions are:
-
-| Sensor | Angle relative to goal direction |
-|---|---:|
-| Far Left | +70° |
-| Left | +35° |
-| Front | 0° |
-| Right | -35° |
-| Far Right | -70° |
-| Rear | 180° |
-
-The goal direction is first calculated from the current drone position toward the target.
-
-Each sensor then casts a ray from the drone in the corresponding direction.
-
-The maximum sensing range is:
-
-$$
-R_s = 1.6m
-$$
-
-For every ray, the system determines whether an obstacle is encountered and calculates the distance to the detected obstacle.
-
-The front obstacle detection threshold is:
-
-$$
-D_{detect}=0.75m
-$$
-
-An obstacle is considered to be within the emergency range when:
-
-$$
-D_{emergency}=0.30m
-$$
-
-The sensor visualization is also displayed in the PyBullet GUI using debug lines.
+| Technology / Library | Version / Scope | Purpose in Project |
+|---|---|---|
+| **Python** | 3.10+ | Core programming language for all logic, physics interfaces, and math routines. |
+| **PyBullet** | $\ge 3.2.5$ | Real-time multi-body physics engine providing rigid-body collision detection and ray-casting. |
+| **gym-pybullet-drones** | Master (utiasDSL) | Quadrotor simulation framework providing the Crazyflie 2.X model, environments, and control classes. |
+| **NumPy** | $\ge 1.22$ | Fast vectorized mathematical operations, matrix inversions, quaternions, and ray fans. |
+| **SciPy** | $\ge 1.9$ | Signal processing tools including the Savitzky-Golay filter (`savgol_filter`) for numerical differentiation. |
+| **Matplotlib** | $\ge 3.5$ | Plotting trajectory comparisons, neural activations, phase portraits, and SINDy validation graphs. |
+| **DSLPIDControl** | Built-in | Non-linear geometric cascaded PID tracking controller tuned specifically for the CF2X quadrotor. |
+| **SINDy / SINDYc** | Custom Implementation | Sparse Identification of Nonlinear Dynamics discovering equations of motion from simulation data. |
 
 ---
 
-## 6.5 Goal Direction Calculation
+<a id="6-project-folder-structure"></a>
+## 6. Project Folder Structure
 
-The drone continuously calculates the horizontal direction from its current position toward the goal.
-
-Let the current position be:
-
-$$
-\mathbf{p}=
-[x,y,z]^T
-$$
-
-and the goal position be:
-
-$$
-\mathbf{p}_g=
-[x_g,y_g,z_g]^T
-$$
-
-The goal displacement is:
-
-$$
-\mathbf{d}_g=\mathbf{p}_g-\mathbf{p}
-$$
-
-The vertical component is ignored for horizontal navigation.
-
-The normalized goal direction is:
-
-$$
-\hat{\mathbf{d}}_g=
-\frac{\mathbf{d}_g}
-{\|\mathbf{d}_g\|}
-$$
-
-This direction is used as the reference direction for both normal movement and the virtual sensor orientations.
-
----
-
-## 6.6 Obstacle-Avoidance Decision
-
-When an obstacle is detected in front of the drone, the system selects either the left or right side for avoidance.
-
-The available space on each side is represented using a weighted score.
-
-The left score is calculated as:
-
-$$
-S_L =
-0.65d_L+
-0.35d_{FL}
-$$
-
-where:
-
-- $d_L$ is the distance measured by the left sensor.
-- $d_{FL}$ is the distance measured by the far-left sensor.
-
-Similarly, the right score is:
-
-$$
-S_R =
-0.65d_R+
-0.35d_{FR}
-$$
-
-where:
-
-- $d_R$ is the distance measured by the right sensor.
-- $d_{FR}$ is the distance measured by the far-right sensor.
-
-The side with the larger score is considered to have more available space.
-
-Therefore:
-
-$$
-Side =
-\begin{cases}
-LEFT, & S_L \geq S_R\\
-RIGHT, & S_R > S_L
-\end{cases}
-$$
-
-A small score difference is handled using the previously selected side to reduce rapid left-right switching.
-
----
-
-## 6.7 Navigation State Machine
-
-The obstacle-avoidance system uses a state-based navigation mechanism.
-
-The main navigation states are:
-
-The navigation states are described below.
-
-### FORWARD
-
-In the `FORWARD` state, the drone moves toward the goal using the goal direction.
-
-The drone remains in this state while the path ahead is sufficiently clear.
-
-If the front sensor detects an obstacle within the detection threshold, the system switches to the `AVOID` state.
-
-### AVOID
-
-In the `AVOID` state, the drone moves laterally around the detected obstacle while maintaining a small forward component.
-
-The avoidance direction is selected using the left and right free-space scores.
-
-The drone remains in avoidance mode for a minimum number of control steps to prevent unstable switching.
-
-Once the front direction remains clear for a specified number of consecutive sensor readings, the system transitions to the `RETURN` state.
-
-### RETURN
-
-The `RETURN` state is used to gradually move the drone back toward the direct path to the goal after passing an obstacle.
-
-If another obstacle is detected, the system returns to the `AVOID` state.
-
-When the drone is sufficiently close to the original path, the system switches back to `FORWARD`.
-
-### EMERGENCY_REVERSE
-
-The `EMERGENCY_REVERSE` state is activated when the drone is in a dangerous or trapped configuration.
-
-This state can be triggered when:
-
-- The front obstacle is within the emergency distance.
-- Both left and right sides are blocked.
-- The stuck detector indicates insufficient progress.
-
-The drone temporarily moves backward to create additional space.
-
-After the reverse maneuver, the system selects an avoidance direction and returns to the `AVOID` state.
-
-The system can also select the opposite side after an emergency reversal to reduce the possibility of repeatedly entering the same blocked configuration.
-
-### GOAL_REACHED
-
-The `GOAL_REACHED` state is entered when the drone comes within the predefined goal tolerance.
-
-The desired velocity is then set to zero and the simulation is terminated successfully.
-
----
-
-## 6.8 Velocity Command Generation
-
-After the navigation state is selected, the system generates a desired velocity command for the drone.
-
-The velocity command depends on the current navigation mode.
-
-### Forward Motion
-
-In the `FORWARD` state, the drone moves directly toward the goal:
-
-`v = v_forward × d_goal`
-
-where:
-
-- `v_forward` is the forward speed.
-- `d_goal` is the normalized horizontal direction toward the goal.
-
-The forward speed used in the implementation is `0.35 m/s`.
-
-### Avoidance Motion
-
-During the `AVOID` state, the drone combines forward motion with lateral motion.
-
-For left-side avoidance:
-
-`v = v_avoid × d_goal + v_side × d_left`
-
-For right-side avoidance:
-
-`v = v_avoid × d_goal + v_side × d_right`
-
-The parameters used are:
-
-- Avoidance forward speed: `0.18 m/s`
-- Side speed: `0.38 m/s`
-
-This allows the drone to move around an obstacle instead of stopping completely.
-
-### Return Motion
-
-After the obstacle is cleared, the `RETURN` state uses a reduced forward velocity of `0.28 m/s` to move the drone back toward the goal path.
-
-### Emergency Reverse
-
-When the drone is trapped, stuck, or the front obstacle is dangerously close, the system commands reverse motion:
-
-`v = -v_reverse × d_goal`
-
-The reverse speed is `0.22 m/s`.
-
-The vertical velocity component is kept at zero so that the obstacle-avoidance system primarily operates in the horizontal plane.
-
----
-## 6.9 PID-Based Drone Control
-
-The generated velocity commands are converted into drone control inputs using the `DSLPIDControl` controller provided by the `gym-pybullet-drones` framework.
-
-At every control step, the system provides the controller with:
-
-- Current drone position
-- Current drone orientation
-- Current linear velocity
-- Current angular velocity
-- Desired target position
-- Desired target velocity
-- Desired roll, pitch, and yaw orientation
-
-The target position is generated slightly ahead of the drone in the desired direction of motion. This helps the position and velocity commands remain consistent.
-
-The controller then computes the required motor RPM values for the four motors of the quadrotor.
-
-The resulting motor commands are passed to the PyBullet simulation.
-
-The control loop therefore follows:
+The directory is structured modularly to separate rule-based navigation, neural control, mathematical modeling, and experimental results:
 
 ```text
-Sensor Measurements
-        ↓
-Obstacle Evaluation
-        ↓
-Navigation State
-        ↓
-Desired Velocity
-        ↓
-Target Position
-        ↓
-DSLPIDControl
-        ↓
-Motor RPM Commands
-        ↓
-Quadrotor Motion
-        ↓
-Updated Drone State
-        ↓
-Sensor Measurements
-```
-The control frequency is 48 Hz, meaning the navigation and control system is updated 48 times per second.
-
----
-## 6.10 Emergency Recovery
-
-
-
-
-The system includes an emergency recovery mechanism for situations where normal obstacle avoidance may not be sufficient.
-
-Emergency recovery is triggered when one of the following conditions occurs:
-
-- The front obstacle is within the emergency distance.
-- Both the left and right sides are blocked.
-- The drone is detected to be stuck.
-
-When an emergency condition occurs, the navigation state changes to `EMERGENCY_REVERSE`.
-
-The drone then moves backward for a predefined number of control steps.
-
-The reverse duration is:`1.2 seconds`
-
-After the reverse operation is completed, the system returns to the `AVOID` state and selects an avoidance direction.
-
-The implementation also attempts to select the opposite side after an emergency reversal when possible. This helps prevent the drone from repeatedly choosing the same blocked direction.
-
-The purpose of this mechanism is to provide recovery from difficult configurations such as dead ends and narrow obstacle arrangements.
-
----
-## 6.11 Stuck Detection
-
-The system continuously monitors the drone's recent positions to determine whether it has become stuck.
-
-A position history is maintained using a fixed-size sliding window.
-
-The stuck detector uses:
-
-- Stuck detection window: `2.0 seconds`
-- Minimum required progress: `0.10 m`
-
-If the drone travels less than `0.10 m` during the observation window while still being away from the goal, it is considered to have made insufficient progress.
-
-The system then triggers the `EMERGENCY_REVERSE` state.
-
-This mechanism helps the drone recover from situations where obstacle avoidance repeatedly produces little or no forward progress.
-
----
-## 6.12 Complete Control Loop
-
-The complete obstacle-avoidance process is executed repeatedly at the control frequency.
-
-The overall procedure is:
-
-1. Obtain the current drone state from the PyBullet simulation.
-2. Read the six virtual distance sensors.
-3. Calculate the distance from the drone to the goal.
-4. Determine whether the front path is blocked.
-5. Check for emergency conditions.
-6. Check whether the drone is stuck.
-7. Select the appropriate navigation state.
-8. Select the left or right avoidance direction when required.
-9. Generate the desired velocity command.
-10. Generate the target position for the controller.
-11. Compute motor RPM commands using `DSLPIDControl`.
-12. Apply the motor commands to the drone.
-13. Record performance metrics.
-14. Repeat until the goal is reached or the simulation time limit is reached.
-
-The control loop can be summarized as:
-
-```text
-             Current Drone State
-                     ↓
-              Virtual Sensors
-                     ↓
-             Obstacle Detection
-                     ↓
-          ┌──────────┴──────────┐
-          │                     │
-      Path Clear            Obstacle
-          │                     │
-          ↓                     ↓
-       FORWARD              AVOIDANCE
-          │                     │
-          │              ┌──────┴──────┐
-          │              │             │
-          │           Left Side     Right Side
-          │              │             │
-          │              └──────┬──────┘
-          │                     ↓
-          │                  RETURN
-          │                     │
-          └──────────────┬──────┘
-                         ↓
-                  Goal Evaluation
-                         ↓
-                ┌────────┴────────┐
-                │                 │
-             Reached          Not Reached
-                │                 │
-                ↓                 ↓
-          GOAL_REACHED      Repeat Control Loop
-```
-
-The loop continues until the drone reaches the predefined goal within the specified goal tolerance.
-
----
-<a id="experimental-setup"></a>
-# 7. Experimental Setup                                                                          <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
-The system was evaluated using six predefined obstacle scenarios.
-
-For every scenario, the following metrics were recorded:
-* Control steps
-* Completion time
-* Final position
-* Path length
-* Collision steps
-* Avoidance events
-* Emergency reversals
-
-The goal position was:
-`(6.0, 0.0, 1.0) m`
-
-A scenario was considered successful when the drone entered the predefined goal tolerance.
-
-<a id="experimental-results"></a>
-# 8. Experimental Results                                                                        <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
-
-## 8.1 Scenario Results
-The six scenarios were executed independently.
-
-| Scenario | Result | Control Steps | Time (s) | Path Length (m) | Collision Steps | Avoidance Events | Emergency Reversals |
-| :---: | :---: | :---: | :---: | :---: | :---: | :---: | :---: |
-| 1 | SUCCESS | 356 | 10.39 | 6.363 | 0 | 1 | 0 |
-| 2 | SUCCESS | 307 | 9.38 | 5.846 | 0 | 0 | 0 |
-| 3 | SUCCESS | 306 | 9.36 | 5.809 | 0 | 0 | 0 |
-| 4 | SUCCESS | 746 | 18.95 | 11.155 | 0 | 4 | 4 |
-| 5 | SUCCESS | 693 | 18.45 | 11.034 | 0 | 4 | 3 |
-| 6 | SUCCESS | 396 | 11.28 | 7.081 | 0 | 2 | 0 |
-
-## 8.2 Scenario 1 - Direct Obstacle
-
-Scenario 1 contains a single obstacle directly in front of the drone.
-
-The drone detected the obstacle and initiated one avoidance event. It successfully moved around the obstacle and continued toward the goal.
-
-* **Result:** SUCCESS
-* **Control Steps:** 356
-* **Completion Time:** 10.39 s
-* **Path Length:** 6.363 m
-* **Collision Steps:** 0
-* **Avoidance Events:** 1
-* **Emergency Reversals:** 0
-* <img width="1277" height="991" alt="image" src="https://github.com/user-attachments/assets/b8d7cb6e-5c22-4f45-809e-bd42f5700f91" />
-
-
-## 8.3 Scenario 2 - Left-Side Obstacle
-
-Scenario 2 places the obstacle slightly toward the left of the goal direction.
-
-The drone successfully reached the target without requiring a recorded avoidance transition.
-
-* **Result:** SUCCESS
-* **Control Steps:** 307
-* **Completion Time:** 9.38 s
-* **Path Length:** 5.846 m
-* **Collision Steps:** 0
-* **Avoidance Events:** 0
-* **Emergency Reversals:** 0
-* <img width="1293" height="1029" alt="image" src="https://github.com/user-attachments/assets/da31bd8b-9ef1-4158-b463-632f7f2482fb" />
-
-
-## 8.4 Scenario 3 - Right-Side Obstacle
-
-Scenario 3 places the obstacle slightly toward the right.
-
-The drone successfully reached the goal without collision.
-
-* **Result:** SUCCESS
-* **Control Steps:** 306
-* **Completion Time:** 9.36 s
-* **Path Length:** 5.809 m
-* **Collision Steps:** 0
-* **Avoidance Events:** 0
-* **Emergency Reversals:** 0
-* <img width="1278" height="990" alt="image" src="https://github.com/user-attachments/assets/258e9c0d-d51f-46f2-a288-a71aa64d2ef8" />
-
-
-## 8.5 Scenario 4 - Narrow Passage
-
-Scenario 4 contains multiple obstacles forming a narrow passage.
-
-This scenario required significantly more navigation effort than the simpler cases. The system generated multiple avoidance events and emergency reversals before successfully reaching the goal.
-
-* **Result:** SUCCESS
-* **Control Steps:** 746
-* **Completion Time:** 18.95 s
-* **Path Length:** 11.155 m
-* **Collision Steps:** 0
-* **Avoidance Events:** 4
-* **Emergency Reversals:** 4
-* <img width="1275" height="997" alt="image" src="https://github.com/user-attachments/assets/cbad036e-8fd1-48aa-9229-10cfe3defa23" />
-
-
-### 8.6 Scenario 5 - Dead-End-Like Configuration
-
-Scenario 5 was designed to test recovery from a difficult obstacle configuration where both sides are partially blocked.
-
-The drone successfully recovered using emergency reverse behavior and subsequently continued obstacle avoidance.
-
-* **Result:** SUCCESS
-* **Control Steps:** 693
-* **Completion Time:** 18.45 s
-* **Path Length:** 11.034 m
-* **Collision Steps:** 0
-* **Avoidance Events:** 4
-* **Emergency Reversals:** 3
-* <img width="1278" height="995" alt="image" src="https://github.com/user-attachments/assets/1d616558-eade-4a0b-94c2-10706f907fbb" />
-
-
-## 8.7 Scenario 6 - Multiple Staggered Obstacles
-
-Scenario 6 contains multiple obstacles arranged at different lateral positions.
-
-The drone successfully navigated through the obstacle field using multiple avoidance decisions.
-
-* **Result:** SUCCESS
-* **Control Steps:** 396
-* **Completion Time:** 11.28 s
-* **Path Length:** 7.081 m
-* **Collision Steps:** 0
-* **Avoidance Events:** 2
-* **Emergency Reversals:** 0
-* <img width="1277" height="991" alt="image" src="https://github.com/user-attachments/assets/28c8d82a-d4e0-4d4d-b766-6632a0193b26" />
-
-<a id="performance-analysis"></a>
-# 9. Performance Analysis                                                                       <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
-
-The experimental results demonstrate that the proposed reactive navigation framework successfully completed all six predefined scenarios.
-
-### Success Rate
-All six scenarios reached the goal:
-* Successful scenarios = 6
-* Total scenarios = 6
-* Success Rate = 100%
-
-### Collision Performance
-No collision steps were recorded in any of the six scenarios.
-* Total collision steps = 0
-
-This indicates that the obstacle-detection and avoidance logic successfully prevented recorded contacts with the test obstacles under the evaluated simulation conditions.
-
-### Completion Time
-The fastest scenario was Scenario 3 with a completion time of:
-* 9.36 s
-
-The slowest scenario was Scenario 4 with:
-* 18.95 s
-
-The more complex scenarios required additional avoidance and recovery actions, resulting in longer completion times.
-
-### Path Length
-The shortest recorded path was Scenario 3:
-* 5.809 m
-
-The longest recorded path was Scenario 4:
-* 11.155 m
-
-The increase in path length for complex scenarios is expected because the drone must deviate from the direct route to avoid obstacles.
-
-### Emergency Recovery
-Emergency reversals were mainly required in the more constrained scenarios:
-* Scenario 1: 0
-* Scenario 2: 0
-* Scenario 3: 0
-* Scenario 4: 4
-* Scenario 5: 3
-* Scenario 6: 0
-
-This shows that the emergency recovery mechanism was particularly important for the narrow-passage and dead-end-like environments.
-
-<a id="key-observations"></a>
-# 10. Key Observations                                                                           <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
-The experiments produced the following observations:
-
-1. The drone successfully reached the goal in all six tested scenarios.
-2. No collision steps were recorded across the experiments.
-3. Simple obstacle configurations required fewer avoidance actions.
-4. Narrow and constrained environments increased both path length and completion time.
-5. The emergency reverse mechanism helped the drone recover from difficult configurations.
-6. The state-based navigation approach reduced unnecessary switching between normal movement and avoidance.
-7. The virtual ray sensors provided sufficient local obstacle information for the tested simulation environments.
-8. The PID controller maintained stable drone motion while the navigation layer modified the desired horizontal movement.
-
-
-<a id="project-structure"></a>
-# 11. Project Structure                                                                         <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
-
-The repository is intentionally kept minimal. The `gym-pybullet-drones` library is installed as an external dependency instead of copying the complete library into this repository.
-
-```text
-Drones_S5_AB3_Obstacle_Avoidance/
+Drones_S5_AB3_Obstacle_Avoidance_Drone/
 │
-├── README.md
-├── RESULTS.md
-├── requirements.txt
-├── obstacle_avoidance.py
-├── .gitignore
-|__ Base_paper.pdf
-|__terminalResults/
-|   |_scenario1.txt
-|   |_scenario2.txt
-|   |_scenario3.txt
-|   |_scenario4.txt
-|   |_scenario5.txt
-|   |_scanario6.txt
-└── assets/
-    └── amrita_logo.jpg
+├── README.md                      # Complete project documentation and mathematical derivations
+├── RESULTS.md                     # Detailed experimental log data for Scenarios 1 to 6
+├── FRP.md                         # Final Review Proposal detailing objectives, problem statement, and scope
+├── Base_Paper.pdf                 # Reference research paper (Devos, Ebeid, Manoonpong, DSD 2018)
+├── requirements.txt               # Top-level Python dependency specification
+├── obstacle_avoidance.py          # Root copy of the reactive FSM navigation controller
+│
+├── pybullet/                      # Core PyBullet simulation and scientific research module
+│   ├── obstacle_avoidance.py      # Primary FSM navigation engine (10 scenarios, dynamic obstacles, metrics)
+│   ├── brain_avoidance.py         # Testbed running the Adaptive Neural Brain across scenarios 1 to 10
+│   │
+│   ├── brain/                     # Bio-inspired neural navigation package
+│   │   ├── __init__.py            # Module exports (AdaptiveNeuralBrain, BrainConfig, RAY_ANGLES_DEG)
+│   │   └── neural_brain.py        # Complete RNN architecture with Hebbian plasticity and frustration
+│   │
+│   ├── sindy/                     # Sparse Identification of Nonlinear Dynamics package
+│   │   ├── __init__.py            # Module exports (SINDy, PolynomialLibrary, stlsq, finite_difference)
+│   │   ├── sindy.py               # Lightweight STLSQ sparse regression and polynomial library implementation
+│   │   └── identify_dynamics.py   # Script identifying translational, rotational, and closed-loop models
+│   │
+│   ├── models/                    # Identified mathematical models stored as serialized JSON
+│   │   ├── sindy_translational.json  # Discovered translational physics (recovers gravity and thrust)
+│   │   ├── sindy_rotational.json     # Discovered quadrotor torque mixing matrix for X-configuration
+│   │   └── sindy_closed_loop.json    # Discovered velocity response transfer function (SINDYc)
+│   │
+│   ├── results/                   # Experimental plots, graphs, and performance reports
+│   │   └── sindy/
+│   │       ├── A_translational.png       # Parity plots: predicted vs actual accelerations (ax, ay, az)
+│   │       ├── B_rotational.png          # Parity plots: predicted vs actual angular accelerations (dw)
+│   │       ├── C_rollout_brain_s4.png    # Free RK4 integration rollout on held-out Scenario 4
+│   │       └── report.json               # Quantitative R^2 scores, residual errors, and formulas
+│   │
+│   └── logs/                      # Telemetry datasets recorded from 48 Hz simulation runs
+│       ├── brain_s1.npz           # Scenario 1 flight telemetry log
+│       ├── brain_s2.npz           # Scenario 2 flight telemetry log
+│       ├── brain_s3.npz           # Scenario 3 flight telemetry log
+│       ├── brain_s4.npz           # Scenario 4 flight telemetry log (held-out test set for SINDy)
+│       ├── brain_s5.npz           # Scenario 5 flight telemetry log
+│       ├── brain_s6.npz           # Scenario 6 flight telemetry log
+│       ├── brain_s7.npz           # Scenario 7 flight telemetry log (Dynamic moving obstacle)
+│       ├── brain_s8.npz           # Scenario 8 flight telemetry log (3D clutter)
+│       ├── brain_s9.npz           # Scenario 9 flight telemetry log (High-speed intruder)
+│       └── brain_s10.npz          # Scenario 10 flight telemetry log (Circular dead-end ring)
+│
+├── terminalResults/               # Raw execution logs captured from terminal runs
+│   ├── scenario1.txt              # Terminal output log for Scenario 1
+│   ├── scenario2.txt              # Terminal output log for Scenario 2
+│   ├── scenario3.txt              # Terminal output log for Scenario 3
+│   ├── scenario4.txt              # Terminal output log for Scenario 4
+│   ├── scenario5.txt              # Terminal output log for Scenario 5
+│   └── scenario6.txt              # Terminal output log for Scenario 6
+│
+└── assets/                        # Documentation images and university branding
+    └── amrita_logo.jpg            # Amrita Vishwa Vidyapeetham official emblem
 ```
 
-### Main Files
+---
 
-- **`obstacle_avoidance.py`** – Main simulation, obstacle sensing, navigation state machine, avoidance logic, recovery mechanism, and experiment execution.
-- **`RESULTS.md`** – Recorded experimental results and scenario-wise performance analysis.
-- **`requirements.txt`** – Python dependency required to run the simulation.
-- **`assets/amrita_logo.jpg`** – Project/README logo.
+<a id="7-complete-mathematical-foundations--equations"></a>
+## 7. Complete Mathematical Foundations & Equations
 
-<a id="technologies-used"></a>
-# 12. Technologies Used                                                                          <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
-| Technology | Purpose |
-| :--- | :--- |
-| Python | Main programming language |
-| PyBullet | Physics simulation |
-| gym-pybullet-drones | Quadrotor simulation framework |
-| NumPy | Numerical computations |
-| DSLPIDControl | Drone position and velocity control |
-| PyBullet Ray Casting | Virtual obstacle sensing |
-| Git | Version control |
-| GitHub | Project repository |
+This section provides the mathematical models, formulas, derivations, and step-by-step numerical examples corresponding to the actual source code.
 
-<a id="how-to-run"></a>
-# 13. How to Run                                                                                 <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
+```text
+ ┌────────────────────────────────────────────────────────────────────────┐
+ │                      Mathematical Architecture Overview                │
+ ├────────────────────────────────────────────────────────────────────────┤
+ │ 1. Geometry & Perception:                                              │
+ │    - Goal Direction:         d_hat_g = (p_goal - p) / ||p_goal - p||   │
+ │    - Ray-Casting Fan:        r_i(s)  = p + offset*u_theta + s*R*u_theta│
+ │    - Elliptical Bubble:      R_react(theta) = ab / sqrt((b cos)^2 + ..)│
+ │                                                                        │
+ │ 2. Decision & Reactive FSM:                                            │
+ │    - Spatial Free Space:     S_L = 0.65 d_L + 0.35 d_FL                │
+ │    - Decision Hysteresis:    |S_L - S_R| >= delta_hysteresis           │
+ │    - Stuck Detection:        ||p[k] - p[k-W]|| < delta_progress        │
+ │                                                                        │
+ │ 3. Bio-Inspired Neural Brain:                                          │
+ │    - Leaky Membrane ODE:     tau * dx/dt = -x + drive                  │
+ │    - Hebbian Plasticity:     dw_ii/dt = mu*(1+2F)*pre*post - gamma*w_ii│
+ │    - Frustration Integrator: dF/dt = alpha_rise (if stalled)           │
+ │    - Adaptive Heading Rate:  omega = k_g*err_g*(1-act) - k_turn*steer  │
+ │                                                                        │
+ │ 4. Flight Control & Dynamics:                                          │
+ │    - Cascaded DSLPID:        a_des = K_p*e_p + K_d*e_v + g*z_W         │
+ │    - Motor RPM Allocation:   Thrust = k_f * sum(Omega_i^2)             │
+ │                                                                        │
+ │ 5. Data-Driven Discovery:                                              │
+ │    - SINDy Formulation:      dX/dt = Theta(X, U) * Xi                  │
+ │    - STLSQ Optimization:     min ||dX - Theta*Xi||_2^2 + alpha*||Xi||_F│
+ └────────────────────────────────────────────────────────────────────────┘
+```
 
-### 13.1 Create a Virtual Environment
+---
 
+### 7.1 Coordinate Systems & Vector Kinematics
+
+The simulation operates in a right-handed inertial Cartesian frame $\mathcal{F}_W = \{\mathbf{x}_W, \mathbf{y}_W, \mathbf{z}_W\}$ where $\mathbf{z}_W$ points upward against gravity.
+
+#### Equation: Horizontal Unit Direction toward Goal
+$$
+\mathbf{d}_{\text{goal}} = \mathbf{p}_{\text{goal}} - \mathbf{p}(t) = \begin{bmatrix} x_{\text{goal}} - x(t) \\ y_{\text{goal}} - y(t) \\ 0 \end{bmatrix}
+$$
+$$
+\hat{\mathbf{d}}_g = \frac{\mathbf{d}_{\text{goal}}}{\|\mathbf{d}_{\text{goal}}\|_2} = \begin{bmatrix} \frac{x_{\text{goal}} - x}{\sqrt{(x_{\text{goal}} - x)^2 + (y_{\text{goal}} - y)^2}} \\ \frac{y_{\text{goal}} - y}{\sqrt{(x_{\text{goal}} - x)^2 + (y_{\text{goal}} - y)^2}} \\ 0 \end{bmatrix}
+$$
+
+- **Meaning:** Computes the unit direction vector in the horizontal $xy$-plane pointing directly from the drone to the target waypoint.
+- **Variables:**
+  - $\mathbf{p}(t) = [x, y, z]^T$: Instantaneous 3D position of the drone in world coordinates ($\text{m}$).
+  - $\mathbf{p}_{\text{goal}} = [6.0, 0.0, 1.0]^T$: Fixed 3D destination ($\text{m}$).
+  - $\hat{\mathbf{d}}_g$: Normalized 2D horizontal unit vector.
+- **Implementation:** `horizontal_unit_vector()` and `goal_direction()` in [pybullet/obstacle_avoidance.py](file:///c:/Users/varsh/Downloads/gitDrones/Drones_S5_AB3_Obstacle_Avoidance_Drone/pybullet/obstacle_avoidance.py#L341-L381).
+- **Step-by-Step Numerical Example:**
+  Suppose the drone has moved to $\mathbf{p} = [2.00, 0.50, 1.00]^T$:
+  1. Difference vector: $\mathbf{d}_{\text{goal}} = [6.0 - 2.0, 0.0 - 0.5, 0.0]^T = [4.0, -0.5, 0.0]^T$.
+  2. Euclidean norm: $\|\mathbf{d}_{\text{goal}}\| = \sqrt{4.0^2 + (-0.5)^2} = \sqrt{16.0 + 0.25} = \sqrt{16.25} \approx 4.0311\,\text{m}$.
+  3. Normalized vector: $\hat{\mathbf{d}}_g = \left[\frac{4.0}{4.0311}, \frac{-0.5}{4.0311}, 0\right]^T \approx [0.9923, -0.1240, 0.0]^T$.
+
+#### Equation: 2D Planar Rotation Matrix
+To project sensor rays or lateral avoidance vectors at an angle $\theta$ relative to $\hat{\mathbf{d}}_g$:
+$$
+\mathbf{R}_z(\theta) = \begin{bmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{bmatrix}, \quad \hat{\mathbf{u}}_\theta = \mathbf{R}_z(\theta) \hat{\mathbf{d}}_g
+$$
+- **Implementation:** `rotate_horizontal(vector, angle_degrees)` in [pybullet/obstacle_avoidance.py](file:///c:/Users/varsh/Downloads/gitDrones/Drones_S5_AB3_Obstacle_Avoidance_Drone/pybullet/obstacle_avoidance.py#L357-L371).
+
+---
+
+### 7.2 Virtual Ray-Casting & Obstacle Perception
+
+The drone perceives its local surroundings by querying the PyBullet collision world via geometric rays.
+
+#### Equation: Ray Parametrization & Distance Extraction
+Each ray $i$ originating from the drone body is parametrized by $s \in [0, 1]$:
+$$
+\mathbf{r}_i(s) = \mathbf{r}_{\text{start}, i} + s \cdot (\mathbf{r}_{\text{end}, i} - \mathbf{r}_{\text{start}, i})
+$$
+where:
+$$
+\mathbf{r}_{\text{start}, i} = \mathbf{p} + d_{\text{offset}} \hat{\mathbf{u}}_{\theta_i}, \quad \mathbf{r}_{\text{end}, i} = \mathbf{r}_{\text{start}, i} + R_{\text{sensor}} \hat{\mathbf{u}}_{\theta_i}
+$$
+PyBullet's `p.rayTest` returns the normalized intersection fraction $f_i \in [0, 1]$ and the collided object identifier $\text{id}_{\text{hit}}$:
+$$
+d_i = \begin{cases} R_{\text{sensor}}, & \text{if } \text{id}_{\text{hit}} = -1 \text{ (no hit)} \\ f_i \cdot R_{\text{sensor}}, & \text{if } \text{id}_{\text{hit}} \ge 0 \text{ (obstacle detected)} \end{cases}
+$$
+
+- **Variables:**
+  - $d_{\text{offset}} = 0.18\,\text{m}$ (FSM) or $0.10\,\text{m}$ (Brain): Radial clearance ensuring rays originate outside the quadrotor's propeller diameter ($0.065\,\text{m}$ radius) to avoid self-detection.
+  - $R_{\text{sensor}} = 1.60\,\text{m}$: Maximum sensor detection range.
+  - $d_i$: Measured Euclidean distance to obstacle along bearing angle $\theta_i$.
+- **Implementation:** `cast_sensor_ray()` in [pybullet/obstacle_avoidance.py](file:///c:/Users/varsh/Downloads/gitDrones/Drones_S5_AB3_Obstacle_Avoidance_Drone/pybullet/obstacle_avoidance.py#L387-L431) and `cast_rays()` in [pybullet/brain_avoidance.py](file:///c:/Users/varsh/Downloads/gitDrones/Drones_S5_AB3_Obstacle_Avoidance_Drone/pybullet/brain_avoidance.py#L71-L89).
+
+#### Equation: Elliptical Reactive Bubble (Neural Brain)
+To prevent the drone from false-triggering avoidance on corridor side-walls when flying down narrow passages, the reaction threshold varies continuously with heading angle $\theta$ following an ellipse:
+$$
+R_{\text{react}}(\theta) = \frac{a \cdot b}{\sqrt{(b \cos\theta)^2 + (a \sin\theta)^2}}
+$$
+- **Variables:**
+  - $a = 1.10\,\text{m}$: Major semi-axis straight ahead ($\theta = 0^\circ$).
+  - $b = 0.32\,\text{m}$: Minor semi-axis directly sideways ($\theta = \pm 90^\circ$).
+- **Numerical Example:**
+  - Ahead ($\theta = 0^\circ$): $R_{\text{react}}(0^\circ) = \frac{1.10 \times 0.32}{\sqrt{(0.32 \times 1)^2 + 0}} = 1.10\,\text{m}$.
+  - Oblique ($\theta = 45^\circ$): $\cos(45^\circ) = \sin(45^\circ) \approx 0.7071$.
+    $\sqrt{(0.32 \times 0.7071)^2 + (1.10 \times 0.7071)^2} = \sqrt{0.0512 + 0.6050} = \sqrt{0.6562} \approx 0.8101$.
+    $R_{\text{react}}(45^\circ) = \frac{0.352}{0.8101} \approx 0.4345\,\text{m}$.
+  - Sideways ($\theta = 90^\circ$): $R_{\text{react}}(90^\circ) = 0.32\,\text{m}$.
+- **Implementation:** [pybullet/brain/neural_brain.py](file:///c:/Users/varsh/Downloads/gitDrones/Drones_S5_AB3_Obstacle_Avoidance_Drone/pybullet/brain/neural_brain.py#L112-L113).
+
+---
+
+### 7.3 Reactive State Machine (FSM) Decision Mathematics
+
+The FSM divides 3D space into six directional sectors relative to $\hat{\mathbf{d}}_g$:
+- $\text{Far Left } (+70^\circ)$, $\text{Left } (+35^\circ)$, $\text{Front } (0^\circ)$, $\text{Right } (-35^\circ)$, $\text{Far Right } (-70^\circ)$, $\text{Rear } (180^\circ)$.
+
+```text
+                       Front (0°)
+                           ▲
+             Left (+35°)   │   Right (-35°)
+                  \        │        /
+                   \       │       /
+         Far-Left   \      │      /   Far-Right
+          (+70°)     \     │     /     (-70°)
+               ◄─────── Drone ───────►
+                           │
+                           │
+                           ▼
+                      Rear (180°)
+```
+
+#### Equation: Spatial Free-Space Scores
+$$
+S_{\text{left}} = 0.65 \cdot d_{\text{left}} + 0.35 \cdot d_{\text{far\_left}}
+$$
+$$
+S_{\text{right}} = 0.65 \cdot d_{\text{right}} + 0.35 \cdot d_{\text{far\_right}}
+$$
+- **Weights Meaning:** $0.65$ weights the primary turning zone ($35^\circ$), while $0.35$ provides contextual clearance in the wider periphery ($70^\circ$).
+- **Decision Rule with Hysteresis:**
+$$
+\text{Side}^* = \begin{cases} \text{Previous Side}, & \text{if } |S_{\text{left}} - S_{\text{right}}| < 0.08\,\text{m} \text{ and Previous Side is set} \\ \text{LEFT}, & \text{if } S_{\text{left}} \ge S_{\text{right}} \\ \text{RIGHT}, & \text{if } S_{\text{right}} > S_{\text{left}} \end{cases}
+$$
+- **Purpose:** The $0.08\,\text{m}$ dead-band hysteresis prevents high-frequency limit-cycle chatter (rapid left-right oscillations) when facing symmetric obstacles.
+- **Implementation:** `calculate_side_scores()` & `choose_avoidance_side()` in [pybullet/obstacle_avoidance.py](file:///c:/Users/varsh/Downloads/gitDrones/Drones_S5_AB3_Obstacle_Avoidance_Drone/pybullet/obstacle_avoidance.py#L475-L515).
+
+#### Equation: Stuck & Trap Detection
+Let the position history buffer of length $W = 96$ ticks ($2.0\,\text{s}$ at $48\,\text{Hz}$) be $\mathcal{H}_p = \{\mathbf{p}_{k-W+1}, \dots, \mathbf{p}_k\}$.
+$$
+\Delta p_{\text{progress}} = \|\mathbf{p}_k[0:2] - \mathbf{p}_{k-W+1}[0:2]\|_2
+$$
+The stuck flag is asserted when:
+$$
+\text{Stuck} = \left(\Delta p_{\text{progress}} < 0.10\,\text{m}\right) \;\wedge\; \left(\|\mathbf{p}_k - \mathbf{p}_{\text{goal}}\| > 0.25\,\text{m}\right)
+$$
+- **Interpretation:** If the drone covers less than $10\,\text{cm}$ in $2$ seconds while still outside the goal circle, it is trapped against a corner or dead-end, triggering `EMERGENCY_REVERSE`.
+- **Implementation:** `progress_is_too_small()` in [pybullet/obstacle_avoidance.py](file:///c:/Users/varsh/Downloads/gitDrones/Drones_S5_AB3_Obstacle_Avoidance_Drone/pybullet/obstacle_avoidance.py#L517-L533).
+
+---
+
+### 7.4 Bio-Inspired Adaptive Neural Brain Dynamics
+
+The Adaptive Neural Brain models the biological neural circuits observed in insects and flying organisms for obstacle avoidance (*Devos et al., 2018*).
+
+```text
+   Left Sensors                Front Sensor               Right Sensors
+  [+8° to +90°]                    [0°]                   [-8° to -90°]
+        │                           │                           │
+        ▼                           ▼                           ▼
+   Proximity I_L ──────────► [Frontal Cone] ◄────────── Proximity I_R
+        │                           │                           │
+        ▼ w_in                      ▼                           ▼ w_in
+ ┌──────────────┐            Speed Neuron S             ┌──────────────┐
+ │ Steering     │                   │                   │ Steering     │
+ │ Neuron L     │◄──── w_cross ─────┼───── w_cross ────►│ Neuron R     │
+ │ (self w_LL)  │                   │                   │ (self w_RR)  │
+ └──────┬───────┘                   ▼                   └──────┬───────┘
+        │                 v = V_MAX * s(S)                     │
+        ▼                                                      ▼
+  Activity a_L                                           Activity a_R
+        │                                                      │
+        └───────────────────────┬──────────────────────────────┘
+                                ▼
+               Steering: steer = a_L - a_R
+               Heading:  d(psi)/dt = omega(steer, F, goal)
+```
+
+The recurrent steering network contains two coupled, continuous-time, leaky-integrator neurons:
+- Left Steering Neuron $L$
+- Right Steering Neuron $R$
+
+#### Equation: Membrane Potential Leaky ODE
+$$
+\tau \frac{dx_L}{dt} = -x_L(t) + \text{drive}_L(t)
+$$
+$$
+\tau \frac{dx_R}{dt} = -x_R(t) + \text{drive}_R(t)
+$$
+where $\tau = 0.18\,\text{s}$ is the membrane relaxation time constant. Discretized via forward Euler at step $\Delta t = 1/48\,\text{s}$:
+$$
+x_L[k+1] = x_L[k] + \frac{\Delta t}{\tau} \left(-x_L[k] + \text{drive}_L[k]\right)
+$$
+$$
+x_R[k+1] = x_R[k] + \frac{\Delta t}{\tau} \left(-x_R[k] + \text{drive}_R[k]\right)
+$$
+
+#### Equation: Synaptic Drive Equations
+$$
+\text{drive}_L = w_{LL} a_L[k] + w_{\text{cross}} a_R[k] + w_{\text{in}} I_L + \text{bias} - \Delta_{\text{free}} - h_{\text{side}}
+$$
+$$
+\text{drive}_R = w_{RR} a_R[k] + w_{\text{cross}} a_L[k] + w_{\text{in}} I_R + \text{bias} + \Delta_{\text{free}} + h_{\text{side}}
+$$
+- **Neuron Output & Normalized Firing Rate:**
+$$
+o_i = \tanh(x_i) \in (-1, 1), \quad a_i = \frac{o_i + 1}{2} \in [0, 1]
+$$
+- **Network Parameters:**
+  - $w_{\text{self}, 0} = 1.40$: Baseline excitatory self-weight providing short-term turning memory.
+  - $w_{\text{cross}} = -1.60$: Mutual inhibitory weight enforcing winner-take-all competitive selection.
+  - $w_{\text{in}} = 4.00$: Sensory input gain amplifying obstacle detection.
+  - $\text{bias} = -2.20$: Constant hyperpolarizing bias keeping neurons inactive ($a_i \approx 0$) in obstacle-free space.
+  - $\Delta_{\text{free}} = w_{\text{free}} \left(\frac{\bar{d}_{\text{left}}}{R_s} - \frac{\bar{d}_{\text{right}}}{R_s}\right)$ with $w_{\text{free}} = 0.8$: Free-space peripheral bias.
+  - $h_{\text{side}} = 0.08 \cdot \sigma_{\text{committed}}$ ($\pm 1$): Memory tie-breaker breaking dead-center balance.
+- **Implementation:** [pybullet/brain/neural_brain.py](file:///c:/Users/varsh/Downloads/gitDrones/Drones_S5_AB3_Obstacle_Avoidance_Drone/pybullet/brain/neural_brain.py#L159-L167).
+
+---
+
+### 7.5 Synaptic Plasticity & Memory Hysteresis
+
+In complex traps (such as U-shaped dead ends), standard reactive systems turn away from a wall, only to turn straight back toward the goal as soon as the obstacle exits the sensor cone, causing a fatal oscillation. The Adaptive Neural Brain solves this by dynamically adapting its self-excitatory weights $w_{LL}$ and $w_{RR}$ via Hebbian correlation learning.
+
+#### Equation: Activity-Dependent Hebbian Plasticity
+$$
+\frac{dw_{ii}}{dt} = \mu \left(1 + 2F\right) \cdot I_i \cdot a_i - \gamma \left(w_{ii} - w_{\text{self}, 0}\right)
+$$
+In discrete simulation:
+$$
+w_{ii}[k+1] = \text{clip}\left(w_{ii}[k] + \Delta t \left[\mu (1 + 2F) I_i a_i - \gamma (w_{ii}[k] - w_{\text{self}, 0})\right], \; w_{\text{self}, 0}, \; w_{\text{self}, \text{max}}\right)
+$$
+- **Variables & Gains:**
+  - $\mu = 0.90\,\text{s}^{-1}$: Hebbian growth rate (potentiates synapses during concurrent obstacle presence $I_i$ and turning activity $a_i$).
+  - $\gamma = 0.15\,\text{s}^{-1}$: Exponential homeostatic relaxation rate returning weights to baseline $w_{\text{self}, 0} = 1.4$.
+  - $w_{\text{self}, \text{max}} = 3.20$: Upper synaptic ceiling preventing self-latching runaway dynamics.
+  - $F \in [0, 1]$: Frustration state scaling learning during stall events.
+- **Physical Derivation of Hysteresis:**
+  When $w_{ii}$ increases from $1.4$ toward $3.2$, the neuron's effective time-decay constant $\tau_{\text{eff}} = \frac{\tau}{1 - w_{ii} \frac{\partial a}{\partial x}}$ increases dramatically. The neuron remains active *even after the obstacle is no longer detected* ($I_i = 0$), forcing the drone to complete an extended detour until the obstacle is completely cleared.
+- **Implementation:** [pybullet/brain/neural_brain.py](file:///c:/Users/varsh/Downloads/gitDrones/Drones_S5_AB3_Obstacle_Avoidance_Drone/pybullet/brain/neural_brain.py#L177-L180).
+
+---
+
+### 7.6 Frustration Dynamics & Deadlock Detour Vector
+
+To guarantee escape from U-shaped traps and deep pockets, the brain tracks goal progress using a leaky integrator called **Frustration** ($F \in [0, 1]$).
+
+#### Equation: Frustration Leaky Integrator
+Let $d_{\text{goal}}(t) = \|\mathbf{p}(t) - \mathbf{p}_{\text{goal}}\|$ and $d_{\text{best}} = \min_{\tau \le t} d_{\text{goal}}(\tau)$.
+$$
+\frac{dF}{dt} = \begin{cases} +\alpha_{\text{rise}} = 0.35\,\text{s}^{-1}, & \text{if } t_{\text{no\_progress}} > 1.0\,\text{s} \;\wedge\; t_{\text{open}} < 1.0\,\text{s} \\ -\alpha_{\text{decay}} = 0.50\,\text{s}^{-1}, & \text{if } t_{\text{open}} \ge 1.0\,\text{s} \\ 0, & \text{otherwise} \end{cases}
+$$
+
+#### Equation: Adaptive Goal Detour & Heading Control
+When $F > 0$, the drone rotates its goal attraction vector away from the obstacle by up to $\pm 80^\circ$:
+$$
+\theta_{\text{detour}} = \sigma_{\text{committed}} \cdot \theta_{\text{detour, max}} \cdot F(t) = \pm 80^\circ \cdot F(t)
+$$
+$$
+e_{\text{goal}} = \text{wrap}\left(\text{atan2}(y_g - y, x_g - x) + \theta_{\text{detour}} - \psi\right)
+$$
+The heading angular velocity $\omega = \dot{\psi}$ command is synthesized as:
+$$
+\omega = \text{clip}\left(K_{\text{goal}} \cdot e_{\text{attract}} \cdot G_{\text{attract}} - K_{\text{turn}} \cdot (a_L - a_R) \cdot (1 - 0.5F), \; -\Omega_{\text{max}}, \; +\Omega_{\text{max}}\right)
+$$
+- **Variables & Gains:**
+  - $K_{\text{goal}} = 2.20$, $K_{\text{turn}} = 2.60$, $\Omega_{\text{max}} = 2.60\,\text{rad/s}$.
+  - $G_{\text{attract}} = \max(1 - a_{\text{avoid}}, 0.6F)$: Attenuates goal attraction when avoiding obstacles, but preserves turning drive when frustrated.
+- **Implementation:** [pybullet/brain/neural_brain.py](file:///c:/Users/varsh/Downloads/gitDrones/Drones_S5_AB3_Obstacle_Avoidance_Drone/pybullet/brain/neural_brain.py#L182-L220).
+
+---
+
+### 7.7 Speed Neuron & Safe Braking Distance
+
+Forward flight speed is regulated by the frontal range clearance $d_{\text{front}}$ to prevent high-speed collisions.
+
+#### Equation: Normalized Frontal Clearance & Speed Law
+$$
+s = \text{clip}\left(\frac{d_{\text{front}} - d_{\text{stop}}}{d_{\text{slow}} - d_{\text{stop}}}, \; -1.0, \; 1.0\right)
+$$
+where $d_{\text{stop}} = 0.28\,\text{m}$ and $d_{\text{slow}} = 0.85\,\text{m}$.
+$$
+v = \begin{cases} V_{\text{max}} \cdot s \cdot \left(1 - 0.5 \frac{|\omega|}{\Omega_{\text{max}}}\right), & \text{if } s \ge 0 \text{ (forward flight)} \\ V_{\text{reverse}} \cdot s, & \text{if } s < 0 \;\wedge\; d_{\text{rear}} > 0.35\,\text{m} \text{ (backing out)} \\ 0, & \text{if } s < 0 \;\wedge\; d_{\text{rear}} \le 0.35\,\text{m} \text{ (trapped rear)} \end{cases}
+$$
+- **Variables:**
+  - $V_{\text{max}} = 0.40\,\text{m/s}$: Maximum cruise speed.
+  - $V_{\text{reverse}} = 0.18\,\text{m/s}$: Safe backing speed.
+  - $\left(1 - 0.5 \frac{|\omega|}{\Omega_{\text{max}}}\right)$: Yaw-rate slowdown penalty (slows down during sharp turns).
+- **Implementation:** [pybullet/brain/neural_brain.py](file:///c:/Users/varsh/Downloads/gitDrones/Drones_S5_AB3_Obstacle_Avoidance_Drone/pybullet/brain/neural_brain.py#L222-L235).
+
+---
+
+### 7.8 DSLPID Flight Control Mathematics
+
+The high-level planner outputs a 2D velocity vector $\mathbf{v}_{\text{cmd}} = [v_x, v_y, 0]^T$. The low-level `DSLPIDControl` converts this into four individual motor RPMs ($n_0, n_1, n_2, n_3$) running at $48\,\text{Hz}$.
+
+```text
+ Desired State:               Current State:
+ [p_target, v_des, yaw=0]     [p, q, v, w]
+       │                            │
+       └──────────────┬─────────────┘
+                      ▼
+         Position Error e_p & Velocity Error e_v
+                      ▼
+        Virtual Acceleration Command:
+        a_des = K_p*e_p + K_d*e_v + K_i*int(e_p) + g*z_W
+                      ▼
+        Total Desired Thrust: T = m * ||a_des||
+                      ▼
+        Body z-Axis Extraction: z_B = a_des / ||a_des||
+        Desired Rotation Matrix R_des = [x_B, y_B, z_B]
+                      ▼
+        Attitude & Angular Velocity PID -> Torques tau
+                      ▼
+        Quadrotor X-Frame Motor Mixing:
+        [Omega_0^2, Omega_1^2, Omega_2^2, Omega_3^2]^T = M_mix^-1 * [T, tau_x, tau_y, tau_z]^T
+```
+
+#### Equation: Cascaded Position Control
+Let $\mathbf{e}_p = \mathbf{p}_{\text{target}} - \mathbf{p}$ and $\mathbf{e}_v = \mathbf{v}_{\text{target}} - \mathbf{v}$.
+$$
+\mathbf{a}_{\text{des}} = \mathbf{K}_p \mathbf{e}_p + \mathbf{K}_d \mathbf{e}_v + \mathbf{K}_i \int_0^t \mathbf{e}_p(\tau) d\tau + g \mathbf{z}_W
+$$
+Total thrust along the drone's body z-axis $\mathbf{z}_B$ is:
+$$
+T_{\text{des}} = m \|\mathbf{a}_{\text{des}}\|_2
+$$
+The drone tilts its thrust vector along $\mathbf{z}_{B, \text{des}} = \frac{\mathbf{a}_{\text{des}}}{\|\mathbf{a}_{\text{des}}\|}$, yielding desired roll ($\phi_{\text{des}}$) and pitch ($\theta_{\text{des}}$) angles:
+$$
+\phi_{\text{des}} = \frac{1}{g} (a_{\text{des}, x} \sin\psi_{\text{des}} - a_{\text{des}, y} \cos\psi_{\text{des}})
+$$
+$$
+\theta_{\text{des}} = \frac{1}{g} (a_{\text{des}, x} \cos\psi_{\text{des}} + a_{\text{des}, y} \sin\psi_{\text{des}})
+$$
+
+#### Equation: Motor Mixing for CF2X (X-Configuration)
+The Crazyflie 2.X operates four fixed-pitch propellers mounted at $45^\circ$ from the body axes with arm length $L = 0.0397\,\text{m}$:
+$$
+\begin{bmatrix} T \\ \tau_x \\ \tau_y \\ \tau_z \end{bmatrix} = \begin{bmatrix} k_f & k_f & k_f & k_f \\ -\frac{\sqrt{2}}{2} L k_f & -\frac{\sqrt{2}}{2} L k_f & \frac{\sqrt{2}}{2} L k_f & \frac{\sqrt{2}}{2} L k_f \\ -\frac{\sqrt{2}}{2} L k_f & \frac{\sqrt{2}}{2} L k_f & \frac{\sqrt{2}}{2} L k_f & -\frac{\sqrt{2}}{2} L k_f \\ -k_m & k_m & -k_m & k_m \end{bmatrix} \begin{bmatrix} \Omega_0^2 \\ \Omega_1^2 \\ \Omega_2^2 \\ \Omega_3^2 \end{bmatrix}
+$$
+- **Variables:**
+  - $k_f = 3.16 \times 10^{-10}\,\text{N}\cdot\text{s}^2/\text{rad}^2$: Thrust coefficient.
+  - $k_m = 7.94 \times 10^{-12}\,\text{N}\cdot\text{m}\cdot\text{s}^2/\text{rad}^2$: Drag moment coefficient.
+  - $\Omega_i$: Angular velocity of rotor $i$ in $\text{rad/s}$ ($\text{RPM}_i = \frac{60}{2\pi} \Omega_i$).
+
+---
+
+### 7.9 Data-Driven Physics Discovery via SINDy & SINDYc
+
+Rather than assuming ideal equations of motion, the project uses **Sparse Identification of Nonlinear Dynamics** (*Brunton, Proctor & Kutz, PNAS 2016*) to identify the governing differential equations directly from `.npz` flight logs.
+
+#### Equation: SINDy Formulation & Candidate Library
+Given $M$ snapshot measurements of states $\mathbf{X} \in \mathbb{R}^{M \times n}$ and control inputs $\mathbf{U} \in \mathbb{R}^{M \times m}$:
+$$
+\dot{\mathbf{X}} = \mathbf{\Theta}(\mathbf{X}, \mathbf{U}) \mathbf{\Xi}
+$$
+where $\mathbf{\Theta}(\mathbf{X}, \mathbf{U}) \in \mathbb{R}^{M \times p}$ is a library of candidate functions (polynomials, trigonometric terms, cross-products):
+$$
+\mathbf{\Theta}(\mathbf{X}, \mathbf{U}) = \begin{bmatrix} \mathbf{1} & \mathbf{X} & \mathbf{U} & \mathbf{X}^2 & \mathbf{X} \otimes \mathbf{U} & T \cos\phi\cos\theta & T\sin\theta & T\sin\phi & \dots \end{bmatrix}
+$$
+
+#### Equation: Sequentially Thresholded Least Squares (STLSQ)
+The sparse coefficient matrix $\mathbf{\Xi} = [\boldsymbol{\xi}_1, \dots, \boldsymbol{\xi}_n]$ is solved per target column $\dot{\mathbf{x}}_j$:
+1. Solve ridge regression on active column subset $\mathcal{A} \subseteq \{1, \dots, p\}$:
+   $$
+   \boldsymbol{\xi}_j = \left(\mathbf{\Theta}_{\mathcal{A}}^T \mathbf{\Theta}_{\mathcal{A}} + \alpha \mathbf{I}\right)^{-1} \mathbf{\Theta}_{\mathcal{A}}^T \dot{\mathbf{x}}_j
+   $$
+2. Sparsify by zeroing out coefficients below the threshold $\lambda$:
+   $$
+   \mathcal{A}_{k+1} = \left\{i \in \mathcal{A}_k : |\xi_{i, j}| \ge \lambda \max_l |\xi_{l, j}|\right\}
+   $$
+3. Repeat until the active set $\mathcal{A}$ converges.
+
+- **Implementation:** `stlsq()` & `SINDy` class in [pybullet/sindy/sindy.py](file:///c:/Users/varsh/Downloads/gitDrones/Drones_S5_AB3_Obstacle_Avoidance_Drone/pybullet/sindy/sindy.py#L93-L188).
+
+#### Equation: Discovered Physical Models (From Actual JSON Artifacts)
+Running `python -m sindy.identify_dynamics` across the flight logs extracted the following equations:
+
+1. **Model A: Translational Dynamics:**
+   $$
+   \frac{dv_z}{dt} = -9.796 + 1.170 \cdot T \cos(\text{roll}) \cos(\text{pitch}) \quad (R^2 = 0.9998)
+   $$
+   *Physical Discovery:* SINDy independently discovered Earth's gravity $g \approx 9.796\,\text{m/s}^2$ from raw simulation state logs without human intervention!
+2. **Model B: Rotational Torque Mixing:**
+   $$
+   \begin{bmatrix} \dot{\omega}_x \\ \dot{\omega}_y \\ \dot{\omega}_z \end{bmatrix} = \begin{bmatrix} -63.87 & -63.70 & +63.34 & +64.23 \\ -63.14 & +63.59 & +63.13 & -63.58 \\ -35.70 & +36.82 & -36.55 & +35.44 \end{bmatrix} \begin{bmatrix} r_0 \\ r_1 \\ r_2 \\ r_3 \end{bmatrix} \quad (R^2 > 0.998)
+   $$
+   *Physical Discovery:* SINDy reconstructed the exact quadrotor X-frame geometry and rotor rotation directions (motors 0 & 2 CCW, motors 1 & 3 CW).
+3. **Model C: Closed-Loop Command Response (SINDYc):**
+   $$
+   \frac{dv_x}{dt} = +0.2088 - 3.459 v_x + 8.762 v_{cx} - 1.641 v_x^2 - 3.507 v_x v_y + \dots
+   $$
+   $$
+   \frac{dv_y}{dt} = -0.0804 + 0.2534 v_x - 3.300 v_y + 9.426 v_{cy} + \dots
+   $$
+   *Physical Discovery:* Models the entire PID + closed-loop airframe as a compact low-order polynomial filter mapping command velocity $[v_{cx}, v_{cy}]$ to drone acceleration $[\dot{v}_x, \dot{v}_y]$.
+
+---
+
+<a id="8-test-scenarios-1-to-10"></a>
+## 8. Test Scenarios (1 to 10)
+
+The system is evaluated against 10 distinct, reproducible obstacle scenarios configured in `create_test_scenario()` in [pybullet/obstacle_avoidance.py](file:///c:/Users/varsh/Downloads/gitDrones/Drones_S5_AB3_Obstacle_Avoidance_Drone/pybullet/obstacle_avoidance.py#L221-L334):
+
+| ID | Scenario Name | Geometry & Placement | Difficulty | Expected Flight Behavior |
+|:---:|---|---|:---:|---|
+| **1** | **Direct Frontal Obstacle** | One $0.30\,\text{m}$ cube at $[2.5, 0.0, 1.0]$ | Easy | Detects frontal block, selects left or right bypass, smoothly returns to centerline. |
+| **2** | **Offset Obstacle Left** | One $0.30\,\text{m}$ cube at $[2.5, +0.18, 1.0]$ | Easy | Detects open right flank, cleanly bypasses without emergency reversals. |
+| **3** | **Offset Obstacle Right** | One $0.30\,\text{m}$ cube at $[2.5, -0.18, 1.0]$ | Easy | Detects open left flank, cleanly bypasses on the left side. |
+| **4** | **Narrow Passage / Slit** | 4 cubes forming a narrow corridor slit at $x=2.5$ and $x=3.0$ with width $0.76\,\text{m}$ | Medium | Traverses the narrow slit; triggers coordinated lateral micro-adjustments. |
+| **5** | **Dead-End / U-Trap** | 5 cubes forming a concave enclosure at $x=2.0$ to $2.5$ | Hard | Detects trapped enclosure, initiates `EMERGENCY_REVERSE`, turns around perimeter. |
+| **6** | **Staggered Forest** | 5 vertical cylinders ($r=0.15\,\text{m}, h=1.6\,\text{m}$) staggered along $x=1.8$ to $4.8$ | Hard | Executes continuous slalom weaving between obstacles. |
+| **7** | **Dynamic Moving Obstacle** | Cube at $x=2.8$ sliding along $y(t) = 0.75 \sin(1.5 t)$ | Dynamic | Predicts time-varying clearance, decelerates, and overtakes the moving obstacle. |
+| **8** | **3D Cluttered Environment** | Barriers at varying heights: low ($z=0.55\,\text{m}$), high overhead ($z=1.45\,\text{m}$) | 3D Expert | Adjusts target altitude from $1.0\,\text{m}$ to $1.35\,\text{m}$ to climb over low barriers. |
+| **9** | **Dynamic Lateral Intruder** | Cube at $x=3.0$ rapidly oscillating along $y(t) = 1.20 \sin(2.5 t)$ | Dynamic Expert | Detects closing lateral intrusion, brakes, and clears the path. |
+| **10** | **Circular Dead-End Ring** | 54 cubes forming a continuous circular enclosure ($r=2.0\,\text{m}$) | Extreme Trap | Ascends to $1.50\,\text{m}$ to fly over the ring wall and reach the goal. |
+
+---
+
+<a id="9-prerequisites"></a>
+## 9. Prerequisites
+
+Before installing the project, verify that your environment has:
+- **Operating System:** Windows 10/11, Ubuntu 20.04/22.04 LTS, or macOS 12+ (Apple Silicon or Intel).
+- **Python Version:** Python 3.10 or 3.11 (64-bit).
+- **C++ Build Tools:**
+  - *Windows:* Microsoft C++ Build Tools (Visual Studio 2019/2022 with Desktop C++ workload) required for compiling PyBullet C extensions.
+  - *Linux:* `sudo apt update && sudo apt install build-essential python3-dev`
+- **Git:** Git installed and accessible from terminal.
+
+---
+
+<a id="10-installation-and-setup"></a>
+## 10. Installation and Setup
+
+Follow these ordered steps to set up the environment:
+
+### Step 1: Clone the Repository
 ```bash
-python -m venv venv
+git clone https://github.com/Varlakshmi19/Drones_S5_AB3_Obstacle_Avoidance_Drone.git
+cd Drones_S5_AB3_Obstacle_Avoidance_Drone
 ```
 
-Activate it on Windows:
+### Step 2: Create and Activate a Dedicated Virtual Environment
 
+- **On Windows (PowerShell):**
+  ```powershell
+  python -m venv venv
+  .\venv\Scripts\Activate.ps1
+  ```
+
+- **On Windows (Command Prompt `cmd`):**
+  ```cmd
+  python -m venv venv
+  venv\Scripts\activate.bat
+  ```
+
+- **On Linux / macOS:**
+  ```bash
+  python3 -m venv venv
+  source venv/bin/activate
+  ```
+
+### Step 3: Upgrade Package Managers
 ```bash
-venv\Scripts\activate
+python -m pip install --upgrade pip setuptools wheel
 ```
 
-### 13.2 Install Dependencies
-
+### Step 4: Install Dependencies
+Install `gym-pybullet-drones` from the official repository along with supporting numerical tools:
 ```bash
 pip install -r requirements.txt
+pip install pybullet numpy scipy matplotlib
 ```
 
-### 13.3 Select a Test Scenario
+*(Optional)* Verify that the PyBullet installation succeeds:
+```bash
+python -c "import pybullet as p; client = p.connect(p.DIRECT); print('PyBullet initialized successfully, client ID:', client); p.disconnect(client)"
+```
 
-Open `obstacle_avoidance.py` and change:
+---
 
+<a id="11-how-to-run-the-project"></a>
+## 11. How to Run the Project
+
+All commands should be executed from the `pybullet/` directory (or workspace root by referencing `pybullet/`).
+
+```bash
+cd pybullet
+```
+
+### 11.1 Running the Reactive FSM Controller
+
+The reactive FSM controller is contained in `obstacle_avoidance.py`. You can select any scenario (1 through 10) directly via command-line arguments:
+
+```bash
+# Run Scenario 1 (Direct Frontal Obstacle) with 3D GUI
+python obstacle_avoidance.py 1
+
+# Run Scenario 4 (Narrow Passage / Slit)
+python obstacle_avoidance.py 4
+
+# Run Scenario 5 (Dead-End U-Trap)
+python obstacle_avoidance.py 5
+
+# Run Scenario 7 (Dynamic Moving Obstacle)
+python obstacle_avoidance.py 7
+
+# Run Scenario 10 (Circular Dead-End Ring)
+python obstacle_avoidance.py 10
+```
+
+Alternatively, open `obstacle_avoidance.py` in an editor and change the top variable:
 ```python
-TEST_SCENARIO = 5
+TEST_SCENARIO = 5   # Change to any value between 1 and 10
 ```
-
-The available scenarios are:
-
-| Value | Scenario |
-|---:|---|
-| 1 | Direct frontal obstacle |
-| 2 | Left-side obstacle |
-| 3 | Right-side obstacle |
-| 4 | Narrow passage |
-| 5 | Dead-end-like configuration |
-| 6 | Multiple staggered obstacles |
-
-### 13.4 Run the Simulation
-
+Then run:
 ```bash
 python obstacle_avoidance.py
 ```
 
-A PyBullet GUI window will open and the selected scenario will be simulated.
+### 11.2 Running the Adaptive Neural Brain
 
-<a id="experimental-metrics"></a>
-# 14. Experimental Metrics                                                                       <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
+The bio-inspired neural network controller is executed via `brain_avoidance.py`:
 
-The simulation reports the following metrics after every run.
+```bash
+# 1. Run Scenario 1 with full PyBullet visualization GUI
+python brain_avoidance.py --scenario 1
 
-### Control Steps
-Number of control-loop iterations required to reach the goal.
+# 2. Run Scenario 5 (U-Trap) with GUI and observe Hebbian learning in terminal
+python brain_avoidance.py --scenario 5
 
-### Completion Time
-Total simulation execution time until the goal is reached.
+# 3. Run Scenario 4 and record a telemetry log (saved to logs/brain_s4.npz)
+python brain_avoidance.py --scenario 4 --log
 
-### Final Position
-The final `(x, y, z)` position of the drone.
+# 4. Benchmark all Scenarios (1 through 6) in headless mode and print comparative table
+python brain_avoidance.py --all --headless
+```
 
-### Path Length
-Total distance travelled by the drone during the simulation.
+### 11.3 Running SINDy Dynamic Identification
 
-### Collision Steps
-Number of control steps during which contact between the drone and an obstacle was detected.
+To run sparse regression on the simulation logs and regenerate the identified governing equations:
 
-### Avoidance Events
-Number of transitions into the obstacle-avoidance state.
+```bash
+# Run SINDy across all logs, using Scenario 4 as the held-out validation test
+python -m sindy.identify_dynamics
 
-### Emergency Reversals
-Number of times the emergency reverse mechanism was activated.
+# Hold out Scenario 6 as the validation test
+python -m sindy.identify_dynamics --test 6
 
-<a id="limitations"></a>
-# 15. Limitations                                                                               <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
+# View the generated identification models
+type models\sindy_translational.json
+type models\sindy_rotational.json
+type models\sindy_closed_loop.json
+```
 
-The current implementation has several limitations:
-* The experiments are performed in simulation rather than on a physical drone.
-* The obstacle sensors are simulated using PyBullet ray casting.
-* The system uses local obstacle information rather than a complete map of the environment.
-* The tested environments are predefined scenarios.
-* The approach has not been evaluated under real-world sensor noise.
-* The system primarily performs horizontal obstacle avoidance while maintaining approximately constant altitude.
-* The current evaluation does not compare the method against multiple alternative obstacle-avoidance algorithms.
+All generated parity plots and RK4 integration rollouts will be saved to `results/sindy/`.
 
-<a id="future-work"></a>
-# 16. Future Work                                                                                <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
-
-Future improvements can include:
-* Testing the algorithm on physical quadrotor hardware.
-* Replacing virtual ray sensors with real LiDAR or depth sensors.
-* Adding camera-based obstacle detection.
-* Extending obstacle avoidance to three-dimensional motion.
-* Testing randomized obstacle environments.
-* Introducing sensor noise and disturbances into the simulation.
-* Comparing performance with other navigation algorithms.
-* Optimizing the controller for real-time embedded deployment.
-* Integrating SLAM or mapping for larger environments.
-* Evaluating energy consumption and computational efficiency.
-* Adding dynamic moving obstacles.
-* Performing larger-scale statistical evaluation across multiple randomized trials.
 ---
-<a id="conclusion"></a>
-#  17. Conclusion                                                                                <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
 
-This project implemented a reactive autonomous obstacle-avoidance framework for a quadrotor drone using PyBullet and the gym-pybullet-drones simulation environment.
+<a id="12-example-usage--step-by-step-walkthrough"></a>
+## 12. Example Usage & Step-by-Step Walkthrough
 
-The system combines virtual ray-based obstacle sensing, goal-oriented navigation, side-selection logic, state-based obstacle avoidance, emergency recovery, and PID-based drone control.
+Below is an annotated terminal run of **Scenario 5 (U-Trap Dead-End)** using `obstacle_avoidance.py`:
 
-Six predefined scenarios were used to evaluate the system, ranging from simple frontal obstacles to narrow passages, dead-end-like configurations, and multiple staggered obstacles.
+```text
+============================================================
+RUNNING SCENARIO 5: Dead-End / U-Trap
+Difficulty: Hard
+Description: Enclosed U-shaped obstacle arrangement blocking forward, left, and right directions.
+Expected: Drone detects trapped condition, initiates emergency reversal, turns toward open space, and navigates around perimeter.
+============================================================
 
-All six scenarios successfully reached the predefined goal, resulting in a 100% observed success rate and zero recorded collision steps. The more constrained scenarios required additional avoidance and emergency recovery actions, demonstrating the importance of the recovery mechanism.
+Scenario=5 | Mode=FORWARD            | Side=None  | Position=(0.00, 0.00) | Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=6.00
+Scenario=5 | Mode=FORWARD            | Side=None  | Position=(0.73, 0.00) | Front=1.45 | Left=1.60 | Right=1.60 | Goal distance=5.27
+Scenario=5 | Mode=AVOID              | Side=LEFT  | Position=(1.75, 0.01) | Front=0.57 | Left=0.45 | Right=0.46 | Goal distance=4.25
+Scenario=5 | Mode=EMERGENCY_REVERSE  | Side=LEFT  | Position=(1.92, 0.08) | Front=0.28 | Left=0.29 | Right=0.31 | Goal distance=4.08
+Scenario=5 | Mode=EMERGENCY_REVERSE  | Side=LEFT  | Position=(1.71, 0.06) | Front=0.49 | Left=0.48 | Right=0.49 | Goal distance=4.29
+Scenario=5 | Mode=AVOID              | Side=RIGHT | Position=(1.82, -0.42)| Front=0.98 | Left=0.62 | Right=1.40 | Goal distance=4.20
+Scenario=5 | Mode=RETURN             | Side=RIGHT | Position=(3.45, -0.85)| Front=1.60 | Left=0.72 | Right=1.60 | Goal distance=2.69
+Scenario=5 | Mode=FORWARD            | Side=RIGHT | Position=(5.20, -0.06)| Front=1.60 | Left=1.60 | Right=1.60 | Goal distance=0.80
 
-Overall, the simulation demonstrates that a computationally lightweight reactive navigation strategy can provide effective obstacle avoidance in the tested environments.
+Drone successfully reached the goal.
 
-<a id="references"></a>
-# 18. References                                                                                 <sub><sub><sub><a href="#table-of-contents">⬆Table of Contents</a></sub></sub></sub>
-1. Arne Devos, Emad Ebeid, and Poramate Manoonpong. "Development of Autonomous Drones for Adaptive Obstacle Avoidance in Real World Environments."
-[Base Paper](https://ieeexplore.ieee.org/iel7/8490807/8491778/08491889.pdf)
-2. [gym-pybullet-drones](https://github.com/utiasDSL/gym-pybullet-drones) simulation framework
-3. PyBullet physics simulation engine.
+========================================
+TEST SCENARIO: 5
+RESULT: SUCCESS
+CONTROL STEPS: 693
+COMPLETION TIME: 18.45 s
+FINAL POSITION: (5.833, -0.171, 1.001)
+PATH LENGTH: 11.034 m
+COLLISION STEPS: 0
+AVOIDANCE EVENTS: 4
+EMERGENCY REVERSALS: 3
+========================================
+```
 
+**Interpretation:**
+1. **Entry:** Drone advances forward at $0.35\,\text{m/s}$ until reaching $x = 1.75\,\text{m}$.
+2. **Trap Detection:** At $x = 1.92\,\text{m}$, the front obstacle drops to $0.28\,\text{m} < D_{\text{emergency}} = 0.30\,\text{m}$, while both lateral sensors register walls ($< 0.48\,\text{m}$).
+3. **Emergency Reverse:** The drone reverses backward for $1.2\,\text{s}$ at $0.22\,\text{m/s}$, opening up clearance.
+4. **Side Inversion:** The controller enforces `force_opposite_side = True`, switching from LEFT to RIGHT.
+5. **Perimeter Bypass:** The drone navigates around the outer perimeter of the trap and safely navigates to the goal $(6.0, 0.0, 1.0)$ with zero collisions.
+
+---
+
+<a id="13-code-and-module-explanation"></a>
+## 13. Code and Module Explanation
+
+### 1. `obstacle_avoidance.py`
+The standalone reactive FSM controller.
+- **`create_test_scenario(scenario)`:** Spawns PyBullet bodies (cubes, cylinders, dynamic obstacles) for scenarios 1–10.
+- **`update_dynamic_obstacles(sim_time)`:** Evaluates periodic kinematics for moving obstacles.
+- **`read_sensors(current_position)`:** Executes 6 directional ray tests and returns distance maps.
+- **`calculate_side_scores()` & `choose_avoidance_side()`:** Computes weighted clearance scores and applies dead-band hysteresis.
+- **`make_velocity_command()`:** Computes horizontal 2D velocity vectors based on current FSM state.
+- **`run()`:** Instantiates `CtrlAviary`, executes the 48 Hz control loop, queries `DSLPIDControl`, tracks metrics, and checks contact collisions.
+
+### 2. `brain/neural_brain.py`
+The bio-inspired RNN navigation engine.
+- **`BrainConfig`:** Dataclass containing parameters for reaction bubble, cruise speeds, membrane time constants, Hebbian learning rate, and detour limits.
+- **`AdaptiveNeuralBrain`:**
+  - `ray_world_angles()`: Transforms body-relative ray angles to global world frame.
+  - `step(position_xy, distances)`: Main algorithmic pipeline: sensory preprocessing $\to$ recurrent membrane integration $\to$ Hebbian weight update $\to$ frustration monitoring $\to$ goal detour calculation $\to$ speed modulation.
+
+### 3. `brain_avoidance.py`
+Integrator connecting the neural brain to PyBullet.
+- Replaces the FSM logic with `brain.step()`.
+- Supports CLI flags (`--scenario`, `--all`, `--headless`, `--log`).
+- Saves structured telemetry arrays to `logs/brain_s*.npz`.
+
+### 4. `sindy/sindy.py`
+Lightweight, dependency-free mathematical equation discovery engine.
+- **`PolynomialLibrary`:** Constructs polynomial candidate feature matrix up to degree $d$ with optional physics-informed nonlinear terms.
+- **`stlsq()`:** Implements Sequentially Thresholded Least Squares with internal column normalization and ridge regularization.
+- **`SINDy`:** High-level estimator exposing `.fit()`, `.predict()`, `.score()` ($R^2$), and `.simulate()` (RK4 numerical integrator).
+
+### 5. `sindy/identify_dynamics.py`
+Data processing and discovery script.
+- Loads flight logs from `logs/*.npz`.
+- Constructs feature matrices for translational motion, rotational torques, and closed-loop control.
+- Exports discovered symbolic models to `models/*.json`.
+- Evaluates $R^2$ scores on held-out test runs and renders parity comparison plots to `results/sindy/`.
+
+---
+
+<a id="14-datasets-logs--input-specifications"></a>
+## 14. Datasets, Logs & Input Specifications
+
+The repository contains pre-recorded 48 Hz simulation logs in `pybullet/logs/` stored as compressed NumPy archives (`.npz`).
+
+### Array Structure of `.npz` Telemetry Files
+Each file contains:
+- `data`: 2D float array of shape $(N_{\text{steps}}, 50)$ containing 50 synchronized telemetry variables:
+
+| Column Index | Field Name | Units | Description |
+|---|---|---|---|
+| `0` | `t` | $\text{s}$ | Simulation timestamp |
+| `1:4` | `x, y, z` | $\text{m}$ | Drone 3D position in world frame |
+| `4:8` | `qx, qy, qz, qw` | &mdash; | Orientation unit quaternion |
+| `8:11` | `roll, pitch, yaw` | $\text{rad}$ | Euler attitude angles |
+| `11:14` | `vx, vy, vz` | $\text{m/s}$ | Linear velocities in world frame |
+| `14:17` | `wx, wy, wz` | $\text{rad/s}$ | Angular velocities in body frame |
+| `17:21` | `rpm0..rpm3` | $\text{RPM}$ | Individual rotor rotational speeds |
+| `21:24` | `vcx, vcy, vcz` | $\text{m/s}$ | Desired velocity commands |
+| `24:27` | `tx, ty, tz` | $\text{m}$ | Target position lookahead |
+| `27:37` | `I_L, I_R, o_L, o_R, w_LL, w_RR, F, psi, omega, speed` | Various | Internal neural states |
+| `37:49` | `ray_-90 .. ray_180` | $\text{m}$ | 12 body-frame range sensor readings |
+
+- `columns`: String list of column header names.
+- `dt`: Control timestep ($1/48 \approx 0.02083\,\text{s}$).
+- `scenario`: Integer scenario identifier (1 to 10).
+
+---
+
+<a id="15-experimental-results-and-outputs"></a>
+## 15. Experimental Results and Outputs
+
+### 15.1 Reactive FSM Scenario Benchmark
+
+The quantitative performance across the six primary standardized scenarios is summarized below (all verified against actual simulation logs):
+
+| Scenario | Scenario Name | Result | Control Steps | Time (s) | Final Position $(x, y, z)$ | Path Length (m) | Collisions | Avoid Events | Emergency Reversals |
+|:---:|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
+| **1** | Direct Frontal Obstacle | **SUCCESS** | 356 | 10.39 | $(5.821, +0.158, 1.001)$ | 6.363 | **0** | 1 | 0 |
+| **2** | Offset Obstacle Left | **SUCCESS** | 307 | 9.38 | $(5.772, -0.026, 1.001)$ | 5.846 | **0** | 0 | 0 |
+| **3** | Offset Obstacle Right | **SUCCESS** | 306 | 9.36 | $(5.760, -0.000, 1.001)$ | 5.809 | **0** | 0 | 0 |
+| **4** | Narrow Passage / Slit | **SUCCESS** | 746 | 18.95 | $(5.848, -0.180, 1.001)$ | 11.155 | **0** | 4 | 4 |
+| **5** | Dead-End U-Trap | **SUCCESS** | 693 | 18.45 | $(5.833, -0.171, 1.001)$ | 11.034 | **0** | 4 | 3 |
+| **6** | Staggered Forest | **SUCCESS** | 396 | 11.28 | $(5.953, +0.222, 1.001)$ | 7.081 | **0** | 2 | 0 |
+
+#### Overall Benchmark Summary:
+- **Success Rate:** $\mathbf{100\%}$ ($6/6$ missions completed within tolerance).
+- **Collision Rate:** $\mathbf{0}$ recorded collision steps across all runs.
+- **Average Completion Time:** $12.97\,\text{seconds}$.
+- **Average Path Length:** $7.881\,\text{meters}$.
+
+---
+
+### 15.2 Scenario Visualizations & Trajectories
+
+Below are simulation visual captures recorded during test executions:
+
+#### Scenario 1: Direct Obstacle
+The drone detects the frontal block, turns around the obstacle, and returns to the path.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/b8d7cb6e-5c22-4f45-809e-bd42f5700f91" alt="Scenario 1 Simulation" width="700">
+</p>
+
+#### Scenario 2: Left-Side Obstacle
+The drone detects asymmetric clearance on the right side and navigates toward the goal.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/da31bd8b-9ef1-4158-b463-632f7f2482fb" alt="Scenario 2 Simulation" width="700">
+</p>
+
+#### Scenario 3: Right-Side Obstacle
+The drone bypasses on the left side with minimal deviation.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/258e9c0d-d51f-46f2-a288-a71aa64d2ef8" alt="Scenario 3 Simulation" width="700">
+</p>
+
+#### Scenario 4: Narrow Passage
+The drone executes sequential avoidance maneuvers and reversals to negotiate the slit.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/cbad036e-8fd1-48aa-9229-10cfe3defa23" alt="Scenario 4 Simulation" width="700">
+</p>
+
+#### Scenario 5: Dead-End U-Trap
+The drone detects a pocket, executes an emergency reverse, and navigates around the perimeter.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/1d616558-eade-4a0b-94c2-10706f907fbb" alt="Scenario 5 Simulation" width="700">
+</p>
+
+#### Scenario 6: Staggered Multi-Obstacle Forest
+The drone weaves through multiple cylindrical obstacles in a continuous slalom path.
+<p align="center">
+  <img src="https://github.com/user-attachments/assets/28c8d82a-d4e0-4d4d-b766-6632a0193b26" alt="Scenario 6 Simulation" width="700">
+</p>
+
+---
+
+### 15.3 SINDy Discovered Mathematical Models & Accuracy
+
+The SINDy discovery pipeline evaluated on held-out flight logs produced high predictive accuracy:
+
+#### SINDy Discovered Model Verification
+
+```text
+ ┌────────────────────────────────────────────────────────────────────────┐
+ │ Model A: Translational Physics                                         │
+ │ - Target: dv_z/dt                                                      │
+ │ - Discovered: -9.796 + 1.170 * T cos(roll)cos(pitch)                   │
+ │ - Held-Out R^2: 0.99978 (Accurately identifies gravity: g = 9.80 m/s^2)│
+ ├────────────────────────────────────────────────────────────────────────┤
+ │ Model B: Rotational Mixing Matrix                                      │
+ │ - Discovered: dw/dt = M_rot * [r0, r1, r2, r3]^T                       │
+ │ - Held-Out R^2:                                                        │
+ │     dw_x/dt:  0.99813                                                  │
+ │     dw_y/dt:  0.99974                                                  │
+ │     dw_z/dt:  0.99885                                                  │
+ ├────────────────────────────────────────────────────────────────────────┤
+ │ Model C: Closed-Loop SINDYc Validation on Held-Out Scenario 4          │
+ │ - End-Point Position Drift Error: 0.021 m (over 5.74 m path)           │
+ │ - Velocity RMSE:                  0.075 m/s                            │
+ └────────────────────────────────────────────────────────────────────────┘
+```
+
+The identified models and figures are saved under [pybullet/results/sindy/](file:///c:/Users/varsh/Downloads/gitDrones/Drones_S5_AB3_Obstacle_Avoidance_Drone/pybullet/results/sindy).
+
+---
+
+<a id="16-testing-and-validation"></a>
+## 16. Testing and Validation
+
+You can validate each component of the codebase with the following tests:
+
+### Test 1: Validate PyBullet Engine and FSM
+```bash
+python obstacle_avoidance.py 1
+```
+- **Expected Outcome:** A PyBullet GUI window opens displaying the drone, the red target marker at `(6.0, 0.0, 1.0)`, and one red obstacle cube. The drone navigates around the obstacle and prints `RESULT: SUCCESS`.
+
+### Test 2: Validate Neural Brain Headless Execution
+```bash
+python brain_avoidance.py --scenario 2 --headless
+```
+- **Expected Outcome:** Runs without launching a graphical window, completing within ~2 seconds and outputting summary metrics with `result: SUCCESS`.
+
+### Test 3: Validate SINDy Identification Pipeline
+```bash
+python -m sindy.identify_dynamics
+```
+- **Expected Outcome:** Loads `logs/brain_s*.npz`, prints the discovered mathematical equations for models A, B, and C, and verifies that held-out $R^2$ exceeds $0.98$.
+
+---
+
+<a id="17-troubleshooting-guide"></a>
+## 17. Troubleshooting Guide
+
+| Issue / Symptom | Possible Root Cause | Diagnostic Step | Solution |
+|---|---|---|---|
+| `ModuleNotFoundError: No module named 'gym_pybullet_drones'` | Environment missing the gym drone package. | Run `python -c "import gym_pybullet_drones"` in terminal. | Re-run: `pip install git+https://github.com/utiasDSL/gym-pybullet-drones.git` |
+| `AttributeError: module 'pybullet' has no attribute 'rayTestBatch'` | Outdated PyBullet build installed. | Check version: `python -c "import pybullet; print(pybullet.__file__)"` | Upgrade PyBullet: `pip install --upgrade pybullet` |
+| PyBullet GUI window crashes or freezes upon opening | OpenGL graphics driver incompatibility on Windows/Linux. | Check terminal for display driver errors. | Update your GPU display drivers or run with `--headless` flag. |
+| Drone hits obstacle in Scenario 5 (U-Trap) | Sensor offset too small causing self-ray collision. | Verify `RAY_START_OFFSET` in `brain_avoidance.py` is $\ge 0.10\,\text{m}$. | Ensure `RAY_START_OFFSET = 0.10` and `SENSOR_RANGE = 1.6`. |
+| SINDy discovers zero terms (`dX/dt = 0`) | Threshold $\lambda$ set too high for unscaled data. | Inspect `identify_dynamics.py` threshold settings. | Use `THRUST_SCALE = 1e-8` and ensure threshold is between $0.02$ and $0.05$. |
+
+---
+
+<a id="18-limitations"></a>
+## 18. Limitations
+
+1. **Simulation vs. Real-World Physics:** Evaluated in PyBullet. Real-world physical flights will encounter aerodynamic ground effect, battery voltage sag, motor response latency, and turbulent wind gusts.
+2. **Simplified Sensor Perception:** Uses geometric ray-casting rather than noisy physical LiDAR point clouds or stereo depth cameras.
+3. **Planar-Biased Trajectories:** The FSM operates primarily in the 2D horizontal plane at constant altitude ($z = 1.0\,\text{m}$), except in Scenario 8 and 10 where vertical maneuvers are pre-programmed.
+4. **Local Minimum Horizon:** While the bio-inspired brain's frustration module successfully escapes U-traps and circular rings, it does not guarantee globally optimal path lengths compared to full A\* or RRT\* search over a known map.
+
+---
+
+<a id="19-future-improvements"></a>
+## 19. Future Improvements
+
+- **Physical Hardware Deployment:** Transfer the bio-inspired RNN controller onto an actual Bitcraze Crazyflie 2.1 equipped with the Multi-ranger deck (VL53L1X time-of-flight sensors).
+- **Depth Camera Perception:** Integrate depth images from a simulated RGB-D sensor with a lightweight convolutional feature extractor feeding the neural brain.
+- **Model Predictive Path Integral (MPPI) Control:** Use the SINDy-discovered closed-loop dynamics model as the internal transition model for real-time model predictive control.
+- **Full 3D Volumetric Avoidance:** Expand the ray fan into a 3D spherical Fibonacci lattice for autonomous multi-altitude urban canyon navigation.
+
+---
+
+<a id="20-contributing"></a>
+## 20. Contributing
+
+Contributions, issues, and feature suggestions are welcome:
+1. Fork the repository on GitHub.
+2. Create a feature branch (`git checkout -b feature/dynamic-3d-avoidance`).
+3. Commit your changes (`git commit -m "Add 3D spherical perception fan"`).
+4. Push to the branch (`git push origin feature/dynamic-3d-avoidance`).
+5. Open a Pull Request with a clear description of the modifications and test results.
+
+---
+
+<a id="21-license-and-acknowledgements"></a>
+## 21. License and Acknowledgements
+
+This project was developed as part of the **Data-Driven Control of Drones** curriculum at **Amrita Vishwa Vidyapeetham**, School of Artificial Intelligence, Coimbatore Campus.
+
+### Acknowledgements & External References
+- **Base Research Paper:** Arne Devos, Emad Ebeid, and Poramate Manoonpong, *"Development of Autonomous Drones for Adaptive Obstacle Avoidance in Real World Environments"*, 21st Euromicro Conference on Digital System Design (DSD), 2018.
+- **Gym Simulation Suite:** Jacopo Panerati, Hehui Zheng, SiQi Zhou, James Xu, Amanda Prorok, and Angela P. Schoellig, *"Learning to Fly—a Gym Environment with PyBullet Physics for Reinforcement Learning in Autonomous Robotics"*, IEEE/RSJ IROS, 2021. [gym-pybullet-drones](https://github.com/utiasDSL/gym-pybullet-drones).
+- **SINDy Algorithm:** Steven L. Brunton, Joshua L. Proctor, and J. Nathan Kutz, *"Discovering governing equations from data by sparse identification of nonlinear dynamical systems"*, PNAS, 113(15), 2016.
+
+---
+
+<a id="22-references"></a>
+## 22. References
+
+1. Devos, A., Ebeid, E., & Manoonpong, P. (2018). *Development of Autonomous Drones for Adaptive Obstacle Avoidance in Real World Environments*. In 2018 21st Euromicro Conference on Digital System Design (DSD) (pp. 535-542). IEEE. [DOI: 10.1109/DSD.2018.00094](https://ieeexplore.ieee.org/document/8491889).
+2. Panerati, J., et al. (2021). *Learning to Fly—a Gym Environment with PyBullet Physics for Reinforcement Learning in Autonomous Robotics*. IEEE/RSJ International Conference on Intelligent Robots and Systems (IROS).
+3. Brunton, S. L., Proctor, J. L., & Kutz, J. N. (2016). *Discovering governing equations from data by sparse identification of nonlinear dynamical systems*. Proceedings of the National Academy of Sciences (PNAS), 113(15), 3932-3937.
+4. Mellinger, D., & Kumar, V. (2011). *Minimum snap trajectory generation and control for quadrotors*. IEEE International Conference on Robotics and Automation (ICRA).
