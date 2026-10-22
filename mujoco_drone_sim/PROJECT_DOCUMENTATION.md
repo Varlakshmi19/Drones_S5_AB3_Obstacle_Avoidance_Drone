@@ -238,6 +238,8 @@ $$
 
 <img width="986" height="282" alt="image" src="https://github.com/user-attachments/assets/ec130d82-6be1-479d-b788-0277efe172ee" />
 
+<img width="1091" height="413" alt="image" src="https://github.com/user-attachments/assets/73e8533b-4406-4a09-a4d7-b94d7e0c60fb" />
+
 
 ### 4. Dynamic Window Approach (`avoidance/dwa_avoidance.py`)
 Samples a grid of linear and angular velocities within the drone's reachable acceleration window, projecting forward trajectories and picking the path that maximizes heading alignment, clearance margin, and forward speed.
