@@ -251,6 +251,9 @@ $$
 \dot{\mathbf{x}} = \mathbf{\Theta}(\mathbf{x}, \mathbf{u}) \mathbf{\Xi}
 $$
 
+<img width="975" height="512" alt="image" src="https://github.com/user-attachments/assets/5740127d-dfec-4648-b94e-c12a5cf5d71b" />
+
+
 Predicts rollout paths with aerodynamic drag and rotor-induced cross-coupling effects modeled directly from data.
 
 ---
@@ -440,17 +443,26 @@ $$
 \mathbf{F}_{\text{des}} = -k_p \mathbf{e}_p - k_v \mathbf{e}_v + m g \hat{\mathbf{z}}_W + m \mathbf{a}_{\text{des}}
 $$
 
+<img width="1015" height="272" alt="image" src="https://github.com/user-attachments/assets/63ae55fe-4f5d-43e0-b8d4-3281968216b7" />
+
+
 Total scalar thrust command:
 
 $$
 T = \mathbf{F}_{\text{des}} \cdot (\mathbf{R} \hat{\mathbf{z}}_B)
 $$
 
+<img width="1077" height="247" alt="image" src="https://github.com/user-attachments/assets/659c6d46-bacc-40a9-a51f-08c1cf6a80b8" />
+
+
 Desired body Z-axis:
 
 $$
 \mathbf{z}_{B,\text{des}} = \frac{\mathbf{F}_{\text{des}}}{\|\mathbf{F}_{\text{des}}\|}
 $$
+
+<img width="882" height="123" alt="image" src="https://github.com/user-attachments/assets/3793b657-7db6-4dd4-9248-294976580e4f" />
+
 
 ### 2. Motor Allocation (Mixer Matrix)
 The 4 rotor thrusts `f_1, f_2, f_3, f_4` are computed from total thrust `T` and body moments `tau_x, tau_y, tau_z`:
