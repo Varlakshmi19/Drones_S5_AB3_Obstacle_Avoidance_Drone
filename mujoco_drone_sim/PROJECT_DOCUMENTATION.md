@@ -162,9 +162,15 @@ $$
 \mathbf{x}_k = \mathbf{F} \mathbf{x}_{k-1} + \mathbf{w}_k, \quad \mathbf{w}_k \sim \mathcal{N}(0, \mathbf{Q})
 $$
 
+<img width="885" height="285" alt="image" src="https://github.com/user-attachments/assets/9ffab663-1028-4277-a72f-9186d07ab691" />
+
+
 $$
 \mathbf{F} = \begin{bmatrix} \mathbf{I}_{3\times3} & \Delta t \mathbf{I}_{3\times3} \\ \mathbf{0}_{3\times3} & \mathbf{I}_{3\times3} \end{bmatrix}
 $$
+
+<img width="688" height="156" alt="image" src="https://github.com/user-attachments/assets/5f1a581b-d54a-4791-a2a8-ebd6face1901" />
+
 
 #### Measurement Model:
 
