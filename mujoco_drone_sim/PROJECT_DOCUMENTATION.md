@@ -236,6 +236,9 @@ $$
 U_{\text{rep}} = \begin{cases} \frac{1}{2} k_{\text{rep}} \left(\frac{1}{d} - \frac{1}{d_0}\right)^2 & d \le d_0 \\ 0 & d > d_0 \end{cases}
 $$
 
+<img width="986" height="282" alt="image" src="https://github.com/user-attachments/assets/ec130d82-6be1-479d-b788-0277efe172ee" />
+
+
 ### 4. Dynamic Window Approach (`avoidance/dwa_avoidance.py`)
 Samples a grid of linear and angular velocities within the drone's reachable acceleration window, projecting forward trajectories and picking the path that maximizes heading alignment, clearance margin, and forward speed.
 
