@@ -189,12 +189,19 @@ $$
 \mathbf{P}_k = (\mathbf{I} - \mathbf{K}_k \mathbf{H})\mathbf{P}_{k|k-1}(\mathbf{I} - \mathbf{K}_k \mathbf{H})^T + \mathbf{K}_k \mathbf{R} \mathbf{K}_k^T
 $$
 
+<img width="938" height="342" alt="image" src="https://github.com/user-attachments/assets/5e98e44e-e454-4fc5-9436-77d82d582870" />
+
+
+
 ### Trajectory Projection & Closing Velocity
 The tracker projects the obstacle's future position across a 1.0-second horizon:
 
 $$
 \hat{\mathbf{p}}(t + \tau) = \hat{\mathbf{p}}(t) + \hat{\mathbf{v}}(t) \cdot \tau
 $$
+
+<img width="991" height="315" alt="image" src="https://github.com/user-attachments/assets/37ccca07-26a0-4dca-99c1-df300cd1c727" />
+
 
 The relative closing velocity toward the drone is:
 
