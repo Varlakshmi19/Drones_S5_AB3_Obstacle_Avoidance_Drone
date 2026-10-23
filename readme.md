@@ -1,4 +1,4 @@
-<p align="center">
+﻿<p align="center">
   <img src="assets/amrita_logo.jpg" alt="Amrita Vishwa Vidyapeetham Logo" width="300">
 </p>
 
@@ -2362,7 +2362,7 @@ python -m sindy.identify_dynamics
 
 1. **Simulation vs. Real-World Physics:** Evaluated in PyBullet. Real-world physical flights will encounter aerodynamic ground effect, battery voltage sag, motor response latency, and turbulent wind gusts.
 2. **Simplified Sensor Perception:** Uses geometric ray-casting rather than noisy physical LiDAR point clouds or stereo depth cameras.
-3. **Planar-Biased Trajectories:** The FSM operates primarily in the 2D horizontal plane at constant altitude ($`z = 1.0\,\text{m}`$), except in Scenario 8 and 10 where vertical maneuvers are pre-programmed.
+3. **Planar-Biased Trajectories:** The FSM operates primarily in the 2D horizontal plane at constant altitude ($`z = 1.0\,\text{m}`$), except in Scenarios 8 and 10 where vertical maneuvers are pre-programmed.
 4. **Local Minimum Horizon:** While the bio-inspired brain's frustration module successfully escapes U-traps and circular rings, it does not guarantee globally optimal path lengths compared to full A\* or RRT\* search over a known map.
 
 ---
