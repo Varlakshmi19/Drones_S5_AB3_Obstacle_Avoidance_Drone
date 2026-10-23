@@ -1,4 +1,4 @@
-﻿<p align="center">
+<p align="center">
   <img src="assets/amrita_logo.jpg" alt="Amrita Vishwa Vidyapeetham Logo" width="300">
 </p>
 
@@ -87,7 +87,7 @@ This repository implements, evaluates, and mathematically identifies an end-to-e
 The system addresses the challenge of real-time collision avoidance in cluttered, unknown, dynamic, and dead-end environments without requiring heavy SLAM or expensive GPUs. It provides two distinct, fully implemented navigation paradigms:
 1. **Hierarchical Finite State Machine (FSM):** A deterministic, rule-based controller that evaluates directional range sensors, balances lateral opening scores, executes emergency reversals, and checks progress with a sliding-window stuck detector.
 2. **Bio-Inspired Adaptive Neural Brain:** An implementation inspired by the research of *Arne Devos, Emad Ebeid, and Poramate Manoonpong (2018)*, employing a recurrent non-spiking neural network with plastic Hebbian self-synapses, mutual inhibition, and an internal frustration leaky integrator to escape complex local minima, traps, and U-shaped dead ends.
-3. **Data-Driven Equation Discovery (SINDy / SINDYc):** A machine learning pipeline utilizing *Sparse Identification of Nonlinear Dynamics* (Brunton et al., PNAS 2016) that mines the raw flight simulation telemetry to discover the true underlying translational physics (recovering gravitational acceleration $`g = 9.80\,\text{m/s}^2`$ with $`R^2 > 0.999`$), quadrotor rotor mixing torques, and closed-loop control dynamics.
+3. **Data-Driven Equation Discovery (SINDy / SINDYc):** A machine learning pipeline utilizing *Sparse Identification of Nonlinear Dynamics* (Brunton et al., PNAS 2016) that mines the raw flight simulation telemetry to discover the true underlying translational physics (recovering gravitational acceleration $g = 9.80\,\text{m/s}^2$ with $R^2 > 0.999$), quadrotor rotor mixing torques, and closed-loop control dynamics.
 
 Across standardized test benchmarks (from simple frontal obstacles to moving intruders and circular ring traps), the system achieves a **100% mission success rate** with **zero recorded collisions**.
 
@@ -97,7 +97,7 @@ Across standardized test benchmarks (from simple frontal obstacles to moving int
 ## 2. Project Overview
 
 ### What the Project Does
-The project equips an autonomous quadrotor with omnidirectional virtual range perception and fast local planning algorithms that safely guide it from a launch coordinate $`p_0 = (0.0, 0.0, 1.0)\text{ m}`$ to a target waypoint $`p_{\text{goal}} = (6.0, 0.0, 1.0)\text{m}`$. Along this route, the drone autonomously detects obstacles, dynamically computes collision-free trajectories, escapes traps, and stabilizes itself at $`48\,\text{Hz}`$ via position-attitude PID control.
+The project equips an autonomous quadrotor with omnidirectional virtual range perception and fast local planning algorithms that safely guide it from a launch coordinate $p_0 = (0.0, 0.0, 1.0)\text{ m}$ to a target waypoint $p_{\text{goal}} = (6.0, 0.0, 1.0)\text{m}$. Along this route, the drone autonomously detects obstacles, dynamically computes collision-free trajectories, escapes traps, and stabilizes itself at $48\,\text{Hz}$ via position-attitude PID control.
 
 ### What Problem It Solves
 Traditional obstacle-avoidance techniques for micro-air vehicles (MAVs) present difficult trade-offs:
@@ -123,11 +123,11 @@ This project solves these limitations by implementing computationally lightweigh
 - **Comprehensive 10-Scenario Benchmark Suite:**
   - Stationary cube barriers, offset obstacles, narrow slits, U-traps, cylindrical forest slaloms, oscillating lateral obstacles, 3D vertical climbing tiers, dynamic high-speed intruders, and 54-cube circular ring traps.
 - **Dynamic Obstacle Physics Support:**
-  - Real-time kinematics update for time-varying moving obstacles ($`y(t) = y_0 + A \sin(\omega t)`$) with active collision checking.
+  - Real-time kinematics update for time-varying moving obstacles ($y(t) = y_0 + A \sin(\omega t)$) with active collision checking.
 - **Virtual Range Sensor Array:**
-  - 6-beam horizontal array in FSM ($`0^\circ, \pm 35^\circ, \pm 70^\circ, 180^\circ`$) and 12-beam body-fixed ray fan in Neural Brain ($`-90^\circ`$ to $`+180^\circ`$) simulated via PyBullet ray-testing.
+  - 6-beam horizontal array in FSM ($0^\circ, \pm 35^\circ, \pm 70^\circ, 180^\circ$) and 12-beam body-fixed ray fan in Neural Brain ($-90^\circ$ to $+180^\circ$) simulated via PyBullet ray-testing.
 - **Full Closed-Loop Physics Simulation:**
-  - 240 Hz PyBullet multi-body rigid-body dynamics coupled with 48 Hz `DSLPIDControl` computing individual rotor RPMs ($`0`$ to $`21{,}702\,\text{RPM}`$).
+  - 240 Hz PyBullet multi-body rigid-body dynamics coupled with 48 Hz `DSLPIDControl` computing individual rotor RPMs ($0$ to $21{,}702\,\text{RPM}$).
 - **SINDy Telemetry Discovery Engine:**
   - STLSQ (Sequentially Thresholded Least Squares) sparse regressor discovering translational forces, motor torque mixing matrices, and closed-loop velocity transfer functions directly from `.npz` flight logs.
 - **Automatic Trajectory & Metric Logging:**
@@ -138,7 +138,7 @@ This project solves these limitations by implementing computationally lightweigh
 <a id="4-how-the-project-works-architecture--workflow"></a>
 ## 4. How the Project Works (Architecture & Workflow)
 
-The system operates as a closed-loop perception-planning-control pipeline executed at $`48\,\text{Hz}`$ on top of the $`240\,\text{Hz}`$ PyBullet physical simulator.
+The system operates as a closed-loop perception-planning-control pipeline executed at $48\,\text{Hz}$ on top of the $240\,\text{Hz}$ PyBullet physical simulator.
 
 ### System Architecture Diagram
 
@@ -208,11 +208,11 @@ The system operates as a closed-loop perception-planning-control pipeline execut
 | Technology / Library | Version / Scope | Purpose in Project |
 |---|---|---|
 | **Python** | 3.10+ | Core programming language for all logic, physics interfaces, and math routines. |
-| **PyBullet** | $`\ge 3.2.5`$ | Real-time multi-body physics engine providing rigid-body collision detection and ray-casting. |
+| **PyBullet** | $\ge 3.2.5$ | Real-time multi-body physics engine providing rigid-body collision detection and ray-casting. |
 | **gym-pybullet-drones** | Master (utiasDSL) | Quadrotor simulation framework providing the Crazyflie 2.X model, environments, and control classes. |
-| **NumPy** | $`\ge 1.22`$ | Fast vectorized mathematical operations, matrix inversions, quaternions, and ray fans. |
-| **SciPy** | $`\ge 1.9`$ | Signal processing tools including the Savitzky-Golay filter (`savgol_filter`) for numerical differentiation. |
-| **Matplotlib** | $`\ge 3.5`$ | Plotting trajectory comparisons, neural activations, phase portraits, and SINDy validation graphs. |
+| **NumPy** | $\ge 1.22$ | Fast vectorized mathematical operations, matrix inversions, quaternions, and ray fans. |
+| **SciPy** | $\ge 1.9$ | Signal processing tools including the Savitzky-Golay filter (`savgol_filter`) for numerical differentiation. |
+| **Matplotlib** | $\ge 3.5$ | Plotting trajectory comparisons, neural activations, phase portraits, and SINDy validation graphs. |
 | **DSLPIDControl** | Built-in | Non-linear geometric cascaded PID tracking controller tuned specifically for the CF2X quadrotor. |
 | **SINDy / SINDYc** | Custom Implementation | Sparse Identification of Nonlinear Dynamics discovering equations of motion from simulation data. |
 
@@ -319,10 +319,10 @@ Drones_S5_AB3_Obstacle_Avoidance_Drone/
 
 **Notation conventions used throughout**
 
-- **Bold** symbols are vectors or matrices; a hat (for example $`\hat{\mathbf{d}}_g`$) marks a unit-length vector. Subscript $`W`$ denotes the world (inertial) frame, subscript $`B`$ the drone body frame.
+- **Bold** symbols are vectors or matrices; a hat (for example $\hat{\mathbf{d}}_g$) marks a unit-length vector. Subscript $W$ denotes the world (inertial) frame, subscript $B$ the drone body frame.
 - Distances are in metres, time in seconds, angles in radians unless a degree sign is written. A positive angle is counter-clockwise when viewed from above, i.e. a turn to the drone's **left**.
-- The control loop runs at $`48\,\text{Hz}`$, so one control tick lasts $`\Delta t = 1/48 \approx 0.0208\,\text{s}`$.
-- A few letters are reused in different subsections with different meanings (for example $`\tau`$ is a neuron time constant in §7.4 but a torque in §7.8). Every subsection defines its own symbols, and the clash is pointed out where it matters.
+- The control loop runs at $48\,\text{Hz}$, so one control tick lasts $\Delta t = 1/48 \approx 0.0208\,\text{s}$.
+- A few letters are reused in different subsections with different meanings (for example $\tau$ is a neuron time constant in §7.4 but a torque in §7.8). Every subsection defines its own symbols, and the clash is pointed out where it matters.
 
 **About the MATLAB figures.** Every subsection ends with a plot of its main formula. The scripts live in [`matlab/section7/`](matlab/section7) and write PNG files to [`assets/section7/`](assets/section7); run `run('matlab/section7/run_all_section7_plots.m')` in MATLAB R2020a or newer to regenerate all of them. Constants are taken from this section; where the project does not fix a value (the PID gains in §7.8, the corridor width in §7.2, the synthetic data in §7.9) the script and caption say so.
 
@@ -434,7 +434,7 @@ This cheat sheet repeats the key formulas without derivations. Each group points
 >
 > **Practical purpose.** Both planners steer relative to this direction. The FSM measures its left/right sectors from it (§7.3), and the neural brain converts it into an attraction heading (§7.6). Using a **unit** vector separates "which way" from "how far", so speed and avoidance logic can scale the direction independently.
 
-The simulation operates in a right-handed inertial Cartesian frame $`\mathcal{F}_W = \{\mathbf{x}_W, \mathbf{y}_W, \mathbf{z}_W\}`$ where $`\mathbf{z}_W`$ points upward against gravity.
+The simulation operates in a right-handed inertial Cartesian frame $\mathcal{F}_W = \{\mathbf{x}_W, \mathbf{y}_W, \mathbf{z}_W\}$ where $\mathbf{z}_W$ points upward against gravity.
 
 #### Equation: Horizontal Unit Direction toward Goal
 
@@ -446,38 +446,38 @@ The simulation operates in a right-handed inertial Cartesian frame $`\mathcal{F}
 \hat{\mathbf{d}}_g = \frac{\mathbf{d}_{\text{goal}}}{\|\mathbf{d}_{\text{goal}}\|_2} = \begin{bmatrix} \frac{x_{\text{goal}} - x}{\sqrt{(x_{\text{goal}} - x)^2 + (y_{\text{goal}} - y)^2}} \\ \frac{y_{\text{goal}} - y}{\sqrt{(x_{\text{goal}} - x)^2 + (y_{\text{goal}} - y)^2}} \\ 0 \end{bmatrix}
 ```
 
-**What the equations say.** The first equation subtracts the drone's position from the goal position to get the displacement vector pointing from the drone to the goal. Its vertical component is forced to zero because avoidance is planned in the horizontal plane (the start and goal are both at $`z = 1.0\,\text{m}`$). The second equation divides that displacement by its own length (the Euclidean norm), which keeps the direction but throws away the distance. The result always has length 1, whether the drone is 6 m or 6 cm from the goal.
+**What the equations say.** The first equation subtracts the drone's position from the goal position to get the displacement vector pointing from the drone to the goal. Its vertical component is forced to zero because avoidance is planned in the horizontal plane (the start and goal are both at $z = 1.0\,\text{m}$). The second equation divides that displacement by its own length (the Euclidean norm), which keeps the direction but throws away the distance. The result always has length 1, whether the drone is 6 m or 6 cm from the goal.
 
 **Variables**
-- $`\mathbf{p}(t) = [x(t), y(t), z(t)]^T`$: instantaneous 3D position of the drone in world coordinates ($`\text{m}`$); $`t`$ is time ($`\text{s}`$).
-- $`\mathbf{p}_{\text{goal}} = [x_{\text{goal}}, y_{\text{goal}}, z_{\text{goal}}]^T = [6.0, 0.0, 1.0]^T`$: fixed 3D destination ($`\text{m}`$).
-- $`\mathbf{d}_{\text{goal}}`$: horizontal displacement from drone to goal ($`\text{m}`$), with the $`z`$-component set to $`0`$.
-- $`\|\cdot\|_2`$: Euclidean (L2) norm, the vector's length: $`\|\mathbf{d}_{\text{goal}}\|_2 = \sqrt{(x_{\text{goal}}-x)^2 + (y_{\text{goal}}-y)^2}`$ ($`\text{m}`$). The direction is undefined when this is exactly zero (drone directly above the goal), so any implementation needs a small-distance guard there.
-- $`\hat{\mathbf{d}}_g`$: dimensionless horizontal unit vector pointing from the drone toward the goal.
+- $\mathbf{p}(t) = [x(t), y(t), z(t)]^T$: instantaneous 3D position of the drone in world coordinates ($\text{m}$); $t$ is time ($\text{s}$).
+- $\mathbf{p}_{\text{goal}} = [x_{\text{goal}}, y_{\text{goal}}, z_{\text{goal}}]^T = [6.0, 0.0, 1.0]^T$: fixed 3D destination ($\text{m}$).
+- $\mathbf{d}_{\text{goal}}$: horizontal displacement from drone to goal ($\text{m}$), with the $z$-component set to $0$.
+- $\|\cdot\|_2$: Euclidean (L2) norm, the vector's length: $\|\mathbf{d}_{\text{goal}}\|_2 = \sqrt{(x_{\text{goal}}-x)^2 + (y_{\text{goal}}-y)^2}$ ($\text{m}$). The direction is undefined when this is exactly zero (drone directly above the goal), so any implementation needs a small-distance guard there.
+- $\hat{\mathbf{d}}_g$: dimensionless horizontal unit vector pointing from the drone toward the goal.
 
 - **Implementation:** `horizontal_unit_vector()` and `goal_direction()` in [pybullet/obstacle_avoidance.py](pybullet/obstacle_avoidance.py#L341-L381).
 - **Step-by-Step Numerical Example:**
-  Suppose the drone has moved to $`\mathbf{p} = [2.00, 0.50, 1.00]^T`$:
-  1. Difference vector: $`\mathbf{d}_{\text{goal}} = [6.0 - 2.0, 0.0 - 0.5, 0.0]^T = [4.0, -0.5, 0.0]^T`$.
-  2. Euclidean norm: $`\|\mathbf{d}_{\text{goal}}\| = \sqrt{4.0^2 + (-0.5)^2} = \sqrt{16.0 + 0.25} = \sqrt{16.25} \approx 4.0311\,\text{m}`$.
-  3. Normalized vector: $`\hat{\mathbf{d}}_g = \left[\frac{4.0}{4.0311}, \frac{-0.5}{4.0311}, 0\right]^T \approx [0.9923, -0.1240, 0.0]^T`$.
+  Suppose the drone has moved to $\mathbf{p} = [2.00, 0.50, 1.00]^T$:
+  1. Difference vector: $\mathbf{d}_{\text{goal}} = [6.0 - 2.0, 0.0 - 0.5, 0.0]^T = [4.0, -0.5, 0.0]^T$.
+  2. Euclidean norm: $\|\mathbf{d}_{\text{goal}}\| = \sqrt{4.0^2 + (-0.5)^2} = \sqrt{16.0 + 0.25} = \sqrt{16.25} \approx 4.0311\,\text{m}$.
+  3. Normalized vector: $\hat{\mathbf{d}}_g = \left[\frac{4.0}{4.0311}, \frac{-0.5}{4.0311}, 0\right]^T \approx [0.9923, -0.1240, 0.0]^T$.
 
 #### Equation: 2D Planar Rotation Matrix
-To project sensor rays or lateral avoidance vectors at an angle $`\theta`$ relative to $`\hat{\mathbf{d}}_g`$:
+To project sensor rays or lateral avoidance vectors at an angle $\theta$ relative to $\hat{\mathbf{d}}_g$:
 
 ```math
 \mathbf{R}_z(\theta) = \begin{bmatrix} \cos\theta & -\sin\theta & 0 \\ \sin\theta & \cos\theta & 0 \\ 0 & 0 & 1 \end{bmatrix}, \quad \hat{\mathbf{u}}_\theta = \mathbf{R}_z(\theta) \hat{\mathbf{d}}_g
 ```
 
-**What the equation says.** Multiplying a vector by $`\mathbf{R}_z(\theta)`$ spins it counter-clockwise by the angle $`\theta`$ about the vertical axis, leaving its length and its $`z`$-component unchanged. Applying it to $`\hat{\mathbf{d}}_g`$ produces a new unit vector pointing $`\theta`$ to the left of the goal direction (negative $`\theta`$ points to the right). This is how the FSM aims a beam or an avoidance manoeuvre at, say, $`+35^\circ`$ or $`-70^\circ`$ from the goal line.
+**What the equation says.** Multiplying a vector by $\mathbf{R}_z(\theta)$ spins it counter-clockwise by the angle $\theta$ about the vertical axis, leaving its length and its $z$-component unchanged. Applying it to $\hat{\mathbf{d}}_g$ produces a new unit vector pointing $\theta$ to the left of the goal direction (negative $\theta$ points to the right). This is how the FSM aims a beam or an avoidance manoeuvre at, say, $+35^\circ$ or $-70^\circ$ from the goal line.
 
 **Variables**
-- $`\theta`$: rotation angle ($`\text{rad}`$ in the formula; the project quotes it in degrees), positive counter-clockwise seen from above.
-- $`\mathbf{R}_z(\theta)`$: $`3 \times 3`$ rotation matrix about $`\mathbf{z}_W`$. Its top-left $`2 \times 2`$ block rotates the $`xy`$-plane; the $`1`$ in the last diagonal entry keeps $`z`$ fixed.
-- $`\hat{\mathbf{d}}_g`$: unit goal direction from the previous equation.
-- $`\hat{\mathbf{u}}_\theta`$: resulting unit direction, rotated by $`\theta`$ from the goal direction.
+- $\theta$: rotation angle ($\text{rad}$ in the formula; the project quotes it in degrees), positive counter-clockwise seen from above.
+- $\mathbf{R}_z(\theta)$: $3 \times 3$ rotation matrix about $\mathbf{z}_W$. Its top-left $2 \times 2$ block rotates the $xy$-plane; the $1$ in the last diagonal entry keeps $z$ fixed.
+- $\hat{\mathbf{d}}_g$: unit goal direction from the previous equation.
+- $\hat{\mathbf{u}}_\theta$: resulting unit direction, rotated by $\theta$ from the goal direction.
 
-- **Numerical example:** with $`\hat{\mathbf{d}}_g = [0.9923, -0.1240, 0]^T`$ and $`\theta = +35^\circ`$ ($`\cos 35^\circ = 0.8192`$, $`\sin 35^\circ = 0.5736`$): $`\hat{\mathbf{u}}_\theta = [0.8192 \cdot 0.9923 - 0.5736 \cdot (-0.1240),\; 0.5736 \cdot 0.9923 + 0.8192 \cdot (-0.1240),\; 0]^T \approx [0.8840, 0.4676, 0]^T`$. Its heading is $`\operatorname{atan2}(0.4676, 0.8840) \approx 27.9^\circ`$, which equals the goal heading ($`-7.1^\circ`$) plus $`35^\circ`$, as expected.
+- **Numerical example:** with $\hat{\mathbf{d}}_g = [0.9923, -0.1240, 0]^T$ and $\theta = +35^\circ$ ($\cos 35^\circ = 0.8192$, $\sin 35^\circ = 0.5736$): $\hat{\mathbf{u}}_\theta = [0.8192 \cdot 0.9923 - 0.5736 \cdot (-0.1240),\; 0.5736 \cdot 0.9923 + 0.8192 \cdot (-0.1240),\; 0]^T \approx [0.8840, 0.4676, 0]^T$. Its heading is $\text{atan2}(0.4676, 0.8840) \approx 27.9^\circ$, which equals the goal heading ($-7.1^\circ$) plus $35^\circ$, as expected.
 - **Implementation:** `rotate_horizontal(vector, angle_degrees)` in [pybullet/obstacle_avoidance.py](pybullet/obstacle_avoidance.py#L357-L371).
 
 #### MATLAB Plot: Horizontal Unit Direction toward the Goal (main formula of §7.1)
@@ -551,7 +551,7 @@ exportgraphics(fig, fullfile(outDir, 'fig_7_1_goal_direction.png'), 'Resolution'
 The drone perceives its local surroundings by querying the PyBullet collision world via geometric rays.
 
 #### Equation: Ray Parametrization & Distance Extraction
-Each ray $`i`$ originating from the drone body is parametrized by $`s \in [0, 1]`$:
+Each ray $i$ originating from the drone body is parametrized by $s \in [0, 1]$:
 
 ```math
 \mathbf{r}_i(s) = \mathbf{r}_{\text{start}, i} + s \cdot (\mathbf{r}_{\text{end}, i} - \mathbf{r}_{\text{start}, i})
@@ -563,27 +563,27 @@ where:
 \mathbf{r}_{\text{start}, i} = \mathbf{p} + d_{\text{offset}} \hat{\mathbf{u}}_{\theta_i}, \quad \mathbf{r}_{\text{end}, i} = \mathbf{r}_{\text{start}, i} + R_{\text{sensor}} \hat{\mathbf{u}}_{\theta_i}
 ```
 
-PyBullet's `p.rayTest` returns the normalized intersection fraction $`f_i \in [0, 1]`$ and the collided object identifier $`\text{id}_{\text{hit}}`$:
+PyBullet's `p.rayTest` returns the normalized intersection fraction $f_i \in [0, 1]$ and the collided object identifier $\text{id}_{\text{hit}}$:
 
 ```math
 d_i = \begin{cases} R_{\text{sensor}}, & \text{if } \text{id}_{\text{hit}} = -1 \text{ (no hit)} \\ f_i \cdot R_{\text{sensor}}, & \text{if } \text{id}_{\text{hit}} \ge 0 \text{ (obstacle detected)} \end{cases}
 ```
 
-**What the equations say.** A ray is just a straight segment. The first equation is the standard "start point plus a fraction of the way to the end point" formula: at $`s = 0`$ you are at the start, at $`s = 1`$ at the end. The second pair of equations builds that segment: it begins a small distance $`d_{\text{offset}}`$ *outside* the drone along the beam direction (so the ray cannot hit the drone's own propellers) and extends $`R_{\text{sensor}}`$ further. The third equation turns PyBullet's answer into a distance: if the ray hit nothing the reading saturates at the maximum range; otherwise the hit fraction $`f_i`$ is scaled by the ray length.
+**What the equations say.** A ray is just a straight segment. The first equation is the standard "start point plus a fraction of the way to the end point" formula: at $s = 0$ you are at the start, at $s = 1$ at the end. The second pair of equations builds that segment: it begins a small distance $d_{\text{offset}}$ *outside* the drone along the beam direction (so the ray cannot hit the drone's own propellers) and extends $R_{\text{sensor}}$ further. The third equation turns PyBullet's answer into a distance: if the ray hit nothing the reading saturates at the maximum range; otherwise the hit fraction $f_i$ is scaled by the ray length.
 
 **Variables**
-- $`i`$: beam index (6 beams in the FSM, 12 in the neural brain).
-- $`\mathbf{r}_i(s)`$: the point at fraction $`s`$ along beam $`i`$ ($`\text{m}`$); $`s`$ is the dimensionless ray parameter (not the clearance $`s`$ of §7.7).
-- $`\mathbf{r}_{\text{start}, i}`$, $`\mathbf{r}_{\text{end}, i}`$: first and last point of the beam ($`\text{m}`$).
-- $`\mathbf{p}`$: drone position ($`\text{m}`$).
-- $`\hat{\mathbf{u}}_{\theta_i}`$: unit direction of beam $`i`$, at bearing $`\theta_i`$ (from §7.1's rotation for the FSM; a fixed body-frame angle for the brain's fan).
-- $`d_{\text{offset}} = 0.18\,\text{m}`$ (FSM) or $`0.10\,\text{m}`$ (Brain): radial clearance ensuring rays originate outside the quadrotor's rotor footprint (about $`0.065\,\text{m}`$ radius) to avoid self-detection.
-- $`R_{\text{sensor}} = 1.60\,\text{m}`$: maximum sensor detection range.
-- $`f_i \in [0, 1]`$: fraction of the ray length at which the first hit occurs.
-- $`\text{id}_{\text{hit}}`$: PyBullet's identifier of the body that was hit, $`-1`$ when nothing was hit.
-- $`d_i`$: measured distance to the obstacle along bearing $`\theta_i`$ ($`\text{m}`$), measured from $`\mathbf{r}_{\text{start}, i}`$, always in $`[0, R_{\text{sensor}}]`$.
+- $i$: beam index (6 beams in the FSM, 12 in the neural brain).
+- $\mathbf{r}_i(s)$: the point at fraction $s$ along beam $i$ ($\text{m}$); $s$ is the dimensionless ray parameter (not the clearance $s$ of §7.7).
+- $\mathbf{r}_{\text{start}, i}$, $\mathbf{r}_{\text{end}, i}$: first and last point of the beam ($\text{m}$).
+- $\mathbf{p}$: drone position ($\text{m}$).
+- $\hat{\mathbf{u}}_{\theta_i}$: unit direction of beam $i$, at bearing $\theta_i$ (from §7.1's rotation for the FSM; a fixed body-frame angle for the brain's fan).
+- $d_{\text{offset}} = 0.18\,\text{m}$ (FSM) or $0.10\,\text{m}$ (Brain): radial clearance ensuring rays originate outside the quadrotor's rotor footprint (about $0.065\,\text{m}$ radius) to avoid self-detection.
+- $R_{\text{sensor}} = 1.60\,\text{m}$: maximum sensor detection range.
+- $f_i \in [0, 1]$: fraction of the ray length at which the first hit occurs.
+- $\text{id}_{\text{hit}}$: PyBullet's identifier of the body that was hit, $-1$ when nothing was hit.
+- $d_i$: measured distance to the obstacle along bearing $\theta_i$ ($\text{m}$), measured from $\mathbf{r}_{\text{start}, i}$, always in $[0, R_{\text{sensor}}]$.
 
-- **Numerical example (also shown in Figure 7.2):** drone at the origin heading along $`+x`$, beam $`\theta = 0^\circ`$, $`d_{\text{offset}} = 0.18\,\text{m}`$, $`R_{\text{sensor}} = 1.60\,\text{m}`$, obstacle face at $`x = 1.0\,\text{m}`$. Then $`\mathbf{r}_{\text{start}} = (0.18, 0)`$, $`\mathbf{r}_{\text{end}} = (1.78, 0)`$, the hit fraction is $`f = (1.0 - 0.18)/1.60 = 0.5125`$, so $`d = 0.5125 \times 1.60 = 0.82\,\text{m}`$. Beams that miss the obstacle report $`d = 1.60\,\text{m}`$.
+- **Numerical example (also shown in Figure 7.2):** drone at the origin heading along $+x$, beam $\theta = 0^\circ$, $d_{\text{offset}} = 0.18\,\text{m}$, $R_{\text{sensor}} = 1.60\,\text{m}$, obstacle face at $x = 1.0\,\text{m}$. Then $\mathbf{r}_{\text{start}} = (0.18, 0)$, $\mathbf{r}_{\text{end}} = (1.78, 0)$, the hit fraction is $f = (1.0 - 0.18)/1.60 = 0.5125$, so $d = 0.5125 \times 1.60 = 0.82\,\text{m}$. Beams that miss the obstacle report $d = 1.60\,\text{m}$.
 - **Implementation:** `cast_sensor_ray()` in [pybullet/obstacle_avoidance.py](pybullet/obstacle_avoidance.py#L387-L431) and `cast_rays()` in [pybullet/brain_avoidance.py](pybullet/brain_avoidance.py#L71-L89).
 
 #### MATLAB Plot: Ray-Casting Fan and Distance Extraction (main formula of §7.2)
@@ -691,26 +691,26 @@ exportgraphics(fig, fullfile(outDir, 'fig_7_2_ray_casting.png'), 'Resolution', 2
 
 #### Equation: Elliptical Reactive Bubble (Neural Brain)
 
-**What it does.** A distance reading only matters if it is *short enough to be dangerous*, and "short enough" depends on the direction: an obstacle 1 m straight ahead is something to steer around now, whereas a wall 0.5 m to the side is harmless when flying parallel to it. The reactive bubble is therefore not a circle but an **ellipse** centred on the drone and stretched along its heading. A reading in direction $`\theta`$ triggers avoidance only when it is shorter than $`R_{\text{react}}(\theta)`$, the distance from the drone to the ellipse boundary in that direction. To prevent the drone from false-triggering avoidance on corridor side-walls when flying down narrow passages, the reaction threshold varies continuously with heading angle $`\theta`$ following an ellipse:
+**What it does.** A distance reading only matters if it is *short enough to be dangerous*, and "short enough" depends on the direction: an obstacle 1 m straight ahead is something to steer around now, whereas a wall 0.5 m to the side is harmless when flying parallel to it. The reactive bubble is therefore not a circle but an **ellipse** centred on the drone and stretched along its heading. A reading in direction $\theta$ triggers avoidance only when it is shorter than $R_{\text{react}}(\theta)$, the distance from the drone to the ellipse boundary in that direction. To prevent the drone from false-triggering avoidance on corridor side-walls when flying down narrow passages, the reaction threshold varies continuously with heading angle $\theta$ following an ellipse:
 
 ```math
 R_{\text{react}}(\theta) = \frac{a \cdot b}{\sqrt{(b \cos\theta)^2 + (a \sin\theta)^2}}
 ```
 
-**Where the formula comes from.** An ellipse with semi-axis $`a`$ along the heading ($`x`$) and $`b`$ sideways ($`y`$) satisfies $`x^2/a^2 + y^2/b^2 = 1`$. Writing a boundary point in polar form, $`x = R\cos\theta`$ and $`y = R\sin\theta`$, gives $`R^2\left(\cos^2\theta / a^2 + \sin^2\theta / b^2\right) = 1`$; solving for $`R`$ yields the expression above.
+**Where the formula comes from.** An ellipse with semi-axis $a$ along the heading ($x$) and $b$ sideways ($y$) satisfies $x^2/a^2 + y^2/b^2 = 1$. Writing a boundary point in polar form, $x = R\cos\theta$ and $y = R\sin\theta$, gives $R^2\left(\cos^2\theta / a^2 + \sin^2\theta / b^2\right) = 1$; solving for $R$ yields the expression above.
 
 **Variables**
-- $`R_{\text{react}}(\theta)`$: reaction radius in direction $`\theta`$ ($`\text{m}`$); an obstacle closer than this along that bearing counts as a threat.
-- $`\theta`$: bearing of the sensor beam measured from the drone's heading ($`\theta = 0`$ straight ahead, $`\pm 90^\circ`$ directly to the sides).
-- $`a = 1.10\,\text{m}`$: major semi-axis straight ahead ($`\theta = 0^\circ`$).
-- $`b = 0.32\,\text{m}`$: minor semi-axis directly sideways ($`\theta = \pm 90^\circ`$).
+- $R_{\text{react}}(\theta)$: reaction radius in direction $\theta$ ($\text{m}$); an obstacle closer than this along that bearing counts as a threat.
+- $\theta$: bearing of the sensor beam measured from the drone's heading ($\theta = 0$ straight ahead, $\pm 90^\circ$ directly to the sides).
+- $a = 1.10\,\text{m}$: major semi-axis straight ahead ($\theta = 0^\circ$).
+- $b = 0.32\,\text{m}$: minor semi-axis directly sideways ($\theta = \pm 90^\circ$).
 
 - **Numerical Example:**
-  - Ahead ($`\theta = 0^\circ`$): $`R_{\text{react}}(0^\circ) = \frac{1.10 \times 0.32}{\sqrt{(0.32 \times 1)^2 + 0}} = 1.10\,\text{m}`$.
-  - Oblique ($`\theta = 45^\circ`$): $`\cos(45^\circ) = \sin(45^\circ) \approx 0.7071`$.
-    $`\sqrt{(0.32 \times 0.7071)^2 + (1.10 \times 0.7071)^2} = \sqrt{0.0512 + 0.6050} = \sqrt{0.6562} \approx 0.8101`$.
-    $`R_{\text{react}}(45^\circ) = \frac{0.352}{0.8101} \approx 0.4345\,\text{m}`$.
-  - Sideways ($`\theta = 90^\circ`$): $`R_{\text{react}}(90^\circ) = 0.32\,\text{m}`$.
+  - Ahead ($\theta = 0^\circ$): $R_{\text{react}}(0^\circ) = \frac{1.10 \times 0.32}{\sqrt{(0.32 \times 1)^2 + 0}} = 1.10\,\text{m}$.
+  - Oblique ($\theta = 45^\circ$): $\cos(45^\circ) = \sin(45^\circ) \approx 0.7071$.
+    $\sqrt{(0.32 \times 0.7071)^2 + (1.10 \times 0.7071)^2} = \sqrt{0.0512 + 0.6050} = \sqrt{0.6562} \approx 0.8101$.
+    $R_{\text{react}}(45^\circ) = \frac{0.352}{0.8101} \approx 0.4345\,\text{m}$.
+  - Sideways ($\theta = 90^\circ$): $R_{\text{react}}(90^\circ) = 0.32\,\text{m}$.
 - **Implementation:** [pybullet/brain/neural_brain.py](pybullet/brain/neural_brain.py#L112-L113).
 
 **Visual explanation.**
@@ -817,8 +817,8 @@ exportgraphics(fig, fullfile(outDir, 'fig_7_2b_elliptical_bubble.png'), 'Resolut
 >
 > **Practical purpose.** When a frontal obstacle appears the FSM must decide *quickly* and *consistently* whether to pass on the left or the right. The hysteresis dead-band prevents rapid left-right chatter in front of symmetric obstacles, and the stuck detector is what triggers the `EMERGENCY_REVERSE` state in dead ends.
 
-The FSM divides 3D space into six directional sectors relative to $`\hat{\mathbf{d}}_g`$:
-- $`\text{Far Left } (+70^\circ)`$, $`\text{Left } (+35^\circ)`$, $`\text{Front } (0^\circ)`$, $`\text{Right } (-35^\circ)`$, $`\text{Far Right } (-70^\circ)`$, $`\text{Rear } (180^\circ)`$.
+The FSM divides 3D space into six directional sectors relative to $\hat{\mathbf{d}}_g$:
+- $\text{Far Left } (+70^\circ)$, $\text{Left } (+35^\circ)$, $\text{Front } (0^\circ)$, $\text{Right } (-35^\circ)$, $\text{Far Right } (-70^\circ)$, $\text{Rear } (180^\circ)$.
 
 ```text
                        Front (0°)
@@ -845,13 +845,13 @@ S_{\text{left}} = 0.65 \cdot d_{\text{left}} + 0.35 \cdot d_{\text{far-left}}
 S_{\text{right}} = 0.65 \cdot d_{\text{right}} + 0.35 \cdot d_{\text{far-right}}
 ```
 
-**What the equations say.** Each score is a weighted average of the two range readings on one side of the drone, so it behaves like an "effective free distance" on that side (the weights add up to $`1`$, so the score keeps the unit of metres). The $`35^\circ`$ beam gets the larger weight because it looks where the drone will actually fly after turning; the $`70^\circ`$ beam adds context about the wider surroundings, so a narrow gap seen by one beam does not dominate the decision.
+**What the equations say.** Each score is a weighted average of the two range readings on one side of the drone, so it behaves like an "effective free distance" on that side (the weights add up to $1$, so the score keeps the unit of metres). The $35^\circ$ beam gets the larger weight because it looks where the drone will actually fly after turning; the $70^\circ$ beam adds context about the wider surroundings, so a narrow gap seen by one beam does not dominate the decision.
 
 **Variables**
-- $`S_{\text{left}}`$, $`S_{\text{right}}`$: free-space scores of the left and right side ($`\text{m}`$); larger means more room.
-- $`d_{\text{left}}`$, $`d_{\text{right}}`$: distance readings ($`\text{m}`$) of the $`+35^\circ`$ and $`-35^\circ`$ beams, from §7.2.
-- $`d_{\text{far-left}}`$, $`d_{\text{far-right}}`$: distance readings ($`\text{m}`$) of the $`+70^\circ`$ and $`-70^\circ`$ beams.
-- $`0.65`$ weights the primary turning zone ($`35^\circ`$), while $`0.35`$ provides contextual clearance in the wider periphery ($`70^\circ`$).
+- $S_{\text{left}}$, $S_{\text{right}}$: free-space scores of the left and right side ($\text{m}$); larger means more room.
+- $d_{\text{left}}$, $d_{\text{right}}$: distance readings ($\text{m}$) of the $+35^\circ$ and $-35^\circ$ beams, from §7.2.
+- $d_{\text{far-left}}$, $d_{\text{far-right}}$: distance readings ($\text{m}$) of the $+70^\circ$ and $-70^\circ$ beams.
+- $0.65$ weights the primary turning zone ($35^\circ$), while $0.35$ provides contextual clearance in the wider periphery ($70^\circ$).
 
 #### Equation: Side Decision with Hysteresis
 
@@ -859,19 +859,19 @@ S_{\text{right}} = 0.65 \cdot d_{\text{right}} + 0.35 \cdot d_{\text{far-right}}
 \text{Side}^* = \begin{cases} \text{Previous Side}, & \text{if } |S_{\text{left}} - S_{\text{right}}| < 0.08\,\text{m} \text{ and Previous Side is set} \\ \text{LEFT}, & \text{if } S_{\text{left}} \ge S_{\text{right}} \\ \text{RIGHT}, & \text{if } S_{\text{right}} > S_{\text{left}} \end{cases}
 ```
 
-**What the equation says.** The cases are checked from top to bottom. If the two scores are nearly equal (within $`0.08\,\text{m}`$) and the drone has already chosen a side, it *keeps* that side. Only when one side is clearly better does the choice change, to the side with the larger score. This is called **hysteresis**: the threshold for switching away from the current side is higher than the threshold for staying.
+**What the equation says.** The cases are checked from top to bottom. If the two scores are nearly equal (within $0.08\,\text{m}$) and the drone has already chosen a side, it *keeps* that side. Only when one side is clearly better does the choice change, to the side with the larger score. This is called **hysteresis**: the threshold for switching away from the current side is higher than the threshold for staying.
 
 **Variables**
-- $`\text{Side}^*`$: the chosen avoidance side, either LEFT or RIGHT.
-- $`\text{Previous Side}`$: the side chosen on the previous decision (undefined at the start of a manoeuvre).
-- $`0.08\,\text{m}`$: the hysteresis dead-band $`\delta_{\text{hysteresis}}`$ on the score difference $`S_{\text{left}} - S_{\text{right}}`$.
+- $\text{Side}^*$: the chosen avoidance side, either LEFT or RIGHT.
+- $\text{Previous Side}$: the side chosen on the previous decision (undefined at the start of a manoeuvre).
+- $0.08\,\text{m}$: the hysteresis dead-band $\delta_{\text{hysteresis}}$ on the score difference $S_{\text{left}} - S_{\text{right}}$.
 
-- **Purpose:** The $`0.08\,\text{m}`$ dead-band hysteresis prevents high-frequency limit-cycle chatter (rapid left-right oscillations) when facing symmetric obstacles.
-- **Numerical example:** with $`d_{\text{left}} = 1.20`$, $`d_{\text{far-left}} = 0.90`$, $`d_{\text{right}} = 0.80`$, $`d_{\text{far-right}} = 1.00`$ (all $`\text{m}`$): $`S_{\text{left}} = 0.65 \cdot 1.20 + 0.35 \cdot 0.90 = 1.095`$, $`S_{\text{right}} = 0.65 \cdot 0.80 + 0.35 \cdot 1.00 = 0.870`$, the difference $`0.225 \ge 0.08`$, so the drone chooses **LEFT**. On the next tick suppose the scores become $`0.930`$ and $`0.980`$: the difference is only $`-0.05`$, inside the dead-band, so the drone **stays LEFT** even though the right side is now marginally freer.
+- **Purpose:** The $0.08\,\text{m}$ dead-band hysteresis prevents high-frequency limit-cycle chatter (rapid left-right oscillations) when facing symmetric obstacles.
+- **Numerical example:** with $d_{\text{left}} = 1.20$, $d_{\text{far-left}} = 0.90$, $d_{\text{right}} = 0.80$, $d_{\text{far-right}} = 1.00$ (all $\text{m}$): $S_{\text{left}} = 0.65 \cdot 1.20 + 0.35 \cdot 0.90 = 1.095$, $S_{\text{right}} = 0.65 \cdot 0.80 + 0.35 \cdot 1.00 = 0.870$, the difference $0.225 \ge 0.08$, so the drone chooses **LEFT**. On the next tick suppose the scores become $0.930$ and $0.980$: the difference is only $-0.05$, inside the dead-band, so the drone **stays LEFT** even though the right side is now marginally freer.
 - **Implementation:** `calculate_side_scores()` & `choose_avoidance_side()` in [pybullet/obstacle_avoidance.py](pybullet/obstacle_avoidance.py#L475-L515).
 
 #### Equation: Stuck & Trap Detection
-Let the position history buffer of length $`W = 96`$ ticks ($`2.0\,\text{s}`$ at $`48\,\text{Hz}`$) be $`\mathcal{H}_p = \{\mathbf{p}_{k-W+1}, \dots, \mathbf{p}_k\}`$.
+Let the position history buffer of length $W = 96$ ticks ($2.0\,\text{s}$ at $48\,\text{Hz}$) be $\mathcal{H}_p = \{\mathbf{p}_{k-W+1}, \dots, \mathbf{p}_k\}$.
 
 ```math
 \Delta p_{\text{progress}} = \|\mathbf{p}_k[0:2] - \mathbf{p}_{k-W+1}[0:2]\|_2
@@ -883,19 +883,19 @@ The stuck flag is asserted when:
 \text{Stuck} = \left(\Delta p_{\text{progress}} < 0.10\,\text{m}\right) \;\land\; \left(\|\mathbf{p}_k - \mathbf{p}_{\text{goal}}\| > 0.25\,\text{m}\right)
 ```
 
-**What the equations say.** The first equation measures how far the drone has moved *horizontally* between the oldest and the newest entry of a sliding window covering the last $`2\,\text{s}`$. The second equation raises the stuck flag only if two things hold at once: that net displacement is tiny, **and** the drone is not already at the goal (so simply arriving and hovering is not mistaken for being trapped).
+**What the equations say.** The first equation measures how far the drone has moved *horizontally* between the oldest and the newest entry of a sliding window covering the last $2\,\text{s}$. The second equation raises the stuck flag only if two things hold at once: that net displacement is tiny, **and** the drone is not already at the goal (so simply arriving and hovering is not mistaken for being trapped).
 
 **Variables**
-- $`W = 96`$: window length in control ticks ($`96 / 48\,\text{Hz} = 2.0\,\text{s}`$).
-- $`\mathcal{H}_p`$: the stored position history (a rolling buffer).
-- $`k`$: index of the current control tick; $`\mathbf{p}_k`$ is the position at that tick and $`\mathbf{p}_{k-W+1}`$ the oldest position in the window ($`\text{m}`$).
-- $`\mathbf{p}[0:2]`$: Python-style slice meaning the first two components, the horizontal coordinates $`(x, y)`$.
-- $`\Delta p_{\text{progress}}`$: net horizontal progress over the window ($`\text{m}`$).
-- $`0.10\,\text{m}`$: minimum progress expected over the window; $`0.25\,\text{m}`$: radius of the goal circle.
-- $`\land`$: logical AND; $`\text{Stuck}`$: Boolean flag.
+- $W = 96$: window length in control ticks ($96 / 48\,\text{Hz} = 2.0\,\text{s}$).
+- $\mathcal{H}_p$: the stored position history (a rolling buffer).
+- $k$: index of the current control tick; $\mathbf{p}_k$ is the position at that tick and $\mathbf{p}_{k-W+1}$ the oldest position in the window ($\text{m}$).
+- $\mathbf{p}[0:2]$: Python-style slice meaning the first two components, the horizontal coordinates $(x, y)$.
+- $\Delta p_{\text{progress}}$: net horizontal progress over the window ($\text{m}$).
+- $0.10\,\text{m}$: minimum progress expected over the window; $0.25\,\text{m}$: radius of the goal circle.
+- $\land$: logical AND; $\text{Stuck}$: Boolean flag.
 
-- **Interpretation:** If the drone covers less than $`10\,\text{cm}`$ in $`2`$ seconds while still outside the goal circle, it is trapped against a corner or dead-end, triggering `EMERGENCY_REVERSE`.
-- **Numerical example:** the position $`96`$ ticks ago was $`(1.00, 0.20)`$ and is now $`(1.04, 0.23)`$: $`\Delta p_{\text{progress}} = \sqrt{0.04^2 + 0.03^2} = 0.05\,\text{m} < 0.10\,\text{m}`$, and the goal is about $`4.97\,\text{m}`$ away ($`> 0.25\,\text{m}`$), so $`\text{Stuck}`$ is true.
+- **Interpretation:** If the drone covers less than $10\,\text{cm}$ in $2$ seconds while still outside the goal circle, it is trapped against a corner or dead-end, triggering `EMERGENCY_REVERSE`.
+- **Numerical example:** the position $96$ ticks ago was $(1.00, 0.20)$ and is now $(1.04, 0.23)$: $\Delta p_{\text{progress}} = \sqrt{0.04^2 + 0.03^2} = 0.05\,\text{m} < 0.10\,\text{m}$, and the goal is about $4.97\,\text{m}$ away ($> 0.25\,\text{m}$), so $\text{Stuck}$ is true.
 - **Implementation:** `progress_is_too_small()` in [pybullet/obstacle_avoidance.py](pybullet/obstacle_avoidance.py#L517-L533).
 
 #### MATLAB Plot: Side Decision with Hysteresis (main formula of §7.3)
@@ -1017,8 +1017,8 @@ The Adaptive Neural Brain models the biological neural circuits observed in inse
 ```
 
 The recurrent steering network contains two coupled, continuous-time, leaky-integrator neurons:
-- Left Steering Neuron $`L`$
-- Right Steering Neuron $`R`$
+- Left Steering Neuron $L$
+- Right Steering Neuron $R$
 
 #### Equation: Membrane Potential Leaky ODE
 
@@ -1030,7 +1030,7 @@ The recurrent steering network contains two coupled, continuous-time, leaky-inte
 \tau \frac{dx_R}{dt} = -x_R(t) + \text{drive}_R(t)
 ```
 
-where $`\tau = 0.18\,\text{s}`$ is the membrane relaxation time constant. Discretized via forward Euler at step $`\Delta t = 1/48\,\text{s}`$:
+where $\tau = 0.18\,\text{s}$ is the membrane relaxation time constant. Discretized via forward Euler at step $\Delta t = 1/48\,\text{s}$:
 
 ```math
 x_L[k+1] = x_L[k] + \frac{\Delta t}{\tau} \left(-x_L[k] + \text{drive}_L[k]\right)
@@ -1040,13 +1040,13 @@ x_L[k+1] = x_L[k] + \frac{\Delta t}{\tau} \left(-x_L[k] + \text{drive}_L[k]\righ
 x_R[k+1] = x_R[k] + \frac{\Delta t}{\tau} \left(-x_R[k] + \text{drive}_R[k]\right)
 ```
 
-**What the equations say.** The membrane potential $`x`$ is pulled toward whatever the neuron is currently being driven to ($`\text{drive}`$), but only gradually: the $`-x`$ term is a "leak" that makes $`x`$ move a fraction of the remaining gap per unit time. If the drive stays constant, $`x`$ approaches it exponentially and covers $`63\%`$ of the gap after one time constant $`\tau`$. The discrete version is the same statement for the computer: each control tick, the potential moves a fraction $`\Delta t / \tau \approx 0.116`$ of the way toward the drive (stable because the fraction is well below $`1`$).
+**What the equations say.** The membrane potential $x$ is pulled toward whatever the neuron is currently being driven to ($\text{drive}$), but only gradually: the $-x$ term is a "leak" that makes $x$ move a fraction of the remaining gap per unit time. If the drive stays constant, $x$ approaches it exponentially and covers $63\%$ of the gap after one time constant $\tau$. The discrete version is the same statement for the computer: each control tick, the potential moves a fraction $\Delta t / \tau \approx 0.116$ of the way toward the drive (stable because the fraction is well below $1$).
 
 **Variables**
-- $`x_L`$, $`x_R`$: membrane potentials of the left and right neuron (dimensionless).
-- $`\tau = 0.18\,\text{s}`$: membrane time constant (the speed of the neuron; not to be confused with the torque $`\boldsymbol{\tau}`$ of §7.8). It equals about $`8.6`$ control ticks.
-- $`t`$: continuous time ($`\text{s}`$); $`k`$: control-tick index; $`\Delta t = 1/48\,\text{s}`$: tick length.
-- $`\text{drive}_L`$, $`\text{drive}_R`$: total input to each neuron, defined in the next equation (dimensionless).
+- $x_L$, $x_R$: membrane potentials of the left and right neuron (dimensionless).
+- $\tau = 0.18\,\text{s}$: membrane time constant (the speed of the neuron; not to be confused with the torque $\boldsymbol{\tau}$ of §7.8). It equals about $8.6$ control ticks.
+- $t$: continuous time ($\text{s}$); $k$: control-tick index; $\Delta t = 1/48\,\text{s}$: tick length.
+- $\text{drive}_L$, $\text{drive}_R$: total input to each neuron, defined in the next equation (dimensionless).
 
 #### Equation: Synaptic Drive Equations
 
@@ -1064,24 +1064,24 @@ x_R[k+1] = x_R[k] + \frac{\Delta t}{\tau} \left(-x_R[k] + \text{drive}_R[k]\righ
 o_i = \tanh(x_i) \in (-1, 1), \quad a_i = \frac{o_i + 1}{2} \in [0, 1]
 ```
 
-**What the equations say.** Each neuron's input is a sum of six contributions: (1) *self-excitation* $`w_{LL} a_L`$, a neuron that is active tends to stay active (short-term memory of a turn); (2) *cross-inhibition* $`w_{\text{cross}} a_R`$, with $`w_{\text{cross}} < 0`$ the active neuron suppresses its rival, so one side wins; (3) the *sensory input* $`w_{\text{in}} I_L`$, an obstacle on the left excites the left neuron; (4) a constant *bias* that keeps neurons quiet when nothing is near; (5) a *free-space term* $`\Delta_{\text{free}}`$ that nudges the drone toward the more open side (it lowers the left drive and raises the right drive when the left side is more open, which turns the drone left, toward the free space); and (6) a small *memory tie-breaker* $`h_{\text{side}}`$ that favours the side already committed to. The output equations squash the potential with $`\tanh`$ into $`(-1, 1)`$ and rescale it to a firing rate $`a_i \in [0, 1]`$ ($`a = 0.5`$ at $`x = 0`$; $`a \to 0`$ for very negative $`x`$; $`a \to 1`$ for large positive $`x`$).
+**What the equations say.** Each neuron's input is a sum of six contributions: (1) *self-excitation* $w_{LL} a_L$, a neuron that is active tends to stay active (short-term memory of a turn); (2) *cross-inhibition* $w_{\text{cross}} a_R$, with $w_{\text{cross}} < 0$ the active neuron suppresses its rival, so one side wins; (3) the *sensory input* $w_{\text{in}} I_L$, an obstacle on the left excites the left neuron; (4) a constant *bias* that keeps neurons quiet when nothing is near; (5) a *free-space term* $\Delta_{\text{free}}$ that nudges the drone toward the more open side (it lowers the left drive and raises the right drive when the left side is more open, which turns the drone left, toward the free space); and (6) a small *memory tie-breaker* $h_{\text{side}}$ that favours the side already committed to. The output equations squash the potential with $\tanh$ into $(-1, 1)$ and rescale it to a firing rate $a_i \in [0, 1]$ ($a = 0.5$ at $x = 0$; $a \to 0$ for very negative $x$; $a \to 1$ for large positive $x$).
 
 **Variables**
-- $`w_{LL}`$, $`w_{RR}`$: self-synapse weights of the two neurons; they start at $`w_{\text{self}, 0}`$ and adapt in §7.5.
-- $`a_L[k]`$, $`a_R[k]`$: firing rates at tick $`k`$ (used with one-tick delay inside the drive).
-- $`I_L`$, $`I_R`$: dimensionless proximity (obstacle-closeness) signals computed from the left-side and right-side range readings; they are $`0`$ when nothing is detected on that side (logged as `I_L`, `I_R`, see §14).
-- $`o_i`$: neuron output in $`(-1, 1)`$; $`a_i`$: normalized firing rate in $`[0, 1]`$; $`i \in \{L, R\}`$.
+- $w_{LL}$, $w_{RR}$: self-synapse weights of the two neurons; they start at $w_{\text{self}, 0}$ and adapt in §7.5.
+- $a_L[k]$, $a_R[k]$: firing rates at tick $k$ (used with one-tick delay inside the drive).
+- $I_L$, $I_R$: dimensionless proximity (obstacle-closeness) signals computed from the left-side and right-side range readings; they are $0$ when nothing is detected on that side (logged as `I_L`, `I_R`, see §14).
+- $o_i$: neuron output in $(-1, 1)$; $a_i$: normalized firing rate in $[0, 1]$; $i \in \{L, R\}$.
 - **Network parameters:**
-  - $`w_{\text{self}, 0} = 1.40`$: Baseline excitatory self-weight providing short-term turning memory.
-  - $`w_{\text{cross}} = -1.60`$: Mutual inhibitory weight enforcing winner-take-all competitive selection.
-  - $`w_{\text{in}} = 4.00`$: Sensory input gain amplifying obstacle detection.
-  - $`\text{bias} = -2.20`$: Constant hyperpolarizing bias keeping neurons inactive ($`a_i \approx 0`$) in obstacle-free space.
-  - $`\Delta_{\text{free}} = w_{\text{free}} \left(\frac{\bar{d}_{\text{left}}}{R_s} - \frac{\bar{d}_{\text{right}}}{R_s}\right)`$ with $`w_{\text{free}} = 0.8`$: Free-space peripheral bias. Here $`\bar{d}_{\text{left}}`$ and $`\bar{d}_{\text{right}}`$ are the average range readings ($`\text{m}`$) on the left and right side, and $`R_s`$ is the maximum sensor range $`R_{\text{sensor}}`$ of §7.2, which makes the ratio dimensionless.
-  - $`h_{\text{side}} = 0.08 \cdot \sigma_{\text{committed}}`$ ($`\pm 1`$): Memory tie-breaker breaking dead-center balance. $`\sigma_{\text{committed}} \in \{-1, +1\}`$ is the side the brain has committed to, where $`+1`$ means a counter-clockwise (left) turn, the same convention as the detour angle of §7.6.
-- **Numerical example (steady state, ignoring $`\Delta_{\text{free}}`$ and $`h_{\text{side}}`$):**
-  - *Open space* ($`I_L = I_R = 0`$): each potential settles at the bias, $`x = -2.2`$, so $`o = \tanh(-2.2) = -0.976`$ and $`a = 0.012 \approx 0`$: the neurons are silent.
-  - *Obstacle on the left* ($`I_L = 1`$, $`I_R = 0`$): solving the two drives together gives $`a_L \approx 0.998`$ and $`a_R \approx 0.0005`$. The right neuron is held down by the left one, since $`\text{drive}_R = 1.4 \cdot 0.0005 - 1.6 \cdot 0.998 - 2.2 \approx -3.80`$. The steering signal $`a_L - a_R \approx 1`$ then commands a strong turn **right**, away from the obstacle (see §7.6).
-  - *Obstacle on both sides* ($`I_L = I_R = 1`$): both neurons settle at $`a \approx 0.96`$, so $`a_L - a_R \approx 0`$. This tie is exactly what $`\Delta_{\text{free}}`$ and $`h_{\text{side}}`$ exist to break.
+  - $w_{\text{self}, 0} = 1.40$: Baseline excitatory self-weight providing short-term turning memory.
+  - $w_{\text{cross}} = -1.60$: Mutual inhibitory weight enforcing winner-take-all competitive selection.
+  - $w_{\text{in}} = 4.00$: Sensory input gain amplifying obstacle detection.
+  - $\text{bias} = -2.20$: Constant hyperpolarizing bias keeping neurons inactive ($a_i \approx 0$) in obstacle-free space.
+  - $\Delta_{\text{free}} = w_{\text{free}} \left(\frac{\bar{d}_{\text{left}}}{R_s} - \frac{\bar{d}_{\text{right}}}{R_s}\right)$ with $w_{\text{free}} = 0.8$: Free-space peripheral bias. Here $\bar{d}_{\text{left}}$ and $\bar{d}_{\text{right}}$ are the average range readings ($\text{m}$) on the left and right side, and $R_s$ is the maximum sensor range $R_{\text{sensor}}$ of §7.2, which makes the ratio dimensionless.
+  - $h_{\text{side}} = 0.08 \cdot \sigma_{\text{committed}}$ ($\pm 1$): Memory tie-breaker breaking dead-center balance. $\sigma_{\text{committed}} \in \{-1, +1\}$ is the side the brain has committed to, where $+1$ means a counter-clockwise (left) turn, the same convention as the detour angle of §7.6.
+- **Numerical example (steady state, ignoring $\Delta_{\text{free}}$ and $h_{\text{side}}$):**
+  - *Open space* ($I_L = I_R = 0$): each potential settles at the bias, $x = -2.2$, so $o = \tanh(-2.2) = -0.976$ and $a = 0.012 \approx 0$: the neurons are silent.
+  - *Obstacle on the left* ($I_L = 1$, $I_R = 0$): solving the two drives together gives $a_L \approx 0.998$ and $a_R \approx 0.0005$. The right neuron is held down by the left one, since $\text{drive}_R = 1.4 \cdot 0.0005 - 1.6 \cdot 0.998 - 2.2 \approx -3.80$. The steering signal $a_L - a_R \approx 1$ then commands a strong turn **right**, away from the obstacle (see §7.6).
+  - *Obstacle on both sides* ($I_L = I_R = 1$): both neurons settle at $a \approx 0.96$, so $a_L - a_R \approx 0$. This tie is exactly what $\Delta_{\text{free}}$ and $h_{\text{side}}$ exist to break.
 - **Implementation:** [pybullet/brain/neural_brain.py](pybullet/brain/neural_brain.py#L159-L167).
 
 #### MATLAB Plot: Leaky Membrane Step Response (main formula of §7.4)
@@ -1168,7 +1168,7 @@ exportgraphics(fig, fullfile(outDir, 'fig_7_4_membrane_response.png'), 'Resoluti
 >
 > **Practical purpose.** In U-shaped dead ends, a purely reactive system turns away from a wall, loses sight of it, turns straight back toward the goal, and oscillates forever. The plastic self-weights give the drone a short-lived *memory* that finishes the detour before the goal attraction takes over again.
 
-In complex traps (such as U-shaped dead ends), standard reactive systems turn away from a wall, only to turn straight back toward the goal as soon as the obstacle exits the sensor cone, causing a fatal oscillation. The Adaptive Neural Brain solves this by dynamically adapting its self-excitatory weights $`w_{LL}`$ and $`w_{RR}`$ via Hebbian correlation learning.
+In complex traps (such as U-shaped dead ends), standard reactive systems turn away from a wall, only to turn straight back toward the goal as soon as the obstacle exits the sensor cone, causing a fatal oscillation. The Adaptive Neural Brain solves this by dynamically adapting its self-excitatory weights $w_{LL}$ and $w_{RR}$ via Hebbian correlation learning.
 
 #### Equation: Activity-Dependent Hebbian Plasticity
 
@@ -1182,21 +1182,21 @@ In discrete simulation:
 w_{ii}[k+1] = \text{clip}\left(w_{ii}[k] + \Delta t \left[\mu (1 + 2F) I_i a_i - \gamma (w_{ii}[k] - w_{\text{self}, 0})\right], \; w_{\text{self}, 0}, \; w_{\text{self}, \text{max}}\right)
 ```
 
-**What the equations say.** The right-hand side has two competing terms. The first is a **Hebbian growth** term ("neurons that fire together wire together"): it is positive only when the sensory input $`I_i`$ *and* the neuron's own activity $`a_i`$ are both present, and it is amplified by $`(1 + 2F)`$, up to three times faster when the drone is frustrated. The second is **homeostatic forgetting**: a pull of strength $`\gamma`$ back toward the baseline weight $`w_{\text{self}, 0}`$. In the discrete version the weight is advanced by one Euler step and then clipped, so it can never fall below the baseline or exceed the ceiling.
+**What the equations say.** The right-hand side has two competing terms. The first is a **Hebbian growth** term ("neurons that fire together wire together"): it is positive only when the sensory input $I_i$ *and* the neuron's own activity $a_i$ are both present, and it is amplified by $(1 + 2F)$, up to three times faster when the drone is frustrated. The second is **homeostatic forgetting**: a pull of strength $\gamma$ back toward the baseline weight $w_{\text{self}, 0}$. In the discrete version the weight is advanced by one Euler step and then clipped, so it can never fall below the baseline or exceed the ceiling.
 
 **Variables**
-- $`w_{ii}`$, $`i \in \{L, R\}`$: self-synapse weight of neuron $`i`$ (dimensionless), the quantity being learned.
-- $`\mu = 0.90\,\text{s}^{-1}`$: Hebbian growth rate (potentiates synapses during concurrent obstacle presence $`I_i`$ and turning activity $`a_i`$).
-- $`F \in [0, 1]`$: Frustration state scaling learning during stall events (defined in §7.6); $`(1 + 2F)`$ therefore ranges from $`1`$ to $`3`$.
-- $`I_i`$: proximity input to neuron $`i`$ (§7.4); $`a_i`$: its firing rate in $`[0, 1]`$.
-- $`\gamma = 0.15\,\text{s}^{-1}`$: Exponential homeostatic relaxation rate returning weights to baseline $`w_{\text{self}, 0} = 1.4`$ (time constant $`1/\gamma \approx 6.7\,\text{s}`$).
-- $`w_{\text{self}, \text{max}} = 3.20`$: Upper synaptic ceiling preventing self-latching runaway dynamics.
-- $`\Delta t = 1/48\,\text{s}`$: tick length; $`k`$: tick index; $`\text{clip}(x, \ell, u) = \min(\max(x, \ell), u)`$ limits $`x`$ to the interval $`[\ell, u]`$.
+- $w_{ii}$, $i \in \{L, R\}$: self-synapse weight of neuron $i$ (dimensionless), the quantity being learned.
+- $\mu = 0.90\,\text{s}^{-1}$: Hebbian growth rate (potentiates synapses during concurrent obstacle presence $I_i$ and turning activity $a_i$).
+- $F \in [0, 1]$: Frustration state scaling learning during stall events (defined in §7.6); $(1 + 2F)$ therefore ranges from $1$ to $3$.
+- $I_i$: proximity input to neuron $i$ (§7.4); $a_i$: its firing rate in $[0, 1]$.
+- $\gamma = 0.15\,\text{s}^{-1}$: Exponential homeostatic relaxation rate returning weights to baseline $w_{\text{self}, 0} = 1.4$ (time constant $1/\gamma \approx 6.7\,\text{s}$).
+- $w_{\text{self}, \text{max}} = 3.20$: Upper synaptic ceiling preventing self-latching runaway dynamics.
+- $\Delta t = 1/48\,\text{s}$: tick length; $k$: tick index; $\text{clip}(x, \ell, u) = \min(\max(x, \ell), u)$ limits $x$ to the interval $[\ell, u]$.
 
 - **Physical Derivation of Hysteresis:**
-  When $`w_{ii}`$ increases from $`1.4`$ toward $`3.2`$, the neuron's effective time-decay constant $`\tau_{\text{eff}} = \frac{\tau}{1 - w_{ii} \frac{\partial a}{\partial x}}`$ increases dramatically. The neuron remains active *even after the obstacle is no longer detected* ($`I_i = 0`$), forcing the drone to complete an extended detour until the obstacle is completely cleared.
-  Here $`\frac{\partial a}{\partial x} = \frac{1 - \tanh^2 x}{2}`$ is the slope of the firing-rate curve (at most $`0.5`$), and $`w_{ii}\frac{\partial a}{\partial x}`$ is the strength of the neuron's positive self-feedback. The expression is the linearised (small-signal) time constant: the closer that feedback gets to $`1`$, the more slowly the neuron lets go.
-- **Numerical example** (obstacle seen continuously with $`I_i = a_i = 1`$): with $`F = 0`$ the weight follows $`w(t) = 1.4 + \tfrac{\mu}{\gamma}\left(1 - e^{-\gamma t}\right) = 1.4 + 6\left(1 - e^{-0.15\,t}\right)`$ and reaches the ceiling $`3.2`$ after $`t = -\ln(0.7)/0.15 \approx 2.4\,\text{s}`$. With full frustration ($`F = 1`$) the growth rate triples and the ceiling is reached after only $`\approx 0.7\,\text{s}`$. Once the obstacle disappears ($`I_i = 0`$) the weight decays as $`w = 1.4 + 1.8\,e^{-0.15\,\Delta t}`$; for example $`6\,\text{s}`$ later it is still $`\approx 2.13`$, which is the "memory".
+  When $w_{ii}$ increases from $1.4$ toward $3.2$, the neuron's effective time-decay constant $\tau_{\text{eff}} = \frac{\tau}{1 - w_{ii} \frac{\partial a}{\partial x}}$ increases dramatically. The neuron remains active *even after the obstacle is no longer detected* ($I_i = 0$), forcing the drone to complete an extended detour until the obstacle is completely cleared.
+  Here $\frac{\partial a}{\partial x} = \frac{1 - \tanh^2 x}{2}$ is the slope of the firing-rate curve (at most $0.5$), and $w_{ii}\frac{\partial a}{\partial x}$ is the strength of the neuron's positive self-feedback. The expression is the linearised (small-signal) time constant: the closer that feedback gets to $1$, the more slowly the neuron lets go.
+- **Numerical example** (obstacle seen continuously with $I_i = a_i = 1$): with $F = 0$ the weight follows $w(t) = 1.4 + \tfrac{\mu}{\gamma}\left(1 - e^{-\gamma t}\right) = 1.4 + 6\left(1 - e^{-0.15\,t}\right)$ and reaches the ceiling $3.2$ after $t = -\ln(0.7)/0.15 \approx 2.4\,\text{s}$. With full frustration ($F = 1$) the growth rate triples and the ceiling is reached after only $\approx 0.7\,\text{s}$. Once the obstacle disappears ($I_i = 0$) the weight decays as $w = 1.4 + 1.8\,e^{-0.15\,\Delta t}$; for example $6\,\text{s}$ later it is still $\approx 2.13$, which is the "memory".
 - **Implementation:** [pybullet/brain/neural_brain.py](pybullet/brain/neural_brain.py#L177-L180).
 
 #### MATLAB Plot: Hebbian Self-Weight Growth and Decay (main formula of §7.5)
@@ -1265,33 +1265,33 @@ exportgraphics(fig, fullfile(outDir, 'fig_7_5_hebbian_plasticity.png'), 'Resolut
 <a id="76-frustration-dynamics--deadlock-detour-vector"></a>
 ### 7.6 Frustration Dynamics & Deadlock Detour Vector
 
-> **What this section does.** It adds a "patience" variable. A leaky integrator called **frustration** $`F`$ builds up while the drone is not getting closer to the goal and drains away once the way ahead is free again. Frustration then (i) speeds up the Hebbian memory of §7.5, (ii) rotates the goal-attraction direction away from the obstacle by up to $`80^\circ`$, and (iii) weakens the neural avoidance push, all so the drone eventually *breaks out of a deadlock*.
+> **What this section does.** It adds a "patience" variable. A leaky integrator called **frustration** $F$ builds up while the drone is not getting closer to the goal and drains away once the way ahead is free again. Frustration then (i) speeds up the Hebbian memory of §7.5, (ii) rotates the goal-attraction direction away from the obstacle by up to $80^\circ$, and (iii) weakens the neural avoidance push, all so the drone eventually *breaks out of a deadlock*.
 >
 > **Practical purpose.** Even with memory, a drone can sit in a pocket where the goal pulls one way and the walls push the other. Frustration is the escalation mechanism that guarantees an escape from U-shaped traps and deep pockets without needing a map.
 
-To guarantee escape from U-shaped traps and deep pockets, the brain tracks goal progress using a leaky integrator called **Frustration** ($`F \in [0, 1]`$).
+To guarantee escape from U-shaped traps and deep pockets, the brain tracks goal progress using a leaky integrator called **Frustration** ($F \in [0, 1]$).
 
 #### Equation: Frustration Leaky Integrator
-Let $`D_{\text{goal}}(t) = \|\mathbf{p}(t) - \mathbf{p}_{\text{goal}}\|`$ and $`D_{\text{best}} = \min_{t' \le t} D_{\text{goal}}(t')`$.
+Let $D_{\text{goal}}(t) = \|\mathbf{p}(t) - \mathbf{p}_{\text{goal}}\|$ and $D_{\text{best}} = \min_{t' \le t} D_{\text{goal}}(t')$.
 
 ```math
 \frac{dF}{dt} = \begin{cases} +\alpha_{\text{rise}} = 0.35\,\text{s}^{-1}, & \text{if } t_{\text{no-progress}} > 1.0\,\text{s} \;\land\; t_{\text{open}} < 1.0\,\text{s} \\ -\alpha_{\text{decay}} = 0.50\,\text{s}^{-1}, & \text{if } t_{\text{open}} \ge 1.0\,\text{s} \\ 0, & \text{otherwise} \end{cases}
 ```
 
-**What the equation says.** $`F`$ has three behaviours. It **rises** at a constant rate while the drone has made no progress for more than $`1\,\text{s}`$ and the way ahead has *not* been free for $`1\,\text{s}`$ (a genuine stall). It **drains** at a constant rate once the front has been clear for at least $`1\,\text{s}`$ (the problem is solved). Otherwise it **holds** its value. $`F`$ is kept inside $`[0, 1]`$, so it saturates rather than growing without bound.
+**What the equation says.** $F$ has three behaviours. It **rises** at a constant rate while the drone has made no progress for more than $1\,\text{s}$ and the way ahead has *not* been free for $1\,\text{s}$ (a genuine stall). It **drains** at a constant rate once the front has been clear for at least $1\,\text{s}$ (the problem is solved). Otherwise it **holds** its value. $F$ is kept inside $[0, 1]$, so it saturates rather than growing without bound.
 
 **Variables**
-- $`F \in [0, 1]`$: frustration (dimensionless).
-- $`D_{\text{goal}}(t)`$: distance from the drone to the goal ($`\text{m}`$); $`D_{\text{best}}`$: the smallest such distance achieved so far. (The capital $`D`$ distinguishes these scalars from the horizontal displacement vector $`\mathbf{d}_{\text{goal}}`$ of §7.1.)
-- $`t'`$: dummy time variable running from the start up to the current time $`t`$.
-- $`t_{\text{no-progress}}`$: time elapsed since the drone last improved on $`D_{\text{best}}`$ ($`\text{s}`$).
-- $`t_{\text{open}}`$: time for which the path ahead has been continuously free ($`\text{s}`$).
-- $`\alpha_{\text{rise}} = 0.35\,\text{s}^{-1}`$, $`\alpha_{\text{decay}} = 0.50\,\text{s}^{-1}`$: build-up and drain rates; $`\land`$: logical AND.
+- $F \in [0, 1]$: frustration (dimensionless).
+- $D_{\text{goal}}(t)$: distance from the drone to the goal ($\text{m}$); $D_{\text{best}}$: the smallest such distance achieved so far. (The capital $D$ distinguishes these scalars from the horizontal displacement vector $\mathbf{d}_{\text{goal}}$ of §7.1.)
+- $t'$: dummy time variable running from the start up to the current time $t$.
+- $t_{\text{no-progress}}$: time elapsed since the drone last improved on $D_{\text{best}}$ ($\text{s}$).
+- $t_{\text{open}}$: time for which the path ahead has been continuously free ($\text{s}$).
+- $\alpha_{\text{rise}} = 0.35\,\text{s}^{-1}$, $\alpha_{\text{decay}} = 0.50\,\text{s}^{-1}$: build-up and drain rates; $\land$: logical AND.
 
-- **Numerical example:** a stall begins at $`t = 0`$ with the front blocked. $`F`$ stays $`0`$ for the first $`1\,\text{s}`$, then climbs linearly and reaches $`F = 1`$ after a further $`1/0.35 \approx 2.9\,\text{s}`$ (at $`t \approx 3.9\,\text{s}`$). Once the front has been free for $`1\,\text{s}`$ it falls back to $`0`$ in $`1/0.50 = 2\,\text{s}`$.
+- **Numerical example:** a stall begins at $t = 0$ with the front blocked. $F$ stays $0$ for the first $1\,\text{s}$, then climbs linearly and reaches $F = 1$ after a further $1/0.35 \approx 2.9\,\text{s}$ (at $t \approx 3.9\,\text{s}$). Once the front has been free for $1\,\text{s}$ it falls back to $0$ in $1/0.50 = 2\,\text{s}$.
 
 #### Equation: Adaptive Goal Detour & Heading Control
-When $`F > 0`$, the drone rotates its goal attraction vector away from the obstacle by up to $`\pm 80^\circ`$:
+When $F > 0$, the drone rotates its goal attraction vector away from the obstacle by up to $\pm 80^\circ$:
 
 ```math
 \theta_{\text{detour}} = \sigma_{\text{committed}} \cdot \theta_{\text{detour, max}} \cdot F(t) = \pm 80^\circ \cdot F(t)
@@ -1301,23 +1301,23 @@ When $`F > 0`$, the drone rotates its goal attraction vector away from the obsta
 e_{\text{attract}} = \text{wrap}\left(\text{atan2}(y_{\text{goal}} - y(t), \, x_{\text{goal}} - x(t)) + \theta_{\text{detour}} - \psi(t)\right)
 ```
 
-The heading angular velocity $`\omega = \dot{\psi}`$ command is synthesized as:
+The heading angular velocity $\omega = \dot{\psi}$ command is synthesized as:
 
 ```math
 \omega = \text{clip}\left(K_{\text{goal}} \cdot e_{\text{attract}} \cdot G_{\text{attract}} - K_{\text{turn}} \cdot (a_L - a_R) \cdot (1 - 0.5F), \; -\Omega_{\text{max}}, \; +\Omega_{\text{max}}\right)
 ```
 
-**What the equations say.** The *detour angle* is just the maximum detour ($`80^\circ`$) scaled by frustration and signed by the committed side, so a calm drone aims straight at the goal and a very frustrated one aims $`80^\circ`$ to the side. The *attraction error* is the angle between where the drone is pointing and where it *wants* to point (the true bearing to the goal plus the detour); `wrap` folds it into $`(-\pi, \pi]`$ so that the drone always turns the short way round. The *yaw-rate command* then adds two pulls: a proportional steer toward the (detoured) goal, faded out while the neurons are busy avoiding (via $`G_{\text{attract}}`$), and the neural avoidance steer $`-K_{\text{turn}}(a_L - a_R)`$, which turns away from the active side and is weakened by up to half when frustrated. The result is limited to $`\pm\Omega_{\text{max}}`$.
+**What the equations say.** The *detour angle* is just the maximum detour ($80^\circ$) scaled by frustration and signed by the committed side, so a calm drone aims straight at the goal and a very frustrated one aims $80^\circ$ to the side. The *attraction error* is the angle between where the drone is pointing and where it *wants* to point (the true bearing to the goal plus the detour); `wrap` folds it into $(-\pi, \pi]$ so that the drone always turns the short way round. The *yaw-rate command* then adds two pulls: a proportional steer toward the (detoured) goal, faded out while the neurons are busy avoiding (via $G_{\text{attract}}$), and the neural avoidance steer $-K_{\text{turn}}(a_L - a_R)$, which turns away from the active side and is weakened by up to half when frustrated. The result is limited to $\pm\Omega_{\text{max}}$.
 
 **Variables**
-- $`\theta_{\text{detour}}`$: detour angle added to the goal bearing ($`\text{rad}`$ inside the formula; $`80^\circ = 1.396\,\text{rad}`$); $`\theta_{\text{detour, max}} = 80^\circ`$.
-- $`\sigma_{\text{committed}} \in \{-1, +1\}`$: committed detour side ($`+1`$ = left / counter-clockwise).
-- $`e_{\text{attract}}`$: heading error toward the detoured goal ($`\text{rad}`$); $`\text{atan2}(\Delta y, \Delta x)`$: bearing from the drone to the goal ($`\text{rad}`$); $`\psi(t)`$: current heading (yaw) of the drone ($`\text{rad}`$); $`\text{wrap}(\cdot)`$: maps an angle into $`(-\pi, \pi]`$.
-- $`\omega = \dot{\psi}`$: commanded yaw rate ($`\text{rad/s}`$); $`\text{clip}(x, \ell, u)`$: limits $`x`$ to $`[\ell, u]`$.
-- $`a_L`$, $`a_R`$: steering-neuron firing rates (§7.4).
-- **Gains:** $`K_{\text{goal}} = 2.20\,\text{s}^{-1}`$, $`K_{\text{turn}} = 2.60\,\text{rad/s}`$, $`\Omega_{\text{max}} = 2.60\,\text{rad/s}`$ (maximum yaw rate; this $`\Omega`$ is *not* a rotor speed, unlike the $`n_i`$ of §7.8).
-- $`G_{\text{attract}} = \max(1 - a_{\text{avoid}}, 0.6F)`$: Attenuates goal attraction when avoiding obstacles, but preserves turning drive when frustrated. $`a_{\text{avoid}} \in [0, 1]`$ is the overall avoidance activity of the steering neurons ($`0`$ when nothing is being avoided).
-- **Numerical example:** obstacle on the left with $`a_L \approx 0.998`$, $`a_R \approx 0`$ (so $`a_{\text{avoid}} \approx 1`$). With $`F = 0`$: $`G_{\text{attract}} = \max(0.002, 0) \approx 0`$, so $`\omega \approx -2.60 \times 0.998 = -2.59\,\text{rad/s}`$, a hard turn to the right. With $`F = 1`$ and a heading error $`e_{\text{attract}} = 0.5\,\text{rad}`$: $`G_{\text{attract}} = \max(0.002, 0.6) = 0.6`$, and $`\omega = 2.20 \times 0.5 \times 0.6 - 2.60 \times 0.998 \times 0.5 = 0.66 - 1.30 \approx -0.64\,\text{rad/s}`$: still turning away, but much more gently, so the goal pull can finally win.
+- $\theta_{\text{detour}}$: detour angle added to the goal bearing ($\text{rad}$ inside the formula; $80^\circ = 1.396\,\text{rad}$); $\theta_{\text{detour, max}} = 80^\circ$.
+- $\sigma_{\text{committed}} \in \{-1, +1\}$: committed detour side ($+1$ = left / counter-clockwise).
+- $e_{\text{attract}}$: heading error toward the detoured goal ($\text{rad}$); $\text{atan2}(\Delta y, \Delta x)$: bearing from the drone to the goal ($\text{rad}$); $\psi(t)$: current heading (yaw) of the drone ($\text{rad}$); $\text{wrap}(\cdot)$: maps an angle into $(-\pi, \pi]$.
+- $\omega = \dot{\psi}$: commanded yaw rate ($\text{rad/s}$); $\text{clip}(x, \ell, u)$: limits $x$ to $[\ell, u]$.
+- $a_L$, $a_R$: steering-neuron firing rates (§7.4).
+- **Gains:** $K_{\text{goal}} = 2.20\,\text{s}^{-1}$, $K_{\text{turn}} = 2.60\,\text{rad/s}$, $\Omega_{\text{max}} = 2.60\,\text{rad/s}$ (maximum yaw rate; this $\Omega$ is *not* a rotor speed, unlike the $n_i$ of §7.8).
+- $G_{\text{attract}} = \max(1 - a_{\text{avoid}}, 0.6F)$: Attenuates goal attraction when avoiding obstacles, but preserves turning drive when frustrated. $a_{\text{avoid}} \in [0, 1]$ is the overall avoidance activity of the steering neurons ($0$ when nothing is being avoided).
+- **Numerical example:** obstacle on the left with $a_L \approx 0.998$, $a_R \approx 0$ (so $a_{\text{avoid}} \approx 1$). With $F = 0$: $G_{\text{attract}} = \max(0.002, 0) \approx 0$, so $\omega \approx -2.60 \times 0.998 = -2.59\,\text{rad/s}$, a hard turn to the right. With $F = 1$ and a heading error $e_{\text{attract}} = 0.5\,\text{rad}$: $G_{\text{attract}} = \max(0.002, 0.6) = 0.6$, and $\omega = 2.20 \times 0.5 \times 0.6 - 2.60 \times 0.998 \times 0.5 = 0.66 - 1.30 \approx -0.64\,\text{rad/s}$: still turning away, but much more gently, so the goal pull can finally win.
 - **Implementation:** [pybullet/brain/neural_brain.py](pybullet/brain/neural_brain.py#L182-L220).
 
 #### MATLAB Plot: Frustration and Detour Angle versus Time (main formula of §7.6)
@@ -1400,7 +1400,7 @@ exportgraphics(fig, fullfile(outDir, 'fig_7_6_frustration.png'), 'Resolution', 2
 >
 > **Practical purpose.** Steering alone cannot save a fast drone from a wall that is too close. Tying speed to clearance guarantees there is always room to turn or stop, and the extra slow-down during sharp turns keeps the quadrotor within its controllable envelope.
 
-Forward flight speed is regulated by the frontal range clearance $`d_{\text{front}}`$ to prevent high-speed collisions.
+Forward flight speed is regulated by the frontal range clearance $d_{\text{front}}$ to prevent high-speed collisions.
 
 #### Equation: Normalized Frontal Clearance & Speed Law
 
@@ -1408,24 +1408,24 @@ Forward flight speed is regulated by the frontal range clearance $`d_{\text{fron
 s = \text{clip}\left(\frac{d_{\text{front}} - d_{\text{stop}}}{d_{\text{slow}} - d_{\text{stop}}}, \; -1.0, \; 1.0\right)
 ```
 
-where $`d_{\text{stop}} = 0.28\,\text{m}`$ and $`d_{\text{slow}} = 0.85\,\text{m}`$.
+where $d_{\text{stop}} = 0.28\,\text{m}$ and $d_{\text{slow}} = 0.85\,\text{m}$.
 
 ```math
 v = \begin{cases} V_{\text{max}} \cdot s \cdot \left(1 - 0.5 \frac{|\omega|}{\Omega_{\text{max}}}\right), & \text{if } s \ge 0 \text{ (forward flight)} \\ V_{\text{reverse}} \cdot s, & \text{if } s < 0 \;\land\; d_{\text{rear}} > 0.35\,\text{m} \text{ (backing out)} \\ 0, & \text{if } s < 0 \;\land\; d_{\text{rear}} \le 0.35\,\text{m} \text{ (trapped rear)} \end{cases}
 ```
 
-**What the equations say.** The first equation rescales the frontal clearance to a number $`s`$: it is $`0`$ at the stop distance, $`1`$ at the slow-down distance (and beyond), and negative when the obstacle is closer than $`d_{\text{stop}}`$, which is a straight-line "braking ramp" of $`0.57\,\text{m}`$. The second equation turns $`s`$ into a speed: forward flight scales linearly with $`s`$ (and is halved at the maximum yaw rate); a negative $`s`$ commands a slow *reverse* speed, but only if the rear is clear, otherwise the drone simply stops.
+**What the equations say.** The first equation rescales the frontal clearance to a number $s$: it is $0$ at the stop distance, $1$ at the slow-down distance (and beyond), and negative when the obstacle is closer than $d_{\text{stop}}$, which is a straight-line "braking ramp" of $0.57\,\text{m}$. The second equation turns $s$ into a speed: forward flight scales linearly with $s$ (and is halved at the maximum yaw rate); a negative $s$ commands a slow *reverse* speed, but only if the rear is clear, otherwise the drone simply stops.
 
 **Variables**
-- $`s`$: normalized clearance (dimensionless; local to this section, unrelated to the ray parameter of §7.2). Because $`d_{\text{front}} \ge 0`$, in practice $`s \ge -0.28/0.57 \approx -0.49`$, so the lower clip at $`-1`$ is never active with these constants.
-- $`d_{\text{front}}`$: range reading straight ahead ($`\text{m}`$), see the front sensor in §7.4.
-- $`d_{\text{stop}} = 0.28\,\text{m}`$: clearance at which forward speed reaches zero; $`d_{\text{slow}} = 0.85\,\text{m}`$: clearance at which braking starts.
-- $`v`$: commanded forward speed ($`\text{m/s}`$), positive forward and negative backward.
-- $`V_{\text{max}} = 0.40\,\text{m/s}`$: Maximum cruise speed. $`V_{\text{reverse}} = 0.18\,\text{m/s}`$: Safe backing speed.
-- $`\omega`$: current yaw-rate command (§7.6, $`\text{rad/s}`$), $`\Omega_{\text{max}} = 2.60\,\text{rad/s}`$ its limit; $`\left(1 - 0.5 \frac{|\omega|}{\Omega_{\text{max}}}\right)`$: Yaw-rate slowdown penalty (slows down during sharp turns).
-- $`d_{\text{rear}}`$: range reading behind the drone ($`\text{m}`$); $`0.35\,\text{m}`$: minimum rear clearance for reversing.
+- $s$: normalized clearance (dimensionless; local to this section, unrelated to the ray parameter of §7.2). Because $d_{\text{front}} \ge 0$, in practice $s \ge -0.28/0.57 \approx -0.49$, so the lower clip at $-1$ is never active with these constants.
+- $d_{\text{front}}$: range reading straight ahead ($\text{m}$), see the front sensor in §7.4.
+- $d_{\text{stop}} = 0.28\,\text{m}$: clearance at which forward speed reaches zero; $d_{\text{slow}} = 0.85\,\text{m}$: clearance at which braking starts.
+- $v$: commanded forward speed ($\text{m/s}$), positive forward and negative backward.
+- $V_{\text{max}} = 0.40\,\text{m/s}$: Maximum cruise speed. $V_{\text{reverse}} = 0.18\,\text{m/s}$: Safe backing speed.
+- $\omega$: current yaw-rate command (§7.6, $\text{rad/s}$), $\Omega_{\text{max}} = 2.60\,\text{rad/s}$ its limit; $\left(1 - 0.5 \frac{|\omega|}{\Omega_{\text{max}}}\right)$: Yaw-rate slowdown penalty (slows down during sharp turns).
+- $d_{\text{rear}}$: range reading behind the drone ($\text{m}$); $0.35\,\text{m}$: minimum rear clearance for reversing.
 
-- **Numerical example:** with $`d_{\text{front}} = 0.50\,\text{m}`$: $`s = (0.50 - 0.28)/0.57 = 0.386`$, so flying straight gives $`v = 0.40 \times 0.386 = 0.154\,\text{m/s}`$ (and $`0.077\,\text{m/s}`$ while turning at $`\Omega_{\text{max}}`$). With $`d_{\text{front}} = 0.20\,\text{m}`$: $`s = -0.140`$, so with a clear rear the drone backs out at $`v = 0.18 \times (-0.140) = -0.025\,\text{m/s}`$, and with $`d_{\text{rear}} = 0.30\,\text{m}`$ it stays at $`v = 0`$. For $`d_{\text{front}} \ge 0.85\,\text{m}`$, $`s = 1`$ and $`v = 0.40\,\text{m/s}`$.
+- **Numerical example:** with $d_{\text{front}} = 0.50\,\text{m}$: $s = (0.50 - 0.28)/0.57 = 0.386$, so flying straight gives $v = 0.40 \times 0.386 = 0.154\,\text{m/s}$ (and $0.077\,\text{m/s}$ while turning at $\Omega_{\text{max}}$). With $d_{\text{front}} = 0.20\,\text{m}$: $s = -0.140$, so with a clear rear the drone backs out at $v = 0.18 \times (-0.140) = -0.025\,\text{m/s}$, and with $d_{\text{rear}} = 0.30\,\text{m}$ it stays at $v = 0$. For $d_{\text{front}} \ge 0.85\,\text{m}$, $s = 1$ and $v = 0.40\,\text{m/s}$.
 - **Implementation:** [pybullet/brain/neural_brain.py](pybullet/brain/neural_brain.py#L222-L235).
 
 #### MATLAB Plot: Speed versus Frontal Clearance (main formula of §7.7)
@@ -1501,7 +1501,7 @@ exportgraphics(fig, fullfile(outDir, 'fig_7_7_speed_law.png'), 'Resolution', 200
 >
 > **Practical purpose.** This is what makes the drone physically follow the plan: it sets how fast and how smoothly the drone reacts, how much it tilts, and whether the rotors have enough authority. It also generates the telemetry that the SINDy analysis in §7.9 learns from.
 
-The high-level planner outputs a 2D velocity vector $`\mathbf{v}_{\text{cmd}} = [v_x, v_y, 0]^T`$. The low-level `DSLPIDControl` converts this into four individual motor RPMs ($`n_0, n_1, n_2, n_3`$) running at $`48\,\text{Hz}`$.
+The high-level planner outputs a 2D velocity vector $\mathbf{v}_{\text{cmd}} = [v_x, v_y, 0]^T$. The low-level `DSLPIDControl` converts this into four individual motor RPMs ($n_0, n_1, n_2, n_3$) running at $48\,\text{Hz}$.
 
 ```mermaid
 flowchart TD
@@ -1519,29 +1519,29 @@ flowchart TD
 ```
 
 #### Equation: Cascaded Position Control
-Let $`\mathbf{e}_p = \mathbf{p}_{\text{target}} - \mathbf{p}`$ and $`\mathbf{e}_v = \mathbf{v}_{\text{target}} - \mathbf{v}`$.
+Let $\mathbf{e}_p = \mathbf{p}_{\text{target}} - \mathbf{p}$ and $\mathbf{e}_v = \mathbf{v}_{\text{target}} - \mathbf{v}$.
 
 ```math
 \mathbf{a}_{\text{des}} = \mathbf{K}_p \mathbf{e}_p + \mathbf{K}_d \mathbf{e}_v + \mathbf{K}_i \int_0^t \mathbf{e}_p(t') \, dt' + g \mathbf{z}_W
 ```
 
-**What the equation says.** This is a classic PID law written for acceleration. The *proportional* term pushes harder the farther the drone is from its target; the *derivative* term pushes against velocity error and damps the motion (prevents overshoot); the *integral* term accumulates position error over time and removes any steady offset (for example from wind or an imperfect model). The last term, $`g\,\mathbf{z}_W`$, is a feed-forward that cancels gravity so that zero error means hovering.
+**What the equation says.** This is a classic PID law written for acceleration. The *proportional* term pushes harder the farther the drone is from its target; the *derivative* term pushes against velocity error and damps the motion (prevents overshoot); the *integral* term accumulates position error over time and removes any steady offset (for example from wind or an imperfect model). The last term, $g\,\mathbf{z}_W$, is a feed-forward that cancels gravity so that zero error means hovering.
 
 **Variables**
-- $`\mathbf{a}_{\text{des}}`$: desired (virtual) acceleration vector ($`\text{m/s}^2`$).
-- $`\mathbf{e}_p`$: position error ($`\text{m}`$); $`\mathbf{p}_{\text{target}} = \mathbf{p} + \mathbf{v}_{\text{des}} \cdot t_{\text{lookahead}}`$ is the lookahead target of §4, $`\mathbf{p}`$ the current position.
-- $`\mathbf{e}_v`$: velocity error ($`\text{m/s}`$); $`\mathbf{v}_{\text{target}} = \mathbf{v}_{\text{des}}`$ the commanded velocity, $`\mathbf{v}`$ the measured velocity.
-- $`\mathbf{K}_p`$, $`\mathbf{K}_d`$, $`\mathbf{K}_i`$: proportional, derivative and integral gain matrices (diagonal, one gain per axis); in acceleration form their units are $`\text{s}^{-2}`$, $`\text{s}^{-1}`$ and $`\text{s}^{-3}`$.
-- $`\int_0^t \mathbf{e}_p(t')\,dt'`$: accumulated position error since $`t = 0`$ ($`\text{m·s}`$); $`t'`$ is the integration variable.
-- $`g = 9.81\,\text{m/s}^2`$: gravitational acceleration; $`\mathbf{z}_W`$: world vertical unit vector, so the gravity term acts on the vertical axis only.
+- $\mathbf{a}_{\text{des}}$: desired (virtual) acceleration vector ($\text{m/s}^2$).
+- $\mathbf{e}_p$: position error ($\text{m}$); $\mathbf{p}_{\text{target}} = \mathbf{p} + \mathbf{v}_{\text{des}} \cdot t_{\text{lookahead}}$ is the lookahead target of §4, $\mathbf{p}$ the current position.
+- $\mathbf{e}_v$: velocity error ($\text{m/s}$); $\mathbf{v}_{\text{target}} = \mathbf{v}_{\text{des}}$ the commanded velocity, $\mathbf{v}$ the measured velocity.
+- $\mathbf{K}_p$, $\mathbf{K}_d$, $\mathbf{K}_i$: proportional, derivative and integral gain matrices (diagonal, one gain per axis); in acceleration form their units are $\text{s}^{-2}$, $\text{s}^{-1}$ and $\text{s}^{-3}$.
+- $\int_0^t \mathbf{e}_p(t')\,dt'$: accumulated position error since $t = 0$ ($\text{m·s}$); $t'$ is the integration variable.
+- $g = 9.81\,\text{m/s}^2$: gravitational acceleration; $\mathbf{z}_W$: world vertical unit vector, so the gravity term acts on the vertical axis only.
 
-Total thrust along the drone's body z-axis $`\mathbf{z}_B`$ is:
+Total thrust along the drone's body z-axis $\mathbf{z}_B$ is:
 
 ```math
 T_{\text{des}} = m \|\mathbf{a}_{\text{des}}\|_2
 ```
 
-The drone tilts its thrust vector along $`\mathbf{z}_{B, \text{des}} = \frac{\mathbf{a}_{\text{des}}}{\|\mathbf{a}_{\text{des}}\|}`$, yielding desired roll ($`\phi_{\text{des}}`$) and pitch ($`\theta_{\text{des}}`$) angles:
+The drone tilts its thrust vector along $\mathbf{z}_{B, \text{des}} = \frac{\mathbf{a}_{\text{des}}}{\|\mathbf{a}_{\text{des}}\|}$, yielding desired roll ($\phi_{\text{des}}$) and pitch ($\theta_{\text{des}}$) angles:
 
 ```math
 \phi_{\text{des}} = \frac{1}{g} (a_{\text{des}, x} \sin\psi_{\text{des}} - a_{\text{des}, y} \cos\psi_{\text{des}})
@@ -1551,34 +1551,34 @@ The drone tilts its thrust vector along $`\mathbf{z}_{B, \text{des}} = \frac{\ma
 \theta_{\text{des}} = \frac{1}{g} (a_{\text{des}, x} \cos\psi_{\text{des}} + a_{\text{des}, y} \sin\psi_{\text{des}})
 ```
 
-**What the equations say.** A quadrotor can only push along its own body $`z`$-axis, so to accelerate sideways it must *tilt* until the thrust vector points along $`\mathbf{a}_{\text{des}}`$. The thrust magnitude must then equal mass times the length of $`\mathbf{a}_{\text{des}}`$. The last two equations give the roll and pitch needed for a given horizontal acceleration, rotated into the drone's yaw frame; they are the *small-angle* form (exact only for modest tilts).
+**What the equations say.** A quadrotor can only push along its own body $z$-axis, so to accelerate sideways it must *tilt* until the thrust vector points along $\mathbf{a}_{\text{des}}$. The thrust magnitude must then equal mass times the length of $\mathbf{a}_{\text{des}}$. The last two equations give the roll and pitch needed for a given horizontal acceleration, rotated into the drone's yaw frame; they are the *small-angle* form (exact only for modest tilts).
 
 **Variables**
-- $`T_{\text{des}}`$: desired total thrust ($`\text{N}`$); $`m = 0.027\,\text{kg}`$: mass of the Crazyflie 2.X.
-- $`\mathbf{z}_B`$: body $`z`$-axis (direction in which all rotors push); $`\mathbf{z}_{B,\text{des}}`$: its desired direction (unit vector).
-- $`\phi_{\text{des}}`$, $`\theta_{\text{des}}`$: desired roll and pitch angles ($`\text{rad}`$); $`\psi_{\text{des}}`$: desired yaw ($`\text{rad}`$, $`0`$ in this project).
-- $`a_{\text{des}, x}`$, $`a_{\text{des}, y}`$: horizontal components of $`\mathbf{a}_{\text{des}}`$ ($`\text{m/s}^2`$).
+- $T_{\text{des}}$: desired total thrust ($\text{N}$); $m = 0.027\,\text{kg}$: mass of the Crazyflie 2.X.
+- $\mathbf{z}_B$: body $z$-axis (direction in which all rotors push); $\mathbf{z}_{B,\text{des}}$: its desired direction (unit vector).
+- $\phi_{\text{des}}$, $\theta_{\text{des}}$: desired roll and pitch angles ($\text{rad}$); $\psi_{\text{des}}$: desired yaw ($\text{rad}$, $0$ in this project).
+- $a_{\text{des}, x}$, $a_{\text{des}, y}$: horizontal components of $\mathbf{a}_{\text{des}}$ ($\text{m/s}^2$).
 
-- **Numerical example:** suppose $`\mathbf{a}_{\text{des}} = [1.0, -0.5, 10.01]^T\,\text{m/s}^2`$ (gravity compensation $`9.81`$ plus $`0.2`$ upward). Then $`\|\mathbf{a}_{\text{des}}\| = 10.07\,\text{m/s}^2`$ and $`T_{\text{des}} = 0.027 \times 10.07 = 0.272\,\text{N}`$ (the drone weighs $`0.265\,\text{N}`$). With $`\psi_{\text{des}} = 0`$: $`\phi_{\text{des}} = -(-0.5)/9.81 = 0.051\,\text{rad} \approx 2.9^\circ`$ and $`\theta_{\text{des}} = 1.0/9.81 = 0.102\,\text{rad} \approx 5.8^\circ`$.
+- **Numerical example:** suppose $\mathbf{a}_{\text{des}} = [1.0, -0.5, 10.01]^T\,\text{m/s}^2$ (gravity compensation $9.81$ plus $0.2$ upward). Then $\|\mathbf{a}_{\text{des}}\| = 10.07\,\text{m/s}^2$ and $T_{\text{des}} = 0.027 \times 10.07 = 0.272\,\text{N}$ (the drone weighs $0.265\,\text{N}$). With $\psi_{\text{des}} = 0$: $\phi_{\text{des}} = -(-0.5)/9.81 = 0.051\,\text{rad} \approx 2.9^\circ$ and $\theta_{\text{des}} = 1.0/9.81 = 0.102\,\text{rad} \approx 5.8^\circ$.
 
 #### Equation: Motor Mixing for CF2X (X-Configuration)
-The Crazyflie 2.X operates four fixed-pitch propellers mounted at $`45^\circ`$ from the body axes with arm length $`L = 0.0397\,\text{m}`$. With the rotor speeds $`n_i`$ in RPM:
+The Crazyflie 2.X operates four fixed-pitch propellers mounted at $45^\circ$ from the body axes with arm length $L = 0.0397\,\text{m}$. With the rotor speeds $n_i$ in RPM:
 
 ```math
 \begin{bmatrix} T \\ \tau_x \\ \tau_y \\ \tau_z \end{bmatrix} = \begin{bmatrix} k_f & k_f & k_f & k_f \\ -\frac{\sqrt{2}}{2} L k_f & -\frac{\sqrt{2}}{2} L k_f & \frac{\sqrt{2}}{2} L k_f & \frac{\sqrt{2}}{2} L k_f \\ -\frac{\sqrt{2}}{2} L k_f & \frac{\sqrt{2}}{2} L k_f & \frac{\sqrt{2}}{2} L k_f & -\frac{\sqrt{2}}{2} L k_f \\ -k_m & k_m & -k_m & k_m \end{bmatrix} \begin{bmatrix} n_0^2 \\ n_1^2 \\ n_2^2 \\ n_3^2 \end{bmatrix}
 ```
 
-**What the equation says.** Every rotor produces thrust proportional to the square of its speed, so the vector of squared speeds is linearly related to the four quantities the controller wants: total thrust $`T`$ and the three torques. **Row 1** adds up the four thrusts. **Rows 2 and 3** (roll and pitch) take differences of thrust between rotors on opposite sides of the drone; because the arms sit at $`45^\circ`$ to the body axes, each rotor's lever arm about either axis is $`L\sqrt{2}/2`$. **Row 4** (yaw) comes from the rotors' aerodynamic drag torque, which alternates in sign because neighbouring rotors spin in opposite directions. The controller uses the *inverse* of this matrix: given the desired $`T`$ and torques it solves for $`n_i^2`$, takes the square root, and clips $`n_i`$ to the allowed range $`0`$ to $`21{,}702\,\text{RPM}`$.
+**What the equation says.** Every rotor produces thrust proportional to the square of its speed, so the vector of squared speeds is linearly related to the four quantities the controller wants: total thrust $T$ and the three torques. **Row 1** adds up the four thrusts. **Rows 2 and 3** (roll and pitch) take differences of thrust between rotors on opposite sides of the drone; because the arms sit at $45^\circ$ to the body axes, each rotor's lever arm about either axis is $L\sqrt{2}/2$. **Row 4** (yaw) comes from the rotors' aerodynamic drag torque, which alternates in sign because neighbouring rotors spin in opposite directions. The controller uses the *inverse* of this matrix: given the desired $T$ and torques it solves for $n_i^2$, takes the square root, and clips $n_i$ to the allowed range $0$ to $21{,}702\,\text{RPM}$.
 
 **Variables**
-- $`T`$: total thrust ($`\text{N}`$); $`\tau_x`$, $`\tau_y`$, $`\tau_z`$: roll, pitch and yaw torques ($`\text{N·m}`$). (Here $`\tau`$ is a torque, unrelated to the neuron time constant of §7.4.)
-- $`L = 0.0397\,\text{m}`$: arm length from the drone centre to a motor.
-- $`k_f = 3.16 \times 10^{-10}\,\text{N/RPM}^2`$: Thrust coefficient (thrust of one rotor $`= k_f\, n_i^2`$).
-- $`k_m = 7.94 \times 10^{-12}\,\text{N·m/RPM}^2`$: Drag moment coefficient.
-- $`n_i`$: speed of rotor $`i`$ in $`\text{RPM}`$ ($`i = 0, \dots, 3`$), related to the angular velocity $`\Omega_i`$ in $`\text{rad/s}`$ by $`n_i = \frac{60}{2\pi} \Omega_i`$. If you prefer to work with $`\Omega_i`$, multiply $`k_f`$ and $`k_m`$ by $`(60/2\pi)^2 \approx 91.19`$.
-- $`\mathbf{M}_{\text{mix}}`$: the three torque rows (rows 2 to 4) of the mixing matrix above, which is how the Architecture Summary writes the torque relation.
+- $T$: total thrust ($\text{N}$); $\tau_x$, $\tau_y$, $\tau_z$: roll, pitch and yaw torques ($\text{N}\cdot\text{m}$). (Here $\tau$ is a torque, unrelated to the neuron time constant of §7.4.)
+- $L = 0.0397\,\text{m}$: arm length from the drone centre to a motor.
+- $k_f = 3.16 \times 10^{-10}\,\text{N/RPM}^2$: Thrust coefficient (thrust of one rotor $= k_f\, n_i^2$).
+- $k_m = 7.94 \times 10^{-12}\,\text{N}\cdot\text{m/RPM}^2$: Drag moment coefficient.
+- $n_i$: speed of rotor $i$ in $\text{RPM}$ ($i = 0, \dots, 3$), related to the angular velocity $\Omega_i$ in $\text{rad/s}$ by $n_i = \frac{60}{2\pi} \Omega_i$. If you prefer to work with $\Omega_i$, multiply $k_f$ and $k_m$ by $(60/2\pi)^2 \approx 91.19$.
+- $\mathbf{M}_{\text{mix}}$: the three torque rows (rows 2 to 4) of the mixing matrix above, which is how the Architecture Summary writes the torque relation.
 
-- **Numerical example (hover):** the weight $`mg = 0.027 \times 9.81 = 0.265\,\text{N}`$ is shared by four rotors, $`0.0662\,\text{N}`$ each, so $`n = \sqrt{0.0662 / 3.16 \times 10^{-10}} \approx 14{,}476\,\text{RPM}`$, about $`67\%`$ of the $`21{,}702\,\text{RPM}`$ limit. At that limit the four rotors give $`4 k_f n_{\max}^2 \approx 0.595\,\text{N}`$, $`2.25`$ times the weight.
+- **Numerical example (hover):** the weight $mg = 0.027 \times 9.81 = 0.265\,\text{N}$ is shared by four rotors, $0.0662\,\text{N}$ each, so $n = \sqrt{0.0662 / 3.16 \times 10^{-10}} \approx 14{,}476\,\text{RPM}$, about $67\%$ of the $21{,}702\,\text{RPM}$ limit. At that limit the four rotors give $4 k_f n_{\max}^2 \approx 0.595\,\text{N}$, $2.25$ times the weight.
 
 #### MATLAB Plot: PID Position Control Law (main formula of §7.8)
 
@@ -1667,34 +1667,34 @@ Rather than assuming ideal equations of motion, the project uses **Sparse Identi
 
 #### Equation: SINDy Formulation & Candidate Library
 
-Given $`M`$ snapshot measurements, let $`\mathbf{X}`$ be the $`M \times n`$ matrix of states and $`\mathbf{U}`$ the $`M \times m`$ matrix of control inputs. SINDy models the state derivatives as a sparse combination of candidate functions:
+Given $M$ snapshot measurements, let $\mathbf{X}$ be the $M \times n$ matrix of states and $\mathbf{U}$ the $M \times m$ matrix of control inputs. SINDy models the state derivatives as a sparse combination of candidate functions:
 
 ```math
 \dot{\mathbf{X}} = \Theta(\mathbf{X}, \mathbf{U}) \, \Xi
 ```
 
-Here $`\Theta`$ is the $`M \times p`$ library of candidate functions (constant, linear, quadratic, cross-products and thrust-tilt terms) and $`\Xi`$ is the sparse coefficient matrix:
+Here $\Theta$ is the $M \times p$ library of candidate functions (constant, linear, quadratic, cross-products and thrust-tilt terms) and $\Xi$ is the sparse coefficient matrix:
 
 ```math
 \Theta(\mathbf{X}, \mathbf{U}) = \begin{bmatrix} 1 & \mathbf{X} & \mathbf{U} & \mathbf{X}^2 & \mathbf{X} \otimes \mathbf{U} & T \cos\phi \cos\theta & T \sin\theta & T \sin\phi & \cdots \end{bmatrix}
 ```
 
-**What the equations say.** Each row of the data corresponds to one time instant. $`\Theta`$ evaluates a long list of *possible* terms at every instant, one column per candidate (for example "the constant $`1`$", "the velocity", "thrust times $`\cos\phi\cos\theta`$"). The unknown $`\Xi`$ then says how much of each candidate is needed to explain each measured derivative, one column of $`\Xi`$ per state. "Sparse" means most entries of $`\Xi`$ are exactly zero, so the surviving terms *are* the equation. Including physics-motivated columns such as thrust-tilt terms gives the regression a chance to find the true law instead of an approximation.
+**What the equations say.** Each row of the data corresponds to one time instant. $\Theta$ evaluates a long list of *possible* terms at every instant, one column per candidate (for example "the constant $1$", "the velocity", "thrust times $\cos\phi\cos\theta$"). The unknown $\Xi$ then says how much of each candidate is needed to explain each measured derivative, one column of $\Xi$ per state. "Sparse" means most entries of $\Xi$ are exactly zero, so the surviving terms *are* the equation. Including physics-motivated columns such as thrust-tilt terms gives the regression a chance to find the true law instead of an approximation.
 
 **Variables**
-- $`M`$: number of time samples (log rows); $`n`$: number of state variables; $`m`$: number of control inputs; $`p`$: number of candidate functions.
-- $`\mathbf{X}`$: $`M \times n`$ matrix of measured states (for example velocities, angular rates); $`\mathbf{U}`$: $`M \times m`$ matrix of inputs (for example commanded velocities or rotor features).
-- $`\dot{\mathbf{X}}`$: $`M \times n`$ matrix of state time-derivatives, estimated numerically from the logs (finite differences / Savitzky-Golay smoothing, see §5).
-- $`\Theta(\mathbf{X}, \mathbf{U})`$: $`M \times p`$ candidate library. Its blocks are: $`1`$ (a constant column, e.g. gravity), $`\mathbf{X}`$ and $`\mathbf{U}`$ (linear terms), $`\mathbf{X}^2`$ (element-wise squares / quadratic terms), $`\mathbf{X} \otimes \mathbf{U}`$ (products of states with inputs), and the thrust-tilt terms; $`\cdots`$ stands for further columns.
-- $`T`$: thrust input; $`\phi`$: roll angle ($`\text{rad}`$); $`\theta`$: pitch angle ($`\text{rad}`$). The three thrust-tilt terms are the components of the thrust vector projected on the world axes.
-- $`\Xi = [\xi_1, \dots, \xi_n]`$: $`p \times n`$ sparse coefficient matrix; column $`\xi_j`$ is the recipe for the derivative of state $`j`$.
-- $`\otimes`$: all pairwise products between the columns of the two matrices.
+- $M$: number of time samples (log rows); $n$: number of state variables; $m$: number of control inputs; $p$: number of candidate functions.
+- $\mathbf{X}$: $M \times n$ matrix of measured states (for example velocities, angular rates); $\mathbf{U}$: $M \times m$ matrix of inputs (for example commanded velocities or rotor features).
+- $\dot{\mathbf{X}}$: $M \times n$ matrix of state time-derivatives, estimated numerically from the logs (finite differences / Savitzky-Golay smoothing, see §5).
+- $\Theta(\mathbf{X}, \mathbf{U})$: $M \times p$ candidate library. Its blocks are: $1$ (a constant column, e.g. gravity), $\mathbf{X}$ and $\mathbf{U}$ (linear terms), $\mathbf{X}^2$ (element-wise squares / quadratic terms), $\mathbf{X} \otimes \mathbf{U}$ (products of states with inputs), and the thrust-tilt terms; $\cdots$ stands for further columns.
+- $T$: thrust input; $\phi$: roll angle ($\text{rad}$); $\theta$: pitch angle ($\text{rad}$). The three thrust-tilt terms are the components of the thrust vector projected on the world axes.
+- $\Xi = [\xi_1, \dots, \xi_n]$: $p \times n$ sparse coefficient matrix; column $\xi_j$ is the recipe for the derivative of state $j$.
+- $\otimes$: all pairwise products between the columns of the two matrices.
 
-- **Small example:** for the vertical-velocity model (Model A below) only two of the $`p`$ columns survive, the constant $`1`$ and $`T\cos\phi\cos\theta`$, so the relevant column of $`\Xi`$ is $`[-9.796,\; 1.170]`$ at those two positions and $`0`$ everywhere else.
+- **Small example:** for the vertical-velocity model (Model A below) only two of the $p$ columns survive, the constant $1$ and $T\cos\phi\cos\theta$, so the relevant column of $\Xi$ is $[-9.796,\; 1.170]$ at those two positions and $0$ everywhere else.
 
 #### Equation: Sequentially Thresholded Least Squares (STLSQ)
 
-The coefficient matrix is $`\Xi = [\xi_1, \xi_2, \dots, \xi_n]`$, solved one target column $`\dot{x}_j`$ at a time. Let $`S`$ be the current set of active library columns, and $`\Theta_S`$ the library restricted to those columns.
+The coefficient matrix is $\Xi = [\xi_1, \xi_2, \dots, \xi_n]$, solved one target column $\dot{x}_j$ at a time. Let $S$ be the current set of active library columns, and $\Theta_S$ the library restricted to those columns.
 
 **Step 1.** Solve ridge regression on the active columns:
 
@@ -1702,23 +1702,23 @@ The coefficient matrix is $`\Xi = [\xi_1, \xi_2, \dots, \xi_n]`$, solved one tar
 \xi_j = \left( \Theta_S^T \Theta_S + \alpha I \right)^{-1} \Theta_S^T \dot{x}_j
 ```
 
-**Step 2.** Keep only coefficients whose size is at least $`\lambda`$ times the largest one, and drop the rest:
+**Step 2.** Keep only coefficients whose size is at least $\lambda$ times the largest one, and drop the rest:
 
 ```math
 S_{k+1} = \{\, i \in S_k : |\xi_{i,j}| \ge \lambda \max_l |\xi_{l,j}| \,\}
 ```
 
-**Step 3.** Repeat Steps 1 and 2 until the active set $`S`$ stops changing.
+**Step 3.** Repeat Steps 1 and 2 until the active set $S$ stops changing.
 
-**What the equations say.** Step 1 is ordinary least squares with a tiny stabilising penalty (ridge regression): it finds the coefficients that best reproduce the measured derivative using only the currently active columns. Step 2 *prunes*: any coefficient that is small compared with the largest one is considered noise and its column is removed. Step 3 refits on the survivors and repeats, because removing junk terms changes the best values of the remaining ones. The loop normally settles after a few passes, leaving a sparse $`\xi_j`$.
+**What the equations say.** Step 1 is ordinary least squares with a tiny stabilising penalty (ridge regression): it finds the coefficients that best reproduce the measured derivative using only the currently active columns. Step 2 *prunes*: any coefficient that is small compared with the largest one is considered noise and its column is removed. Step 3 refits on the survivors and repeats, because removing junk terms changes the best values of the remaining ones. The loop normally settles after a few passes, leaving a sparse $\xi_j$.
 
 **Variables**
-- $`j`$: index of the state derivative being fitted; $`\dot{x}_j`$: the $`j`$-th column of $`\dot{\mathbf{X}}`$ (an $`M`$-vector).
-- $`\xi_j`$: the $`j`$-th column of $`\Xi`$ (coefficients of every library term for state $`j`$); $`\xi_{i,j}`$: its $`i`$-th entry.
-- $`S`$, $`S_k`$: set of indices of currently active library columns at iteration $`k`$; $`\Theta_S`$: $`\Theta`$ keeping only the columns in $`S`$.
-- $`\alpha`$: small positive ridge penalty that keeps the matrix inverse well conditioned; $`I`$: identity matrix of matching size.
-- $`\lambda \in (0, 1)`$: relative threshold; $`\max_l |\xi_{l,j}|`$: the largest coefficient magnitude of this column.
-- In the overall optimisation problem of the Architecture Summary, $`\|\cdot\|_F`$ is the Frobenius norm (square root of the sum of squared entries).
+- $j$: index of the state derivative being fitted; $\dot{x}_j$: the $j$-th column of $\dot{\mathbf{X}}$ (an $M$-vector).
+- $\xi_j$: the $j$-th column of $\Xi$ (coefficients of every library term for state $j$); $\xi_{i,j}$: its $i$-th entry.
+- $S$, $S_k$: set of indices of currently active library columns at iteration $k$; $\Theta_S$: $\Theta$ keeping only the columns in $S$.
+- $\alpha$: small positive ridge penalty that keeps the matrix inverse well conditioned; $I$: identity matrix of matching size.
+- $\lambda \in (0, 1)$: relative threshold; $\max_l |\xi_{l,j}|$: the largest coefficient magnitude of this column.
+- In the overall optimisation problem of the Architecture Summary, $\|\cdot\|_F$ is the Frobenius norm (square root of the sum of squared entries).
 - **Implementation:** `stlsq()` & `SINDy` class in [pybullet/sindy/sindy.py](pybullet/sindy/sindy.py#L93-L188).
 
 #### MATLAB Plot: SINDy Regression with STLSQ (main formula of §7.9)
@@ -1818,9 +1818,9 @@ Running `python -m sindy.identify_dynamics` across the flight logs extracted the
 \frac{dv_z}{dt} = -9.796 + 1.170 \, T \cos(\text{roll}) \cos(\text{pitch}), \qquad R^2 = 0.9998
 ```
 
-*What it says and what it means:* the vertical acceleration is the thrust component along the world vertical ($`T\cos\phi\cos\theta`$, scaled by $`1.170`$) minus a constant. The constant is gravity, so with $`g \approx 9.796\,\text{m/s}^2`$ SINDy independently discovered Earth's gravity from raw simulation state logs without human intervention. At hover ($`dv_z/dt = 0`$) the thrust feature must satisfy $`T\cos\phi\cos\theta = 9.796/1.170 \approx 8.37`$ in the log's thrust units.
+*What it says and what it means:* the vertical acceleration is the thrust component along the world vertical ($T\cos\phi\cos\theta$, scaled by $1.170$) minus a constant. The constant is gravity, so with $g \approx 9.796\,\text{m/s}^2$ SINDy independently discovered Earth's gravity from raw simulation state logs without human intervention. At hover ($dv_z/dt = 0$) the thrust feature must satisfy $T\cos\phi\cos\theta = 9.796/1.170 \approx 8.37$ in the log's thrust units.
 
-- **Variables:** $`v_z`$: vertical velocity ($`\text{m/s}`$), so $`dv_z/dt`$ is the vertical acceleration ($`\text{m/s}^2`$); $`T`$: the thrust feature of the library (the factor $`1.170`$ absorbs the $`1/m`$ conversion and the unit scaling of $`T`$); $`\text{roll} = \phi`$, $`\text{pitch} = \theta`$: attitude angles ($`\text{rad}`$); $`-9.796`$: the constant term, equal to $`-g`$; $`R^2`$: coefficient of determination of the fit (here on held-out data).
+- **Variables:** $v_z$: vertical velocity ($\text{m/s}$), so $dv_z/dt$ is the vertical acceleration ($\text{m/s}^2$); $T$: the thrust feature of the library (the factor $1.170$ absorbs the $1/m$ conversion and the unit scaling of $T$); $\text{roll} = \phi$, $\text{pitch} = \theta$: attitude angles ($\text{rad}$); $-9.796$: the constant term, equal to $-g$; $R^2$: coefficient of determination of the fit (here on held-out data).
 
 **Model B: Rotational Torque Mixing**
 
@@ -1834,9 +1834,9 @@ Running `python -m sindy.identify_dynamics` across the flight logs extracted the
 \begin{bmatrix} r_0 \\ r_1 \\ r_2 \\ r_3 \end{bmatrix}, \qquad R^2 > 0.998
 ```
 
-*What it says and what it means:* each body angular acceleration is a weighted sum of the four rotor inputs. The sign pattern of the three rows, $`(-,-,+,+)`$, $`(-,+,+,-)`$ and $`(-,+,-,+)`$, is exactly the sign pattern of the torque rows of the mixing matrix in §7.8, and the roll and pitch rows have nearly equal magnitude ($`\approx 63`$ to $`64`$) as the symmetric X-frame requires. SINDy therefore reconstructed the exact quadrotor X-frame geometry and rotor rotation directions (motors 0 & 2 CCW, motors 1 & 3 CW).
+*What it says and what it means:* each body angular acceleration is a weighted sum of the four rotor inputs. The sign pattern of the three rows, $(-,-,+,+)$, $(-,+,+,-)$ and $(-,+,-,+)$, is exactly the sign pattern of the torque rows of the mixing matrix in §7.8, and the roll and pitch rows have nearly equal magnitude ($\approx 63$ to $64$) as the symmetric X-frame requires. SINDy therefore reconstructed the exact quadrotor X-frame geometry and rotor rotation directions (motors 0 & 2 CCW, motors 1 & 3 CW).
 
-- **Variables:** $`\dot{\omega}_x`$, $`\dot{\omega}_y`$, $`\dot{\omega}_z`$: roll, pitch and yaw angular accelerations of the body ($`\text{rad/s}^2`$); $`r_0, \dots, r_3`$: the per-rotor input features built from the logged rotor speeds (scaled squared rotor speed of motors $`0`$ to $`3`$); the $`3 \times 4`$ matrix: the identified coefficients (in $`\text{rad/s}^2`$ per unit of $`r_i`$).
+- **Variables:** $\dot{\omega}_x$, $\dot{\omega}_y$, $\dot{\omega}_z$: roll, pitch and yaw angular accelerations of the body ($\text{rad/s}^2$); $r_0, \dots, r_3$: the per-rotor input features built from the logged rotor speeds (scaled squared rotor speed of motors $0$ to $3$); the $3 \times 4$ matrix: the identified coefficients (in $\text{rad/s}^2$ per unit of $r_i$).
 
 **Model C: Closed-Loop Command Response (SINDYc)**
 
@@ -1848,9 +1848,9 @@ Running `python -m sindy.identify_dynamics` across the flight logs extracted the
 \dot{v}_y = -0.0804 + 0.2534 \, v_x - 3.300 \, v_y + 9.426 \, v_{cy} + \cdots
 ```
 
-*What it says and what it means:* models the entire PID + closed-loop airframe as a compact low-order polynomial filter mapping the command velocity $`[v_{cx}, v_{cy}]`$ to the drone acceleration $`[\dot{v}_x, \dot{v}_y]`$. In the $`\dot{v}_x`$ equation, $`-3.459\,v_x`$ is a damping term (the faster the drone moves, the more it decelerates), $`8.762\,v_{cx}`$ is the pull toward the commanded velocity, and the quadratic and cross terms are small nonlinear corrections. The ellipses mark additional terms omitted here, so these truncated expressions must not be used to compute quantities such as the steady-state gain.
+*What it says and what it means:* models the entire PID + closed-loop airframe as a compact low-order polynomial filter mapping the command velocity $[v_{cx}, v_{cy}]$ to the drone acceleration $[\dot{v}_x, \dot{v}_y]$. In the $\dot{v}_x$ equation, $-3.459\,v_x$ is a damping term (the faster the drone moves, the more it decelerates), $8.762\,v_{cx}$ is the pull toward the commanded velocity, and the quadratic and cross terms are small nonlinear corrections. The ellipses mark additional terms omitted here, so these truncated expressions must not be used to compute quantities such as the steady-state gain.
 
-- **Variables:** $`v_x`$, $`v_y`$: measured horizontal velocities ($`\text{m/s}`$); $`v_{cx}`$, $`v_{cy}`$: commanded horizontal velocities ($`\text{m/s}`$); $`\dot{v}_x`$, $`\dot{v}_y`$: horizontal accelerations ($`\text{m/s}^2`$); the numbers: identified coefficients with the units needed to make each term an acceleration.
+- **Variables:** $v_x$, $v_y$: measured horizontal velocities ($\text{m/s}$); $v_{cx}$, $v_{cy}$: commanded horizontal velocities ($\text{m/s}$); $\dot{v}_x$, $\dot{v}_y$: horizontal accelerations ($\text{m/s}^2$); the numbers: identified coefficients with the units needed to make each term an acceleration.
 
 ---
 
@@ -1861,16 +1861,16 @@ The system is evaluated against 10 distinct, reproducible obstacle scenarios con
 
 | ID | Scenario Name | Geometry & Placement | Difficulty | Expected Flight Behavior |
 |:---:|---|---|:---:|---|
-| **1** | **Direct Frontal Obstacle** | One $`0.30\,\text{m}`$ cube at $`[2.5, 0.0, 1.0]`$ | Easy | Detects frontal block, selects left or right bypass, smoothly returns to centerline. |
-| **2** | **Offset Obstacle Left** | One $`0.30\,\text{m}`$ cube at $`[2.5, +0.18, 1.0]`$ | Easy | Detects open right flank, cleanly bypasses without emergency reversals. |
-| **3** | **Offset Obstacle Right** | One $`0.30\,\text{m}`$ cube at $`[2.5, -0.18, 1.0]`$ | Easy | Detects open left flank, cleanly bypasses on the left side. |
-| **4** | **Narrow Passage / Slit** | 4 cubes forming a narrow corridor slit at $`x=2.5`$ and $`x=3.0`$ with width $`0.76\,\text{m}`$ | Medium | Traverses the narrow slit; triggers coordinated lateral micro-adjustments. |
-| **5** | **Dead-End / U-Trap** | 5 cubes forming a concave enclosure at $`x=2.0`$ to $`2.5`$ | Hard | Detects trapped enclosure, initiates `EMERGENCY_REVERSE`, turns around perimeter. |
-| **6** | **Staggered Forest** | 5 vertical cylinders ($`r=0.15\,\text{m}, h=1.6\,\text{m}`$) staggered along $`x=1.8`$ to $`4.8`$ | Hard | Executes continuous slalom weaving between obstacles. |
-| **7** | **Dynamic Moving Obstacle** | Cube at $`x=2.8`$ sliding along $`y(t) = 0.75 \sin(1.5 t)`$ | Dynamic | Predicts time-varying clearance, decelerates, and overtakes the moving obstacle. |
-| **8** | **3D Cluttered Environment** | Barriers at varying heights: low ($`z=0.55\,\text{m}`$), high overhead ($`z=1.45\,\text{m}`$) | 3D Expert | Adjusts target altitude from $`1.0\,\text{m}`$ to $`1.35\,\text{m}`$ to climb over low barriers. |
-| **9** | **Dynamic Lateral Intruder** | Cube at $`x=3.0`$ rapidly oscillating along $`y(t) = 1.20 \sin(2.5 t)`$ | Dynamic Expert | Detects closing lateral intrusion, brakes, and clears the path. |
-| **10** | **Circular Dead-End Ring** | 54 cubes forming a continuous circular enclosure ($`r=2.0\,\text{m}`$) | Extreme Trap | Ascends to $`1.50\,\text{m}`$ to fly over the ring wall and reach the goal. |
+| **1** | **Direct Frontal Obstacle** | One $0.30\,\text{m}$ cube at $[2.5, 0.0, 1.0]$ | Easy | Detects frontal block, selects left or right bypass, smoothly returns to centerline. |
+| **2** | **Offset Obstacle Left** | One $0.30\,\text{m}$ cube at $[2.5, +0.18, 1.0]$ | Easy | Detects open right flank, cleanly bypasses without emergency reversals. |
+| **3** | **Offset Obstacle Right** | One $0.30\,\text{m}$ cube at $[2.5, -0.18, 1.0]$ | Easy | Detects open left flank, cleanly bypasses on the left side. |
+| **4** | **Narrow Passage / Slit** | 4 cubes forming a narrow corridor slit at $x=2.5$ and $x=3.0$ with width $0.76\,\text{m}$ | Medium | Traverses the narrow slit; triggers coordinated lateral micro-adjustments. |
+| **5** | **Dead-End / U-Trap** | 5 cubes forming a concave enclosure at $x=2.0$ to $2.5$ | Hard | Detects trapped enclosure, initiates `EMERGENCY_REVERSE`, turns around perimeter. |
+| **6** | **Staggered Forest** | 5 vertical cylinders ($r=0.15\,\text{m}, h=1.6\,\text{m}$) staggered along $x=1.8$ to $4.8$ | Hard | Executes continuous slalom weaving between obstacles. |
+| **7** | **Dynamic Moving Obstacle** | Cube at $x=2.8$ sliding along $y(t) = 0.75 \sin(1.5 t)$ | Dynamic | Predicts time-varying clearance, decelerates, and overtakes the moving obstacle. |
+| **8** | **3D Cluttered Environment** | Barriers at varying heights: low ($z=0.55\,\text{m}$), high overhead ($z=1.45\,\text{m}$) | 3D Expert | Adjusts target altitude from $1.0\,\text{m}$ to $1.35\,\text{m}$ to climb over low barriers. |
+| **9** | **Dynamic Lateral Intruder** | Cube at $x=3.0$ rapidly oscillating along $y(t) = 1.20 \sin(2.5 t)$ | Dynamic Expert | Detects closing lateral intrusion, brakes, and clears the path. |
+| **10** | **Circular Dead-End Ring** | 54 cubes forming a continuous circular enclosure ($r=2.0\,\text{m}$) | Extreme Trap | Ascends to $1.50\,\text{m}$ to fly over the ring wall and reach the goal. |
 
 ---
 
@@ -2086,11 +2086,11 @@ EMERGENCY REVERSALS: 3
 ```
 
 **Interpretation:**
-1. **Entry:** Drone advances forward at $`0.35\,\text{m/s}`$ until reaching $`x = 1.75\,\text{m}`$.
-2. **Trap Detection:** At $`x = 1.92\,\text{m}`$, the front obstacle drops to $`0.28\,\text{m} < D_{\text{emergency}} = 0.30\,\text{m}`$, while both lateral sensors register walls ($`< 0.48\,\text{m}`$).
-3. **Emergency Reverse:** The drone reverses backward for $`1.2\,\text{s}`$ at $`0.22\,\text{m/s}`$, opening up clearance.
+1. **Entry:** Drone advances forward at $0.35\,\text{m/s}$ until reaching $x = 1.75\,\text{m}$.
+2. **Trap Detection:** At $x = 1.92\,\text{m}$, the front obstacle drops to $0.28\,\text{m} < D_{\text{emergency}} = 0.30\,\text{m}$, while both lateral sensors register walls ($< 0.48\,\text{m}$).
+3. **Emergency Reverse:** The drone reverses backward for $1.2\,\text{s}$ at $0.22\,\text{m/s}$, opening up clearance.
 4. **Side Inversion:** The controller enforces `force_opposite_side = True`, switching from LEFT to RIGHT.
-5. **Perimeter Bypass:** The drone navigates around the outer perimeter of the trap and safely navigates to the goal $`(6.0, 0.0, 1.0)`$ with zero collisions.
+5. **Perimeter Bypass:** The drone navigates around the outer perimeter of the trap and safely navigates to the goal $(6.0, 0.0, 1.0)$ with zero collisions.
 
 ---
 
@@ -2111,7 +2111,7 @@ The bio-inspired RNN navigation engine.
 - **`BrainConfig`:** Dataclass containing parameters for reaction bubble, cruise speeds, membrane time constants, Hebbian learning rate, and detour limits.
 - **`AdaptiveNeuralBrain`:**
   - `ray_world_angles()`: Transforms body-relative ray angles to global world frame.
-  - `step(position_xy, distances)`: Main algorithmic pipeline: sensory preprocessing $`\to`$ recurrent membrane integration $`\to`$ Hebbian weight update $`\to`$ frustration monitoring $`\to`$ goal detour calculation $`\to`$ speed modulation.
+  - `step(position_xy, distances)`: Main algorithmic pipeline: sensory preprocessing $\to$ recurrent membrane integration $\to$ Hebbian weight update $\to$ frustration monitoring $\to$ goal detour calculation $\to$ speed modulation.
 
 ### 3. `brain_avoidance.py`
 Integrator connecting the neural brain to PyBullet.
@@ -2121,16 +2121,16 @@ Integrator connecting the neural brain to PyBullet.
 
 ### 4. `sindy/sindy.py`
 Lightweight, dependency-free mathematical equation discovery engine.
-- **`PolynomialLibrary`:** Constructs polynomial candidate feature matrix up to degree $`d`$ with optional physics-informed nonlinear terms.
+- **`PolynomialLibrary`:** Constructs polynomial candidate feature matrix up to degree $d$ with optional physics-informed nonlinear terms.
 - **`stlsq()`:** Implements Sequentially Thresholded Least Squares with internal column normalization and ridge regularization.
-- **`SINDy`:** High-level estimator exposing `.fit()`, `.predict()`, `.score()` ($`R^2`$), and `.simulate()` (RK4 numerical integrator).
+- **`SINDy`:** High-level estimator exposing `.fit()`, `.predict()`, `.score()` ($R^2$), and `.simulate()` (RK4 numerical integrator).
 
 ### 5. `sindy/identify_dynamics.py`
 Data processing and discovery script.
 - Loads flight logs from `logs/*.npz`.
 - Constructs feature matrices for translational motion, rotational torques, and closed-loop control.
 - Exports discovered symbolic models to `models/*.json`.
-- Evaluates $`R^2`$ scores on held-out test runs and renders parity comparison plots to `results/sindy/`.
+- Evaluates $R^2$ scores on held-out test runs and renders parity comparison plots to `results/sindy/`.
 
 ---
 
@@ -2141,24 +2141,24 @@ The repository contains pre-recorded 48 Hz simulation logs in `pybullet/logs/` s
 
 ### Array Structure of `.npz` Telemetry Files
 Each file contains:
-- `data`: 2D float array of shape $`(N_{\text{steps}}, 50)`$ containing 50 synchronized telemetry variables:
+- `data`: 2D float array of shape $(N_{\text{steps}}, 50)$ containing 50 synchronized telemetry variables:
 
 | Column Index | Field Name | Units | Description |
 |---|---|---|---|
-| `0` | `t` | $`\text{s}`$ | Simulation timestamp |
-| `1:4` | `x, y, z` | $`\text{m}`$ | Drone 3D position in world frame |
+| `0` | `t` | $\text{s}$ | Simulation timestamp |
+| `1:4` | `x, y, z` | $\text{m}$ | Drone 3D position in world frame |
 | `4:8` | `qx, qy, qz, qw` | &mdash; | Orientation unit quaternion |
-| `8:11` | `roll, pitch, yaw` | $`\text{rad}`$ | Euler attitude angles |
-| `11:14` | `vx, vy, vz` | $`\text{m/s}`$ | Linear velocities in world frame |
-| `14:17` | `wx, wy, wz` | $`\text{rad/s}`$ | Angular velocities in body frame |
-| `17:21` | `rpm0..rpm3` | $`\text{RPM}`$ | Individual rotor rotational speeds |
-| `21:24` | `vcx, vcy, vcz` | $`\text{m/s}`$ | Desired velocity commands |
-| `24:27` | `tx, ty, tz` | $`\text{m}`$ | Target position lookahead |
+| `8:11` | `roll, pitch, yaw` | $\text{rad}$ | Euler attitude angles |
+| `11:14` | `vx, vy, vz` | $\text{m/s}$ | Linear velocities in world frame |
+| `14:17` | `wx, wy, wz` | $\text{rad/s}$ | Angular velocities in body frame |
+| `17:21` | `rpm0..rpm3` | $\text{RPM}$ | Individual rotor rotational speeds |
+| `21:24` | `vcx, vcy, vcz` | $\text{m/s}$ | Desired velocity commands |
+| `24:27` | `tx, ty, tz` | $\text{m}$ | Target position lookahead |
 | `27:37` | `I_L, I_R, o_L, o_R, w_LL, w_RR, F, psi, omega, speed` | Various | Internal neural states |
-| `37:49` | `ray_-90 .. ray_180` | $`\text{m}`$ | 12 body-frame range sensor readings |
+| `37:49` | `ray_-90 .. ray_180` | $\text{m}$ | 12 body-frame range sensor readings |
 
 - `columns`: String list of column header names.
-- `dt`: Control timestep ($`1/48 \approx 0.02083\,\text{s}`$).
+- `dt`: Control timestep ($1/48 \approx 0.02083\,\text{s}$).
 - `scenario`: Integer scenario identifier (1 to 10).
 
 ---
@@ -2171,20 +2171,20 @@ Each file contains:
 
 The quantitative performance across the six primary standardized scenarios is summarized below (all verified against actual simulation logs):
 
-| Scenario | Scenario Name | Result | Control Steps | Time (s) | Final Position $`(x, y, z)`$ | Path Length (m) | Collisions | Avoid Events | Emergency Reversals |
+| Scenario | Scenario Name | Result | Control Steps | Time (s) | Final Position $(x, y, z)$ | Path Length (m) | Collisions | Avoid Events | Emergency Reversals |
 |:---:|---|:---:|:---:|:---:|:---:|:---:|:---:|:---:|:---:|
-| **1** | Direct Frontal Obstacle | **SUCCESS** | 356 | 10.39 | $`(5.821, +0.158, 1.001)`$ | 6.363 | **0** | 1 | 0 |
-| **2** | Offset Obstacle Left | **SUCCESS** | 307 | 9.38 | $`(5.772, -0.026, 1.001)`$ | 5.846 | **0** | 0 | 0 |
-| **3** | Offset Obstacle Right | **SUCCESS** | 306 | 9.36 | $`(5.760, -0.000, 1.001)`$ | 5.809 | **0** | 0 | 0 |
-| **4** | Narrow Passage / Slit | **SUCCESS** | 746 | 18.95 | $`(5.848, -0.180, 1.001)`$ | 11.155 | **0** | 4 | 4 |
-| **5** | Dead-End U-Trap | **SUCCESS** | 693 | 18.45 | $`(5.833, -0.171, 1.001)`$ | 11.034 | **0** | 4 | 3 |
-| **6** | Staggered Forest | **SUCCESS** | 396 | 11.28 | $`(5.953, +0.222, 1.001)`$ | 7.081 | **0** | 2 | 0 |
+| **1** | Direct Frontal Obstacle | **SUCCESS** | 356 | 10.39 | $(5.821, +0.158, 1.001)$ | 6.363 | **0** | 1 | 0 |
+| **2** | Offset Obstacle Left | **SUCCESS** | 307 | 9.38 | $(5.772, -0.026, 1.001)$ | 5.846 | **0** | 0 | 0 |
+| **3** | Offset Obstacle Right | **SUCCESS** | 306 | 9.36 | $(5.760, -0.000, 1.001)$ | 5.809 | **0** | 0 | 0 |
+| **4** | Narrow Passage / Slit | **SUCCESS** | 746 | 18.95 | $(5.848, -0.180, 1.001)$ | 11.155 | **0** | 4 | 4 |
+| **5** | Dead-End U-Trap | **SUCCESS** | 693 | 18.45 | $(5.833, -0.171, 1.001)$ | 11.034 | **0** | 4 | 3 |
+| **6** | Staggered Forest | **SUCCESS** | 396 | 11.28 | $(5.953, +0.222, 1.001)$ | 7.081 | **0** | 2 | 0 |
 
 #### Overall Benchmark Summary:
-- **Success Rate:** $`\mathbf{100\%}`$ ($`6/6`$ missions completed within tolerance).
-- **Collision Rate:** $`\mathbf{0}`$ recorded collision steps across all runs.
-- **Average Completion Time:** $`12.97\,\text{seconds}`$.
-- **Average Path Length:** $`7.881\,\text{meters}`$.
+- **Success Rate:** $\mathbf{100\%}$ ($6/6$ missions completed within tolerance).
+- **Collision Rate:** $\mathbf{0}$ recorded collision steps across all runs.
+- **Average Completion Time:** $12.97\,\text{seconds}$.
+- **Average Path Length:** $7.881\,\text{meters}$.
 
 ---
 
@@ -2244,9 +2244,9 @@ The identified vertical acceleration model is:
 \frac{dv_z}{dt} = -9.796 + 1.170\,T\cos(\phi)\cos(\theta)
 ```
 
-**Held-out coefficient of determination:** $`R^2 = 0.99978`$
+**Held-out coefficient of determination:** $R^2 = 0.99978$
 
-The constant term $`-9.796`$ is consistent with gravitational acceleration of approximately $`9.80\,\text{m/s}^2`$ acting downward. The thrust contribution depends on the thrust input $`T`$ and the drone's roll angle $`\phi`$ and pitch angle $`\theta`$.
+The constant term $-9.796$ is consistent with gravitational acceleration of approximately $9.80\,\text{m/s}^2$ acting downward. The thrust contribution depends on the thrust input $T$ and the drone's roll angle $\phi$ and pitch angle $\theta$.
 
 #### Model B: Rotational Torque Mixing Matrix
 
@@ -2274,11 +2274,11 @@ r_3
 
 **Held-out accuracy:**
 
-| Predicted quantity | $`R^2`$ |
+| Predicted quantity | $R^2$ |
 |---|---:|
-| Roll angular acceleration, $`\dot{\omega}_x`$ | 0.9981 |
-| Pitch angular acceleration, $`\dot{\omega}_y`$ | 0.9997 |
-| Yaw angular acceleration, $`\dot{\omega}_z`$ | 0.9989 |
+| Roll angular acceleration, $\dot{\omega}_x$ | 0.9981 |
+| Pitch angular acceleration, $\dot{\omega}_y$ | 0.9997 |
+| Yaw angular acceleration, $\dot{\omega}_z$ | 0.9989 |
 
 The matrix describes how the rotor-related inputs contribute to angular acceleration around the three body axes.
 
@@ -2304,7 +2304,7 @@ SINDYc identifies relationships between commanded horizontal velocities and the 
 \end{aligned}
 ```
 
-Here, $`v_x`$ and $`v_y`$ are measured horizontal velocities, while $`v_{cx}`$ and $`v_{cy}`$ are commanded horizontal velocities. The ellipses ($`\cdots`$) indicate additional terms omitted from this summary; these expressions are not the complete identified equations.
+Here, $v_x$ and $v_y$ are measured horizontal velocities, while $v_{cx}$ and $v_{cy}$ are commanded horizontal velocities. The ellipses ($\cdots$) indicate additional terms omitted from this summary; these expressions are not the complete identified equations.
 
 **Tracking performance:**
 
@@ -2315,7 +2315,7 @@ Here, $`v_x`$ and $`v_y`$ are measured horizontal velocities, while $`v_{cx}`$ a
 
 The identified models and figures are saved under [`pybullet/results/sindy/`](pybullet/results/sindy).
 
-> **Interpretation note:** The $`R^2`$ values describe predictive fit on held-out data. They support the models' predictive accuracy for the tested simulation data, but do not by themselves prove that every coefficient has a unique physical interpretation.
+> **Interpretation note:** The $R^2$ values describe predictive fit on held-out data. They support the models' predictive accuracy for the tested simulation data, but do not by themselves prove that every coefficient has a unique physical interpretation.
 
 ---
 
@@ -2340,7 +2340,7 @@ python brain_avoidance.py --scenario 2 --headless
 ```bash
 python -m sindy.identify_dynamics
 ```
-- **Expected Outcome:** Loads `logs/brain_s*.npz`, prints the discovered mathematical equations for models A, B, and C, and verifies that held-out $`R^2`$ exceeds $`0.98`$.
+- **Expected Outcome:** Loads `logs/brain_s*.npz`, prints the discovered mathematical equations for models A, B, and C, and verifies that held-out $R^2$ exceeds $0.98$.
 
 ---
 
@@ -2352,8 +2352,8 @@ python -m sindy.identify_dynamics
 | `ModuleNotFoundError: No module named 'gym_pybullet_drones'` | Environment missing the gym drone package. | Run `python -c "import gym_pybullet_drones"` in terminal. | Re-run: `pip install git+https://github.com/utiasDSL/gym-pybullet-drones.git` |
 | `AttributeError: module 'pybullet' has no attribute 'rayTestBatch'` | Outdated PyBullet build installed. | Check version: `python -c "import pybullet; print(pybullet.__file__)"` | Upgrade PyBullet: `pip install --upgrade pybullet` |
 | PyBullet GUI window crashes or freezes upon opening | OpenGL graphics driver incompatibility on Windows/Linux. | Check terminal for display driver errors. | Update your GPU display drivers or run with `--headless` flag. |
-| Drone hits obstacle in Scenario 5 (U-Trap) | Sensor offset too small causing self-ray collision. | Verify `RAY_START_OFFSET` in `brain_avoidance.py` is $`\ge 0.10\,\text{m}`$. | Ensure `RAY_START_OFFSET = 0.10` and `SENSOR_RANGE = 1.6`. |
-| SINDy discovers zero terms (`dX/dt = 0`) | Threshold $`\lambda`$ set too high for unscaled data. | Inspect `identify_dynamics.py` threshold settings. | Use `THRUST_SCALE = 1e-8` and ensure threshold is between $`0.02`$ and $`0.05`$. |
+| Drone hits obstacle in Scenario 5 (U-Trap) | Sensor offset too small causing self-ray collision. | Verify `RAY_START_OFFSET` in `brain_avoidance.py` is $\ge 0.10\,\text{m}$. | Ensure `RAY_START_OFFSET = 0.10` and `SENSOR_RANGE = 1.6`. |
+| SINDy discovers zero terms (`dX/dt = 0`) | Threshold $\lambda$ set too high for unscaled data. | Inspect `identify_dynamics.py` threshold settings. | Use `THRUST_SCALE = 1e-8` and ensure threshold is between $0.02$ and $0.05$. |
 
 ---
 
@@ -2362,7 +2362,7 @@ python -m sindy.identify_dynamics
 
 1. **Simulation vs. Real-World Physics:** Evaluated in PyBullet. Real-world physical flights will encounter aerodynamic ground effect, battery voltage sag, motor response latency, and turbulent wind gusts.
 2. **Simplified Sensor Perception:** Uses geometric ray-casting rather than noisy physical LiDAR point clouds or stereo depth cameras.
-3. **Planar-Biased Trajectories:** The FSM operates primarily in the 2D horizontal plane at constant altitude ($`z = 1.0\,\text{m}`$), except in Scenarios 8 and 10 where vertical maneuvers are pre-programmed.
+3. **Planar-Biased Trajectories:** The FSM operates primarily in the 2D horizontal plane at constant altitude ($z = 1.0\,\text{m}$), except in Scenarios 8 and 10 where vertical maneuvers are pre-programmed.
 4. **Local Minimum Horizon:** While the bio-inspired brain's frustration module successfully escapes U-traps and circular rings, it does not guarantee globally optimal path lengths compared to full A\* or RRT\* search over a known map.
 
 ---
