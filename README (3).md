@@ -25,7 +25,7 @@ This project implements an autonomous quadcopter obstacle avoidance system simul
 ### Key Capabilities:
 * **Physics Fidelity**: Native MuJoCo 6-DOF quadcopter model (Crazyflie 2.x scale, mass = 47.2 g) simulated with Runge-Kutta 4th-order (RK4) integration at 500 Hz physics and 48 Hz control frequency.
 * **Kalman Filter Tracking**: 6-DOF Constant-Velocity Kalman Filter tracks moving obstacles with noisy LiDAR range measurements, achieving **~50% noise variance reduction** and projecting future obstacle trajectories 1.0 second into the future.
-* **Stochastic Dynamic Obstacles & Noise Control**: Moving obstacles do not follow predictable deterministic paths; they are driven by an **Ornstein-Uhlenbeck stochastic drift process** with random phase, frequency, and wandering drift. Operators can toggle between **🟢 No Noise**, **🟡 Low Noise** (default), and **🔴 High Noise** profiles in real time.
+* **Stochastic Dynamic Obstacles & Noise Control**: Moving obstacles do not follow predictable deterministic paths; they are driven by an **Ornstein-Uhlenbeck stochastic drift process** with random phase, frequency, and wandering drift. Operators can toggle between ** No Noise**, **Low Noise** (default), and ** High Noise** profiles in real time.
 * **6 Navigation Strategies**:
   1. **Reactive Sector State Machine** (with closing-velocity evasion and hysteresis side-switching)
   2. **Artificial Potential Fields (APF)** (continuous potential gradients)
@@ -921,13 +921,13 @@ python run_sim.py --scenario 10 --sub-scenario ring_with_gap --seed 42 --gui
 You can customize stochastic process noise and sensor measurement error directly from the command line:
 
 ```bash
-# 🟢 No Noise: Disable obstacle stochastic perturbations completely
+#  No Noise: Disable obstacle stochastic perturbations completely
 python run_sim.py --scenario 7 --algo reactive --no-obs-noise --gui
 
-# 🟡 Low Noise: Default realistic operating regime
+#  Low Noise: Default realistic operating regime
 python run_sim.py --scenario 7 --algo reactive --obs-noise-std 0.08 --sensor-noise 0.06 --gui
 
-# 🔴 High Noise: Severe turbulence and heavy sensor degradation
+#  High Noise: Severe turbulence and heavy sensor degradation
 python run_sim.py --scenario 7 --algo reactive --obs-noise-std 0.16 --sensor-noise 0.12 --gui
 
 # Filter Ablation Test: Disable Kalman filter to test raw noisy sensor evasion
@@ -1009,7 +1009,7 @@ python run_sim.py --sindy-train
 | `--gui` | `-g` | `flag` | `False` | Launches the interactive native MuJoCo 3D graphics viewer. |
 | `--dashboard` | — | `flag` | `False` | Launches the interactive Web Telemetry Dashboard server on port 8080. |
 | `--port` | `-p` | `int` | `8080` | HTTP port number for the Web Dashboard server. |
-| `--no-obs-noise` | — | `flag` | `False` | Disables stochastic Ornstein-Uhlenbeck obstacle drift (matches 🟢 No Noise). |
+| `--no-obs-noise` | — | `flag` | `False` | Disables stochastic Ornstein-Uhlenbeck obstacle drift (matches  No Noise). |
 | `--obs-noise-std` | — | `float` | `0.08` | Standard deviation of obstacle stochastic process noise (0.00 to 0.20 m). |
 | `--sensor-noise` | — | `float` | `0.06` | Standard deviation of Gaussian LiDAR measurement noise (0.00 to 0.15 m). |
 | `--no-kalman` | — | `flag` | `False` | Disables Kalman filtering, passing raw noisy sensor hits directly to avoidance. |
