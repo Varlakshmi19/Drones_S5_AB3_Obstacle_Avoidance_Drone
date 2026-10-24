@@ -140,7 +140,7 @@ This project solves these limitations by implementing computationally lightweigh
 The system operates as a closed-loop perception-planning-control pipeline executed at $48\,\text{Hz}$ on top of the $240\,\text{Hz}$ PyBullet physical simulator.
 
 ### System Architecture Diagram
-![System Architecture](../assets/GymPybullet.drawio.png)
+![System Architecture](./assets/GymPybullet.drawio.png)
 ---
 
 <a id="5-technologies-used"></a>
