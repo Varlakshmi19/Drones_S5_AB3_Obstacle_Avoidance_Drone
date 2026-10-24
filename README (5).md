@@ -141,7 +141,7 @@ The system operates as a closed-loop perception-planning-control pipeline execut
 
 ### System Architecture Diagram
 
-![System Architecture](./assets/GymPyBullet.drawio.png)
+![System Architecture](./assets/GymPybullet.drawio.png)
 
 ---
 
