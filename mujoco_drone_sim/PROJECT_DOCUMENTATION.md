@@ -156,9 +156,9 @@ When obstacles move dynamically in real-world conditions, rangefinder hits exhib
 ### State Space Formulation
 The tracking system uses a 6-DOF Constant-Velocity (CV) Kalman Filter implemented in `perception/kalman_filter.py`:
 
-$$
+```math
 \mathbf{x} = \begin{bmatrix} x & y & z & v_x & v_y & v_z \end{bmatrix}^T \in \mathbb{R}^6
-$$
+```
 
 #### Mathematical Term Breakdown for State Vector:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -178,22 +178,22 @@ $$
 #### State Transition Model:
 The continuous-time linear motion model is discretized at the filter update step $\Delta t = \frac{1}{48} \approx 0.02083\text{ s}$:
 
-$$
+```math
 \mathbf{x}_k = \mathbf{F} \mathbf{x}_{k-1} + \mathbf{w}_k, \quad \mathbf{w}_k \sim \mathcal{N}(\mathbf{0}, \mathbf{Q})
-$$
+```
 
 The $6 \times 6$ State Transition Matrix $\mathbf{F}$ is structured as:
 
-$$
-\mathbf{F} = \begin{bmatrix} \mathbf{I}_{3\times3} & \Delta t \mathbf{I}_{3\times3} \\ \mathbf{0}_{3\times3} & \mathbf{I}_{3\times3} \end{bmatrix} = \begin{bmatrix} 
-1 & 0 & 0 & \Delta t & 0 & 0 \\ 
-0 & 1 & 0 & 0 & \Delta t & 0 \\ 
-0 & 0 & 1 & 0 & 0 & \Delta t \\ 
-0 & 0 & 0 & 1 & 0 & 0 \\ 
-0 & 0 & 0 & 0 & 1 & 0 \\ 
-0 & 0 & 0 & 0 & 0 & 1 
+```math
+\mathbf{F} = \begin{bmatrix} \mathbf{I}_{3\times3} & \Delta t \mathbf{I}_{3\times3} \\ \mathbf{0}_{3\times3} & \mathbf{I}_{3\times3} \end{bmatrix} = \begin{bmatrix}
+1 & 0 & 0 & \Delta t & 0 & 0 \\
+0 & 1 & 0 & 0 & \Delta t & 0 \\
+0 & 0 & 1 & 0 & 0 & \Delta t \\
+0 & 0 & 0 & 1 & 0 & 0 \\
+0 & 0 & 0 & 0 & 1 & 0 \\
+0 & 0 & 0 & 0 & 0 & 1
 \end{bmatrix}
-$$
+```
 
 #### Mathematical Term Breakdown for State Transition:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -212,24 +212,30 @@ $$
 
 **Detailed Transition Mechanics**:
 1. **Position Integration**: The new position is predicted by integrating current velocity over time step $\Delta t$:
-   $$\mathbf{p}_k = \mathbf{p}_{k-1} + \mathbf{v}_{k-1} \Delta t$$
+
+   ```math
+   \mathbf{p}_k = \mathbf{p}_{k-1} + \mathbf{v}_{k-1} \Delta t
+   ```
    * $\mathbf{p}_k \in \mathbb{R}^3$: Predicted position $[\text{m}]$ at step $k$.
    * $\mathbf{p}_{k-1} \in \mathbb{R}^3$: Position $[\text{m}]$ at step $k-1$.
    * $\mathbf{v}_{k-1} \in \mathbb{R}^3$: Linear velocity $[\text{m/s}]$ at step $k-1$.
    * $\Delta t$: Integration time increment ($0.02083\text{ s}$).
 2. **Velocity Persistence**: In the constant-velocity kinematic hypothesis, nominal obstacle velocity persists without deterministic acceleration:
-   $$\mathbf{v}_k = \mathbf{v}_{k-1}$$
+
+   ```math
+   \mathbf{v}_k = \mathbf{v}_{k-1}
+   ```
    * $\mathbf{v}_k \in \mathbb{R}^3$: Predicted velocity $[\text{m/s}]$ at step $k$.
 3. **Process Noise ($\mathbf{w}_k$)**: True obstacle accelerations, maneuvers, and stochastic deviations are modeled through the process noise vector $\mathbf{w}_k \sim \mathcal{N}(\mathbf{0}, \mathbf{Q})$.
 
 The discrete process noise covariance matrix $\mathbf{Q} \in \mathbb{R}^{6 \times 6}$ is derived from a continuous-time white-noise acceleration model with spectral density $q = \sigma_a^2$:
 
-$$
-\mathbf{Q} = \begin{bmatrix} 
-\frac{\Delta t^3}{3} \mathbf{I}_{3\times3} & \frac{\Delta t^2}{2} \mathbf{I}_{3\times3} \\ 
-\frac{\Delta t^2}{2} \mathbf{I}_{3\times3} & \Delta t \mathbf{I}_{3\times3} 
+```math
+\mathbf{Q} = \begin{bmatrix}
+\frac{\Delta t^3}{3} \mathbf{I}_{3\times3} & \frac{\Delta t^2}{2} \mathbf{I}_{3\times3} \\
+\frac{\Delta t^2}{2} \mathbf{I}_{3\times3} & \Delta t \mathbf{I}_{3\times3}
 \end{bmatrix} q
-$$
+```
 
 #### Mathematical Term Breakdown for Process Covariance $\mathbf{Q}$:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -246,25 +252,25 @@ $$
 #### Measurement Model:
 The perception system acquires 3D LiDAR point hits on obstacle surfaces. The measurement vector $\mathbf{z}_k \in \mathbb{R}^3$ directly measures position, while linear velocity is unobservable directly from single-frame LiDAR:
 
-$$
+```math
 \mathbf{z}_k = \mathbf{H} \mathbf{x}_k + \mathbf{v}_k, \quad \mathbf{v}_k \sim \mathcal{N}(\mathbf{0}, \mathbf{R})
-$$
+```
 
 The $3 \times 6$ Observation Matrix $\mathbf{H}$ projects the 6-state vector onto the observable 3D position subspace:
 
-$$
-\mathbf{H} = \begin{bmatrix} \mathbf{I}_{3\times3} & \mathbf{0}_{3\times3} \end{bmatrix} = \begin{bmatrix} 
-1 & 0 & 0 & 0 & 0 & 0 \\ 
-0 & 1 & 0 & 0 & 0 & 0 \\ 
-0 & 0 & 1 & 0 & 0 & 0 
+```math
+\mathbf{H} = \begin{bmatrix} \mathbf{I}_{3\times3} & \mathbf{0}_{3\times3} \end{bmatrix} = \begin{bmatrix}
+1 & 0 & 0 & 0 & 0 & 0 \\
+0 & 1 & 0 & 0 & 0 & 0 \\
+0 & 0 & 1 & 0 & 0 & 0
 \end{bmatrix}
-$$
+```
 
 The measurement noise covariance $\mathbf{R} \in \mathbb{R}^{3 \times 3}$ is governed by the LiDAR range sensor uncertainty:
 
-$$
+```math
 \mathbf{R} = \sigma_{\text{sensor}}^2 \mathbf{I}_{3\times3}
-$$
+```
 
 #### Mathematical Term Breakdown for Measurement Model:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -280,9 +286,9 @@ $$
 ### Numerical Stabilization: Joseph Form Covariance Update
 In conventional textbook Kalman filtering, the a posteriori error covariance is updated using:
 
-$$
+```math
 \mathbf{P}_{k|k} = (\mathbf{I} - \mathbf{K}_k \mathbf{H}) \mathbf{P}_{k|k-1}
-$$
+```
 
 #### Numerical Failure of the Standard Update:
 While mathematically equivalent in infinite precision, this simplified equation exhibits severe numerical flaws in floating-point software:
@@ -292,17 +298,17 @@ While mathematically equivalent in infinite precision, this simplified equation 
 #### The Stabilized Joseph Formulation:
 To rigorously guarantee numerical stability, symmetry, and positive semi-definiteness across millions of simulation cycles, `perception/kalman_filter.py` implements the **Bucy-Joseph stabilized covariance equation**:
 
-$$
+```math
 \mathbf{P}_{k|k} = (\mathbf{I} - \mathbf{K}_k \mathbf{H})\mathbf{P}_{k|k-1}(\mathbf{I} - \mathbf{K}_k \mathbf{H})^T + \mathbf{K}_k \mathbf{R} \mathbf{K}_k^T
-$$
+```
 
 #### Mathematical Term Breakdown for Joseph Update:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
 | :--- | :--- | :---: | :---: | :--- |
-| $\mathbf{P}_{k|k}$ | A posteriori error covariance matrix | $\mathbb{R}^{6 \times 6}$ | Mixed ($\text{m}^2, \text{m}^2/\text{s}, \text{m}^2/\text{s}^2$) | Filtered uncertainty of state estimate at step $k$ after incorporating measurement $\mathbf{z}_k$. |
-| $\mathbf{P}_{k|k-1}$ | A priori error covariance matrix | $\mathbb{R}^{6 \times 6}$ | Mixed ($\text{m}^2, \text{m}^2/\text{s}, \text{m}^2/\text{s}^2$) | Predicted uncertainty at step $k$ before measurement incorporation ($\mathbf{P}_{k|k-1} = \mathbf{F} \mathbf{P}_{k-1|k-1} \mathbf{F}^T + \mathbf{Q}$). |
+| $\mathbf{P}_{k\vert k}$ | A posteriori error covariance matrix | $\mathbb{R}^{6 \times 6}$ | Mixed ($\text{m}^2, \text{m}^2/\text{s}, \text{m}^2/\text{s}^2$) | Filtered uncertainty of state estimate at step $k$ after incorporating measurement $\mathbf{z}_k$. |
+| $\mathbf{P}_{k\vert k-1}$ | A priori error covariance matrix | $\mathbb{R}^{6 \times 6}$ | Mixed ($\text{m}^2, \text{m}^2/\text{s}, \text{m}^2/\text{s}^2$) | Predicted uncertainty at step $k$ before measurement incorporation ($\mathbf{P}_{k\vert k-1} = \mathbf{F} \mathbf{P}_{k-1\vert k-1} \mathbf{F}^T + \mathbf{Q}$). |
 | $\mathbf{I}$ | Identity matrix | $\mathbb{R}^{6 \times 6}$ | Dimensionless | 6-dimensional identity matrix. |
-| $\mathbf{K}_k$ | Optimal Kalman gain matrix | $\mathbb{R}^{6 \times 3}$ | Mixed (dimensionless, $1/\text{s}$) | Weights the measurement residual against model predictions: $\mathbf{K}_k = \mathbf{P}_{k|k-1} \mathbf{H}^T \mathbf{S}_k^{-1}$. |
+| $\mathbf{K}_k$ | Optimal Kalman gain matrix | $\mathbb{R}^{6 \times 3}$ | Mixed (dimensionless, $1/\text{s}$) | Weights the measurement residual against model predictions: $\mathbf{K}_k = \mathbf{P}_{k\vert k-1} \mathbf{H}^T \mathbf{S}_k^{-1}$. |
 | $\mathbf{H}$ | Observation matrix | $\mathbb{R}^{3 \times 6}$ | Dimensionless | Observation projection matrix $[\mathbf{I}_{3\times3} \quad \mathbf{0}_{3\times3}]$. |
 | $(\mathbf{I} - \mathbf{K}_k \mathbf{H})$ | Closed-loop error state matrix | $\mathbb{R}^{6 \times 6}$ | Dimensionless | Governs propagation of estimation error under optimal feedback. |
 | $(\cdot)^T$ | Matrix transpose operator | Operator | — | Swaps rows and columns to formulate symmetric congruence transformations. |
@@ -320,16 +326,16 @@ $$
 #### 1.0-Second Forward Trajectory Projection:
 Once the Kalman Filter estimates filtered obstacle position $\hat{\mathbf{p}}(t)$ and velocity $\hat{\mathbf{v}}(t)$, the tracking subsystem projects the obstacle's future spatial coordinates across a forward lookahead horizon $\tau \in [0, 1.0\text{ s}]$:
 
-$$
+```math
 \hat{\mathbf{p}}(t + \tau) = \hat{\mathbf{p}}(t) + \hat{\mathbf{v}}(t) \cdot \tau
-$$
+```
 
 #### Mathematical Term Breakdown for Trajectory Projection:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
 | :--- | :--- | :---: | :---: | :--- |
 | $\hat{\mathbf{p}}(t + \tau)$ | Projected future 3D position vector | $\mathbb{R}^3$ | $\text{m}$ (meters) | Future spatial coordinate of obstacle at future time $t + \tau$. |
-| $\hat{\mathbf{p}}(t)$ | Filtered current 3D position estimate | $\mathbb{R}^3$ | $\text{m}$ (meters) | Position extracted from Kalman state $\hat{\mathbf{x}}_{k|k}[0:3]$ at current time $t$. |
-| $\hat{\mathbf{v}}(t)$ | Filtered current 3D velocity estimate | $\mathbb{R}^3$ | $\text{m/s}$ (meters / second) | Velocity extracted from Kalman state $\hat{\mathbf{x}}_{k|k}[3:6]$ at current time $t$. |
+| $\hat{\mathbf{p}}(t)$ | Filtered current 3D position estimate | $\mathbb{R}^3$ | $\text{m}$ (meters) | Position extracted from Kalman state $\hat{\mathbf{x}}_{k\vert k}[0:3]$ at current time $t$. |
+| $\hat{\mathbf{v}}(t)$ | Filtered current 3D velocity estimate | $\mathbb{R}^3$ | $\text{m/s}$ (meters / second) | Velocity extracted from Kalman state $\hat{\mathbf{x}}_{k\vert k}[3:6]$ at current time $t$. |
 | $t$ | Current simulation timestamp | $\mathbb{R}^+$ (Scalar) | $\text{s}$ (seconds) | Elapsed physical simulation time. |
 | $\tau$ | Forward projection lookahead horizon | $\mathbb{R}^+$ (Scalar) | $\text{s}$ (seconds) | Lookahead parameter evaluated from $\tau = 0.0\text{ s}$ to $\tau = 1.0\text{ s}$ (48 control cycles). |
 
@@ -338,13 +344,13 @@ This forward trajectory creates a dynamic swept safety cylinder in space, allowi
 #### Relative Closing Velocity Calculation:
 The closing velocity measures how rapidly an obstacle is collapsing the distance toward the quadcopter along a specific LiDAR sensor sector:
 
-$$
+```math
 \mathbf{v}_{\text{rel}} = \hat{\mathbf{v}}_{\text{obs}} - \mathbf{v}_{\text{drone}}
-$$
+```
 
-$$
+```math
 v_{\text{closing}} = - (\mathbf{v}_{\text{rel}} \cdot \hat{\mathbf{d}}_{\text{sector}})
-$$
+```
 
 #### Mathematical Term Breakdown for Closing Velocity:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -360,7 +366,10 @@ $$
 **Decision & Sector Inflation Logic**:
 * If $v_{\text{closing}} > 0.05\text{ m/s}$, the obstacle is rapidly converging toward the drone on that sector.
 * The system applies **Dynamic Sector Inflation**:
-  $$d_{\text{danger,eff}} = d_{\text{danger}} + \gamma \cdot \max(0, v_{\text{closing}}) \cdot \tau_{\text{proj}}$$
+
+  ```math
+  d_{\text{danger,eff}} = d_{\text{danger}} + \gamma \cdot \max(0, v_{\text{closing}}) \cdot \tau_{\text{proj}}
+  ```
 
 #### Mathematical Term Breakdown for Dynamic Sector Inflation:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -379,9 +388,9 @@ $$
 
 In `simulation/drone_sim.py`, dynamic obstacles do not adhere to predictable, deterministic sinusoidal motions. Real-world obstacles wander, experience wind buffeting, and exhibit sensor measurement fluctuations. This behavior is modeled using a continuous **Ornstein-Uhlenbeck (OU) mean-reverting stochastic process**:
 
-$$
+```math
 dX_t = -\theta X_t dt + \sigma_{\text{obs}} dW_t
-$$
+```
 
 #### Mathematical Term Breakdown for Ornstein-Uhlenbeck Process:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -427,15 +436,15 @@ The Artificial Potential Field (APF) treats the quadcopter as a point mass navig
 #### Attractive Potential & Gradient Steering Force:
 The goal position $\mathbf{p}_{\text{goal}} \in \mathbb{R}^3$ acts as a global potential well with quadratic growth:
 
-$$
+```math
 U_{\text{att}}(\mathbf{p}) = \frac{1}{2} k_{\text{att}} \|\mathbf{p} - \mathbf{p}_{\text{goal}}\|^2
-$$
+```
 
 The resulting attractive force $\mathbf{F}_{\text{att}} \in \mathbb{R}^3$ points in the direction of steepest potential descent ($-\nabla U_{\text{att}}$):
 
-$$
+```math
 \mathbf{F}_{\text{att}}(\mathbf{p}) = -\nabla U_{\text{att}}(\mathbf{p}) = -k_{\text{att}} (\mathbf{p} - \mathbf{p}_{\text{goal}}) = k_{\text{att}} (\mathbf{p}_{\text{goal}} - \mathbf{p})
-$$
+```
 
 #### Mathematical Term Breakdown for Attractive Potential & Force:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -445,7 +454,7 @@ $$
 | $k_{\text{att}}$ | Attractive proportional spring gain | $\mathbb{R}^+$ (Scalar) | $\text{N/m}$ (stiffness) | Proportional attraction gain ($k_{\text{att}} = 1.25\text{ N/m}$) establishing nominal pull toward goal. |
 | $\mathbf{p}$ | Quadcopter 3D spatial position vector | $\mathbb{R}^3$ | $\text{m}$ (meters) | Current center-of-mass coordinates $[x, y, z]^T$ in inertial world frame. |
 | $\mathbf{p}_{\text{goal}}$ | Target waypoint position vector | $\mathbb{R}^3$ | $\text{m}$ (meters) | Destination coordinates $[x_{\text{goal}}, y_{\text{goal}}, z_{\text{goal}}]^T$ (e.g. $[6.0, 0.0, 1.0]^T\text{ m}$). |
-| $\|\mathbf{p} - \mathbf{p}_{\text{goal}}\|$ | Euclidean distance to destination | $\mathbb{R}^+$ (Scalar) | $\text{m}$ (meters) | Euclidean $L_2$ norm: $\sqrt{(x - x_g)^2 + (y - y_g)^2 + (z - z_g)^2}$. |
+| $\Vert \mathbf{p} - \mathbf{p}_{\text{goal}}\Vert $ | Euclidean distance to destination | $\mathbb{R}^+$ (Scalar) | $\text{m}$ (meters) | Euclidean $L_2$ norm: $\sqrt{(x - x_g)^2 + (y - y_g)^2 + (z - z_g)^2}$. |
 | $\mathbf{F}_{\text{att}}(\mathbf{p})$ | 3D Attractive virtual steering force | $\mathbb{R}^3$ | $\text{N}$ (Newtons) | Virtual force pulling the drone toward the waypoint along line of sight. |
 | $-\nabla$ | Negative spatial gradient operator | Operator | $\text{m}^{-1}$ ($1/\text{m}$) | Vector operator $[-\frac{\partial}{\partial x}, -\frac{\partial}{\partial y}, -\frac{\partial}{\partial z}]^T$ directing force toward lowest potential. |
 | $(\mathbf{p}_{\text{goal}} - \mathbf{p})$ | 3D Displacement error vector | $\mathbb{R}^3$ | $\text{m}$ (meters) | Directional vector pointing from drone's current position toward the goal. |
@@ -455,26 +464,26 @@ $$
 #### Repulsive Potential & Hyperbolic Barrier Force:
 Obstacle surfaces detected by the LiDAR array exert repulsive potential fields active only within an influence horizon $d_0 = 1.20\text{ m}$:
 
-$$
-U_{\text{rep},i}(\mathbf{p}) = \begin{cases} 
-\frac{1}{2} k_{\text{rep}} \left(\frac{1}{d_i(\mathbf{p})} - \frac{1}{d_0}\right)^2 & \text{if } d_i(\mathbf{p}) \le d_0 \\ 
-0 & \text{if } d_i(\mathbf{p}) > d_0 
+```math
+U_{\text{rep},i}(\mathbf{p}) = \begin{cases}
+\frac{1}{2} k_{\text{rep}} \left(\frac{1}{d_i(\mathbf{p})} - \frac{1}{d_0}\right)^2 & \text{if } d_i(\mathbf{p}) \le d_0 \\
+0 & \text{if } d_i(\mathbf{p}) > d_0
 \end{cases}
-$$
+```
 
 where $d_i(\mathbf{p}) = \|\mathbf{p} - \mathbf{p}_{\text{obs},i}\|$ is the Euclidean distance from the drone to obstacle point $i$, and $k_{\text{rep}} = 0.85$ is the repulsive gain.
 
 Applying the chain rule, the gradient of Euclidean distance with respect to drone position is the outward unit normal vector:
 
-$$
+```math
 \nabla d_i(\mathbf{p}) = \frac{\mathbf{p} - \mathbf{p}_{\text{obs},i}}{\|\mathbf{p} - \mathbf{p}_{\text{obs},i}\|} = \hat{\mathbf{n}}_i
-$$
+```
 
 Taking the negative gradient of $U_{\text{rep},i}$ yields the repulsive force vector:
 
-$$
+```math
 \mathbf{F}_{\text{rep},i}(\mathbf{p}) = -\nabla U_{\text{rep},i}(\mathbf{p}) = k_{\text{rep}} \left(\frac{1}{d_i(\mathbf{p})} - \frac{1}{d_0}\right) \frac{1}{d_i(\mathbf{p})^2} \frac{\mathbf{p} - \mathbf{p}_{\text{obs},i}}{\|\mathbf{p} - \mathbf{p}_{\text{obs},i}\|}
-$$
+```
 
 #### Mathematical Term Breakdown for Repulsive Potential & Force:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -487,7 +496,7 @@ $$
 | $\left(\frac{1}{d_i} - \frac{1}{d_0}\right)$ | Boundary regularization term | $\mathbb{R}^+$ (Scalar) | $\text{m}^{-1}$ ($1/\text{m}$) | Ensures potential smoothly vanishes to zero at $d_i = d_0$, eliminating force step discontinuities. |
 | $\frac{1}{d_i^2}$ | Inverse-square hyperbolic barrier | $\mathbb{R}^+$ (Scalar) | $\text{m}^{-2}$ ($1/\text{m}^2$) | Accelerates repulsive force toward infinity as $d_i \to 0$, preventing boundary penetration. |
 | $\nabla d_i(\mathbf{p})$ | Spatial gradient of distance function | $\mathbb{R}^3$ | Dimensionless | Spatial derivative pointing along steepest increase of distance away from obstacle. |
-| $\hat{\mathbf{n}}_i$ | Outward unit normal vector | $\mathbb{R}^3$ | Dimensionless | Radial unit vector $\frac{\mathbf{p} - \mathbf{p}_{\text{obs},i}}{\|\mathbf{p} - \mathbf{p}_{\text{obs},i}\|}$ pushing the drone directly away from obstacle hit $i$. |
+| $\hat{\mathbf{n}}_i$ | Outward unit normal vector | $\mathbb{R}^3$ | Dimensionless | Radial unit vector $\frac{\mathbf{p} - \mathbf{p}_{\text{obs},i}}{\Vert \mathbf{p} - \mathbf{p}_{\text{obs},i}\Vert }$ pushing the drone directly away from obstacle hit $i$. |
 | $\mathbf{F}_{\text{rep},i}(\mathbf{p})$ | 3D Repulsive force vector from contact $i$ | $\mathbb{R}^3$ | $\text{N}$ (Newtons) | Directed repulsive force pushing drone radially away from obstacle surface $i$. |
 
 ---
@@ -495,15 +504,15 @@ $$
 #### Resultant Net Force & Velocity Setpoint:
 The total steering force is the vector superposition of goal attraction and all active repulsive obstacle contacts:
 
-$$
+```math
 \mathbf{F}_{\text{total}}(\mathbf{p}) = \mathbf{F}_{\text{att}}(\mathbf{p}) + \sum_{i=1}^{N_{\text{obs}}} \mathbf{F}_{\text{rep},i}(\mathbf{p})
-$$
+```
 
 The controller converts this net force into a normalized velocity setpoint bounded by maximum cruise speed $v_{\text{max}} = 1.20\text{ m/s}$:
 
-$$
+```math
 \mathbf{v}_{\text{des}} = v_{\text{max}} \cdot \frac{\mathbf{F}_{\text{total}}(\mathbf{p})}{\|\mathbf{F}_{\text{total}}(\mathbf{p})\|}
-$$
+```
 
 #### Mathematical Term Breakdown for Net Force & Desired Velocity:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -512,7 +521,7 @@ $$
 | $N_{\text{obs}}$ | Number of active obstacle contacts | $\mathbb{Z}^+$ (Integer) | Dimensionless (count) | Count of LiDAR beam hits detecting obstacle surfaces within boundary $d_0 = 1.20\text{ m}$. |
 | $\mathbf{v}_{\text{des}}$ | Commanded 3D linear velocity setpoint | $\mathbb{R}^3$ | $\text{m/s}$ (meters / second) | Desired velocity vector fed directly into the SE(3) translational tracking controller. |
 | $v_{\text{max}}$ | Maximum nominal cruising speed | $\mathbb{R}^+$ (Scalar) | $\text{m/s}$ (meters / second) | Cruise speed ceiling ($v_{\text{max}} = 1.20\text{ m/s}$) ensuring stable aerodynamic flight. |
-| $\frac{\mathbf{F}_{\text{total}}}{\|\mathbf{F}_{\text{total}}\|}$ | Unit direction vector of net force | $\mathbb{R}^3$ | Dimensionless | Normalized directional unit vector defining desired flight heading. |
+| $\frac{\mathbf{F}_{\text{total}}}{\Vert \mathbf{F}_{\text{total}}\Vert }$ | Unit direction vector of net force | $\mathbb{R}^3$ | Dimensionless | Normalized directional unit vector defining desired flight heading. |
 
 #### Local Minima Handling:
 In symmetric concave geometries (such as dead-end U-traps), the attractive force pointing toward the goal directly opposes the repulsive forces from symmetric side walls, causing $\mathbf{F}_{\text{total}} \to \mathbf{0}$. To escape stagnation, the APF module interfaces with the **Dead-End Monitor**: when velocity remains near zero ($\|\mathbf{v}\| < 0.08\text{ m/s}$) for $> 1.5\text{ s}$, it injects a transverse orthogonal force perturbation $\mathbf{F}_{\text{escape}} \perp (\mathbf{p}_{\text{goal}} - \mathbf{p})$ or triggers a 360° perimeter scan to climb over the obstacle.
@@ -527,9 +536,9 @@ Samples a grid of linear and angular velocities within the drone's reachable acc
 ### 5. SINDy-Enhanced DWA (`avoidance/sindy_dwa_avoidance.py`)
 Standard Dynamic Window Approach implementations assume simplified linear kinematic equations (e.g., Dubins car or uncoupled point mass), failing to account for rotor-induced drag, aerodynamic ground effect, and roll-pitch-yaw gyroscopic cross-coupling. SINDy-Enhanced DWA integrates **Sparse Identification of Nonlinear Dynamics (SINDy)** to discover true flight dynamics directly from simulation telemetry:
 
-$$
+```math
 \dot{\mathbf{x}} = \mathbf{f}(\mathbf{x}, \mathbf{u}) \approx \mathbf{\Theta}(\mathbf{x}, \mathbf{u}) \mathbf{\Xi}
-$$
+```
 
 #### Mathematical Term Breakdown for SINDy Model:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -545,7 +554,10 @@ $$
 1. **Telemetry Data**: Flight state logs $\mathbf{X} \in \mathbb{R}^{M \times 6}$ and control commands $\mathbf{U} \in \mathbb{R}^{M \times 4}$ are recorded at 48 Hz across dynamic maneuvers ($M$ time samples, typically $M \approx 2400$ for a 50-second run).
 2. **Candidate Function Library Matrix $\mathbf{\Theta}(\mathbf{X}, \mathbf{U}) \in \mathbb{R}^{M \times K}$**:
    Constructed with non-linear candidate functions:
-   $$\mathbf{\Theta}(\mathbf{X}, \mathbf{U}) = \begin{bmatrix} \mathbf{1} & \mathbf{X} & \mathbf{U} & \mathbf{X}^2 & \mathbf{X} \otimes \mathbf{U} & \sin(\mathbf{X}) & \cos(\mathbf{X}) & \mathbf{X} |\mathbf{X}| \end{bmatrix}$$
+
+   ```math
+   \mathbf{\Theta}(\mathbf{X}, \mathbf{U}) = \begin{bmatrix} \mathbf{1} & \mathbf{X} & \mathbf{U} & \mathbf{X}^2 & \mathbf{X} \otimes \mathbf{U} & \sin(\mathbf{X}) & \cos(\mathbf{X}) & \mathbf{X} |\mathbf{X}| \end{bmatrix}
+   ```
 
 #### Mathematical Term Breakdown for Candidate Library Functions:
 | Library Block | Mathematical Expression | Dimensions in Matrix | Physical SI Units | Dynamic Phenomenon Represented |
@@ -556,14 +568,14 @@ $$
 | $\mathbf{X}^2$ | $[x^2, y^2, \dots, v_z^2]$ | $\mathbb{R}^{M \times 6}$ | $\text{m}^2, \text{m}^2/\text{s}^2$ | Centripetal acceleration components and quadratic non-linear stiffness. |
 | $\mathbf{X} \otimes \mathbf{U}$ | Kronecker product $x_i u_j$ | $\mathbb{R}^{M \times 24}$ | $\text{m}\cdot\text{N}, \text{m/s}\cdot\text{N}$ | Control-state bilinear cross-coupling (e.g. forward velocity roll-coupling under thrust). |
 | $\sin(\mathbf{X}), \cos(\mathbf{X})$ | $[\sin(x), \dots, \cos(v_z)]$ | $\mathbb{R}^{M \times 12}$ | Dimensionless | Trigonometric attitude projection terms and Euler angle geometric couplings. |
-| $\mathbf{X} |\mathbf{X}|$ | $[v_x|v_x|, v_y|v_y|, v_z|v_z|]$ | $\mathbb{R}^{M \times 3}$ | $\text{m}^2/\text{s}^2$ | **Nonlinear Aerodynamic Drag**: captures quadratic air resistance $-\frac{1}{2}\rho C_d A v |v|$ with proper physical sign preservation. |
+| $\mathbf{X} \vert \mathbf{X}\vert $ | $[v_x\vert v_x\vert , v_y\vert v_y\vert , v_z\vert v_z\vert ]$ | $\mathbb{R}^{M \times 3}$ | $\text{m}^2/\text{s}^2$ | **Nonlinear Aerodynamic Drag**: captures quadratic air resistance $-\frac{1}{2}\rho C_d A v \vert v\vert $ with proper physical sign preservation. |
 
 3. **Sparse Regression via STLSQ**:
    The sparse coefficient matrix $\mathbf{\Xi} \in \mathbb{R}^{K \times 6}$ is solved using **Sequential Thresholded Least Squares (STLSQ)**:
 
-   $$
+   ```math
    \min_{\mathbf{\Xi}} \frac{1}{2} \|\dot{\mathbf{X}} - \mathbf{\Theta}(\mathbf{X}, \mathbf{U})\mathbf{\Xi}\|_F^2 + \lambda \|\mathbf{\Xi}\|_1
-   $$
+   ```
 
 #### Mathematical Term Breakdown for STLSQ Optimization:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -571,23 +583,23 @@ $$
 | $\dot{\mathbf{X}}$ | State derivative time-history matrix | $\mathbb{R}^{M \times 6}$ | $[\text{m/s}, \text{m/s}^2]$ | Numerically differentiated state history from MuJoCo telemetry logs over $M$ samples. |
 | $\mathbf{\Theta}(\mathbf{X}, \mathbf{U})$ | Candidate function evaluation matrix | $\mathbb{R}^{M \times K}$ | Mixed | Evaluated candidate library matrix across all $M$ flight data rows ($K \approx 56$ columns). |
 | $\mathbf{\Xi}$ | Dynamic coefficient matrix | $\mathbb{R}^{K \times 6}$ | Mixed | Matrix of polynomial/aerodynamic coefficients multiplying the candidate basis functions. |
-| $\|\cdot\|_F$ | Frobenius matrix norm | Norm operator | Units of $\dot{\mathbf{X}}$ | Measures the total root-mean-squared dynamic reconstruction error: $\sqrt{\sum_{i,j} (\dot{X}_{ij} - (\mathbf{\Theta}\mathbf{\Xi})_{ij})^2}$. |
+| $\Vert \cdot\Vert _F$ | Frobenius matrix norm | Norm operator | Units of $\dot{\mathbf{X}}$ | Measures the total root-mean-squared dynamic reconstruction error: $\sqrt{\sum_{i,j} (\dot{X}_{ij} - (\mathbf{\Theta}\mathbf{\Xi})_{ij})^2}$. |
 | $\lambda$ | $L_1$ Sparsity penalty parameter | $\mathbb{R}^+$ (Scalar) | Regularization scale | Sparsity-inducing hyperparameter ($\lambda = 0.05$); drives non-essential coefficients to zero. |
-| $\|\mathbf{\Xi}\|_1$ | Element-wise $L_1$ matrix norm | Norm operator | Mixed | Sum of absolute values $\sum_{i,j} |\Xi_{ij}|$ enforcing parsimonious model selection. |
+| $\Vert \mathbf{\Xi}\Vert _1$ | Element-wise $L_1$ matrix norm | Norm operator | Mixed | Sum of absolute values $\sum_{i,j} \vert \Xi_{ij}\vert $ enforcing parsimonious model selection. |
 | $\epsilon$ | Hard thresholding cutoff value | $\mathbb{R}^+$ (Scalar) | Mixed | Threshold parameter ($\epsilon = 0.08$); coefficients below $\epsilon$ are clamped to exact zero at each STLSQ step. |
 
 #### Forward Trajectory Rollout Optimization:
 During avoidance planning, candidate velocities $(v, \omega)$ in the dynamic window $V_d$ are numerically integrated forward using the discovered physical model:
 
-$$
+```math
 \mathbf{x}_{\text{pred}}(t + \tau) = \mathbf{x}(t) + \int_{0}^{\tau} \mathbf{\Theta}(\mathbf{x}_{\text{pred}}, \mathbf{u}) \mathbf{\Xi} \, dt, \quad \tau \in [0, 1.2\text{ s}]
-$$
+```
 
 The optimal trajectory maximizes the composite objective function:
 
-$$
+```math
 J(v, \omega) = \alpha \cdot \text{heading}(v, \omega) + \beta \cdot \text{clearance}(v, \omega) + \gamma \cdot \text{velocity}(v, \omega)
-$$
+```
 
 #### Mathematical Term Breakdown for DWA Objective Function:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -596,7 +608,7 @@ $$
 | $v$ | Candidate linear cruise speed | $\mathbb{R}$ (Scalar) | $\text{m/s}$ (meters / second) | Candidate translational speed sampled within reachable dynamic window $[v_{\text{min}}, v_{\text{max}}]$. |
 | $\omega$ | Candidate yaw angular velocity | $\mathbb{R}$ (Scalar) | $\text{rad/s}$ (radians / second) | Candidate turn rate sampled within reachable window $[\omega_{\text{min}}, \omega_{\text{max}}]$. |
 | $\alpha$ | Heading alignment weight factor | $\mathbb{R}^+$ (Scalar) | Dimensionless | Weight for target waypoint alignment ($\alpha = 0.35$). |
-| $\text{heading}(v, \omega)$ | Normalized heading alignment metric | $\mathbb{R} \in [0, 1]$ | Dimensionless | Metric $1 - \frac{|\psi_{\text{pred}} - \psi_{\text{goal}}|}{\pi}$, scoring $1.0$ when pointing directly toward goal. |
+| $\text{heading}(v, \omega)$ | Normalized heading alignment metric | $\mathbb{R} \in [0, 1]$ | Dimensionless | Metric $1 - \frac{\vert \psi_{\text{pred}} - \psi_{\text{goal}}\vert }{\pi}$, scoring $1.0$ when pointing directly toward goal. |
 | $\beta$ | Obstacle clearance weight factor | $\mathbb{R}^+$ (Scalar) | Dimensionless | Weight for maximizing clearance from detected obstacle boundaries ($\beta = 0.45$). |
 | $\text{clearance}(v, \omega)$ | Normalized minimum clearance metric | $\mathbb{R} \in [0, 1]$ | Dimensionless | Metric $\min_i \frac{d_i(v, \omega)}{d_{\text{safe}}}$, rewarding trajectories that keep distance from obstacles. |
 | $\gamma$ | Forward speed weight factor | $\mathbb{R}^+$ (Scalar) | Dimensionless | Weight for flight efficiency and swift progress ($\gamma = 0.20$). |
@@ -1096,15 +1108,15 @@ The quadcopter is governed by non-linear rigid-body dynamics on the Special Eucl
 #### A. Translational Position Error Dynamics & Desired Force Vector:
 Given current position $\mathbf{p} \in \mathbb{R}^3$, velocity $\mathbf{v} \in \mathbb{R}^3$, and reference trajectory setpoints $(\mathbf{p}_{\text{des}}, \mathbf{v}_{\text{des}}, \mathbf{a}_{\text{des}})$, the translational error states are defined as:
 
-$$
+```math
 \mathbf{e}_p = \mathbf{p} - \mathbf{p}_{\text{des}}, \quad \mathbf{e}_v = \mathbf{v} - \mathbf{v}_{\text{des}}
-$$
+```
 
 The desired net control force vector $\mathbf{F}_{\text{des}} \in \mathbb{R}^3$ in the inertial world frame is computed as:
 
-$$
+```math
 \mathbf{F}_{\text{des}} = -k_p \mathbf{e}_p - k_v \mathbf{e}_v + m g \hat{\mathbf{z}}_W + m \mathbf{a}_{\text{des}}
-$$
+```
 
 #### Mathematical Term Breakdown for Translational Dynamics & Desired Force:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -1134,9 +1146,9 @@ The quadcopter's 4 fixed rotors can only produce thrust aligned with the vehicle
 
 The required scalar collective thrust $T$ is obtained by projecting the desired force vector $\mathbf{F}_{\text{des}}$ onto the drone's actual current body $Z$-axis:
 
-$$
+```math
 T = \mathbf{F}_{\text{des}} \cdot (\mathbf{R} \hat{\mathbf{z}}_B) = \mathbf{F}_{\text{des}} \cdot \mathbf{z}_B
-$$
+```
 
 #### Mathematical Term Breakdown for Collective Thrust:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -1152,37 +1164,37 @@ $$
 #### C. Desired Attitude Orthonormal Triad Construction:
 To orient thrust toward $\mathbf{F}_{\text{des}}$, the desired body $Z$-axis $\mathbf{z}_{B,\text{des}}$ must align with the normalized force direction:
 
-$$
+```math
 \mathbf{z}_{B,\text{des}} = \frac{\mathbf{F}_{\text{des}}}{\|\mathbf{F}_{\text{des}}\|}
-$$
+```
 
 Given a desired heading yaw angle $\psi_{\text{des}}$, an auxiliary reference vector $\mathbf{x}_C$ is defined in the horizontal plane:
 
-$$
+```math
 \mathbf{x}_C = \begin{bmatrix} \cos\psi_{\text{des}} & \sin\psi_{\text{des}} & 0 \end{bmatrix}^T
-$$
+```
 
 The remaining orthonormal body axes $\mathbf{y}_{B,\text{des}}$ and $\mathbf{x}_{B,\text{des}}$ are constructed via sequential Gram-Schmidt vector cross products:
 
-$$
+```math
 \mathbf{y}_{B,\text{des}} = \frac{\mathbf{z}_{B,\text{des}} \times \mathbf{x}_C}{\|\mathbf{z}_{B,\text{des}} \times \mathbf{x}_C\|}
-$$
+```
 
-$$
+```math
 \mathbf{x}_{B,\text{des}} = \mathbf{y}_{B,\text{des}} \times \mathbf{z}_{B,\text{des}}
-$$
+```
 
 Assembling these column vectors forms the complete singularity-free desired rotation matrix:
 
-$$
+```math
 \mathbf{R}_{\text{des}} = \begin{bmatrix} \mathbf{x}_{B,\text{des}} & \mathbf{y}_{B,\text{des}} & \mathbf{z}_{B,\text{des}} \end{bmatrix} \in \mathrm{SO}(3)
-$$
+```
 
 #### Mathematical Term Breakdown for Attitude Triad Construction:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
 | :--- | :--- | :---: | :---: | :--- |
 | $\mathbf{z}_{B,\text{des}}$ | Desired body $Z$-axis unit vector | $\mathbb{R}^3$ | Dimensionless | Unit vector pointing in the direction of required net accelerating force in world frame. |
-| $\|\mathbf{F}_{\text{des}}\|$ | Norm of desired force vector | $\mathbb{R}^+$ (Scalar) | $\text{N}$ (Newtons) | Total magnitude of required force vector $\sqrt{F_{x}^2 + F_{y}^2 + F_{z}^2}$. |
+| $\Vert \mathbf{F}_{\text{des}}\Vert $ | Norm of desired force vector | $\mathbb{R}^+$ (Scalar) | $\text{N}$ (Newtons) | Total magnitude of required force vector $\sqrt{F_{x}^2 + F_{y}^2 + F_{z}^2}$. |
 | $\psi_{\text{des}}$ | Commanded target heading (yaw) | $\mathbb{R}$ (Scalar) | $\text{rad}$ (radians) | Desired azimuthal flight direction in the horizontal $X$-$Y$ plane. |
 | $\mathbf{x}_C$ | Auxiliary planar heading reference | $\mathbb{R}^3$ | Dimensionless | Unit vector pointing in direction of desired yaw angle in horizontal plane. |
 | $\times$ | Vector cross product operator | Operator | — | Computes orthogonal normal vector to span perpendicular body coordinate axes. |
@@ -1195,24 +1207,27 @@ $$
 #### D. $\mathrm{SO}(3)$ Rotational Tracking & Moment Control:
 The attitude orientation error matrix on the Lie group $\mathrm{SO}(3)$ is converted to a vector error $\mathbf{e}_R \in \mathbb{R}^3$ using the vee operator $(\cdot)^\vee$:
 
-$$
+```math
 \mathbf{e}_R = \frac{1}{2} \left( \mathbf{R}_{\text{des}}^T \mathbf{R} - \mathbf{R}^T \mathbf{R}_{\text{des}} \right)^\vee
-$$
+```
 
 where the vee operator maps skew-symmetric Lie algebra elements $\mathfrak{so}(3)$ to Euclidean angular vectors:
-$$\begin{bmatrix} 0 & -e_z & e_y \\ e_z & 0 & -e_x \\ -e_y & e_x & 0 \end{bmatrix}^\vee = \begin{bmatrix} e_x \\ e_y \\ e_z \end{bmatrix}$$
+
+```math
+\begin{bmatrix} 0 & -e_z & e_y \\ e_z & 0 & -e_x \\ -e_y & e_x & 0 \end{bmatrix}^\vee = \begin{bmatrix} e_x \\ e_y \\ e_z \end{bmatrix}
+```
 
 The angular rate tracking error is:
 
-$$
+```math
 \mathbf{e}_\Omega = \boldsymbol{\Omega} - \mathbf{R}^T \mathbf{R}_{\text{des}} \boldsymbol{\Omega}_{\text{des}}
-$$
+```
 
 The commanded three-axis body torque vector $\boldsymbol{\tau} = \begin{bmatrix} \tau_x & \tau_y & \tau_z \end{bmatrix}^T$ is computed as:
 
-$$
+```math
 \boldsymbol{\tau} = -k_R \mathbf{e}_R - k_\Omega \mathbf{e}_\Omega + \boldsymbol{\Omega} \times (\mathbf{J} \boldsymbol{\Omega})
-$$
+```
 
 #### Mathematical Term Breakdown for Attitude Error & Moments:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -1238,14 +1253,14 @@ $$
 ### 2. Motor Allocation & Mixer Matrix
 The four individual rotor thrusts $\mathbf{f} = \begin{bmatrix} f_1 & f_2 & f_3 & f_4 \end{bmatrix}^T$ required to achieve collective thrust $T$ and control moments $\boldsymbol{\tau}$ are resolved via the linear allocation mixer:
 
-$$
-\begin{bmatrix} T \\ \tau_x \\ \tau_y \\ \tau_z \end{bmatrix} = \begin{bmatrix} 
-1 & 1 & 1 & 1 \\ 
--\frac{d}{\sqrt{2}} & \frac{d}{\sqrt{2}} & \frac{d}{\sqrt{2}} & -\frac{d}{\sqrt{2}} \\ 
-\frac{d}{\sqrt{2}} & -\frac{d}{\sqrt{2}} & \frac{d}{\sqrt{2}} & -\frac{d}{\sqrt{2}} \\ 
--k_m & -k_m & k_m & k_m 
+```math
+\begin{bmatrix} T \\ \tau_x \\ \tau_y \\ \tau_z \end{bmatrix} = \begin{bmatrix}
+1 & 1 & 1 & 1 \\
+\frac{d}{\sqrt{2}} & -\frac{d}{\sqrt{2}} & \frac{d}{\sqrt{2}} & -\frac{d}{\sqrt{2}} \\
+-\frac{d}{\sqrt{2}} & -\frac{d}{\sqrt{2}} & \frac{d}{\sqrt{2}} & \frac{d}{\sqrt{2}} \\
+k_m & -k_m & -k_m & k_m
 \end{bmatrix} \begin{bmatrix} f_1 \\ f_2 \\ f_3 \\ f_4 \end{bmatrix}
-$$
+```
 
 #### Mathematical Term Breakdown for Motor Mixer Matrix:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
@@ -1261,9 +1276,9 @@ $$
 
 **Detailed Mechanical Row Interpretation**:
 * **Row 1 (Total Thrust $T$)**: Sum of all 4 individual rotor forces: $T = f_1 + f_2 + f_3 + f_4$.
-* **Row 2 (Roll Moment $\tau_x$)**: Generated by differential thrust between left and right motor pairs. In an 'X' frame with arm length $d = 0.040\text{ m}$, the perpendicular moment arm is $\frac{d}{\sqrt{2}} \approx 0.02828\text{ m}$.
-* **Row 3 (Pitch Moment $\tau_y$)**: Generated by differential thrust between front and rear motor pairs with perpendicular moment arm $\frac{d}{\sqrt{2}}$.
-* **Row 4 (Yaw Moment $\tau_z$)**: Generated by rotor aerodynamic reactive drag torque $Q_i = k_m f_i$, where $k_m = 0.00596\text{ m}$ is the torque-to-thrust ratio. Counter-clockwise motors (Motors 1 and 4) exert positive yaw torque on the airframe, while clockwise motors (Motors 2 and 3) exert negative yaw torque.
+* **Row 2 (Roll Moment $\tau_x$)**: Generated by differential thrust between the left motors (1, 3) and right motors (2, 4). In an 'X' frame with arm length $d = 0.040\text{ m}$, the perpendicular moment arm is $\frac{d}{\sqrt{2}} \approx 0.02828\text{ m}$.
+* **Row 3 (Pitch Moment $\tau_y$)**: Generated by differential thrust between the front motors (1, 2) and rear motors (3, 4) with perpendicular moment arm $\frac{d}{\sqrt{2}}$.
+* **Row 4 (Yaw Moment $\tau_z$)**: Generated by rotor aerodynamic reactive drag torque $Q_i = k_m f_i$, where $k_m = 0.00596\text{ m}$ is the torque-to-thrust ratio. Under the sign convention used here, counter-clockwise motors (Motors 1 and 4) contribute positive yaw torque ($+k_m$) and clockwise motors (Motors 2 and 3) contribute negative yaw torque ($-k_m$).
 
 The individual rotor thrust commands are bounded within physical limits $f_i \in [0.0, 0.155\text{ N}]$ and converted to motor PWM commands.
 
@@ -1275,47 +1290,47 @@ During each sensor observation cycle, the Kalman Filter updates its state throug
 #### Step 1: Innovation Residual ($\mathbf{y}_k \in \mathbb{R}^3$)
 Computes the spatial discrepancy between the noisy LiDAR measurement and the a priori position prediction:
 
-$$
+```math
 \mathbf{y}_k = \mathbf{z}_k - \mathbf{H} \hat{\mathbf{x}}_{k|k-1}
-$$
+```
 
 #### Step 2: Innovation Covariance ($\mathbf{S}_k \in \mathbb{R}^{3 \times 3}$)
 Measures the composite uncertainty of the residual by projecting a priori state covariance into measurement space and adding sensor noise:
 
-$$
+```math
 \mathbf{S}_k = \mathbf{H} \mathbf{P}_{k|k-1} \mathbf{H}^T + \mathbf{R}
-$$
+```
 
 #### Step 3: Optimal Kalman Gain Matrix ($\mathbf{K}_k \in \mathbb{R}^{6 \times 3}$)
 Calculates the optimal weighting between kinematic model prediction and new LiDAR observation:
 
-$$
+```math
 \mathbf{K}_k = \mathbf{P}_{k|k-1} \mathbf{H}^T \mathbf{S}_k^{-1}
-$$
+```
 
 * When sensor noise is high ($\mathbf{R}$ large), $\mathbf{K}_k \to \mathbf{0}$, favoring smooth model integration.
-* When prediction uncertainty is high ($\mathbf{P}_{k|k-1}$ large), $\mathbf{K}_k \to \mathbf{H}^{-1}$, favoring new sensor measurements.
+* When prediction uncertainty is high ($\mathbf{P}_{k|k-1}$ large), $\mathbf{K}_k \to \mathbf{H}^{+}$ (pseudo-inverse of $\mathbf{H}$), favoring new sensor measurements.
 
 #### Step 4: A Posteriori State Estimate Update ($\hat{\mathbf{x}}_{k|k} \in \mathbb{R}^6$)
 Updates both the position and unmeasured velocity states using the weighted innovation:
 
-$$
+```math
 \hat{\mathbf{x}}_{k|k} = \hat{\mathbf{x}}_{k|k-1} + \mathbf{K}_k \mathbf{y}_k
-$$
+```
 
 #### Mathematical Term Breakdown for Kalman Filter Estimation Steps:
 | Term / Symbol | Mathematical Description | Vector / Matrix Space | Physical SI Units | Simulation Interpretation & Role |
 | :--- | :--- | :---: | :---: | :--- |
-| $\mathbf{y}_k$ | Innovation residual vector | $\mathbb{R}^3$ | $\text{m}$ (meters) | Difference between observed LiDAR hit $\mathbf{z}_k$ and predicted obstacle position $\mathbf{H}\hat{\mathbf{x}}_{k|k-1}$. |
+| $\mathbf{y}_k$ | Innovation residual vector | $\mathbb{R}^3$ | $\text{m}$ (meters) | Difference between observed LiDAR hit $\mathbf{z}_k$ and predicted obstacle position $\mathbf{H}\hat{\mathbf{x}}_{k\vert k-1}$. |
 | $\mathbf{z}_k$ | Raw sensor measurement vector | $\mathbb{R}^3$ | $\text{m}$ (meters) | 3D position vector $[z_x, z_y, z_z]^T$ from the current LiDAR frame. |
-| $\hat{\mathbf{x}}_{k|k-1}$ | A priori state estimate vector | $\mathbb{R}^6$ | $[\text{m}, \text{m/s}]^T$ | State predicted from previous step prior to measurement incorporation ($\hat{\mathbf{x}}_{k|k-1} = \mathbf{F}\hat{\mathbf{x}}_{k-1|k-1}$). |
+| $\hat{\mathbf{x}}_{k\vert k-1}$ | A priori state estimate vector | $\mathbb{R}^6$ | $[\text{m}, \text{m/s}]^T$ | State predicted from previous step prior to measurement incorporation ($\hat{\mathbf{x}}_{k\vert k-1} = \mathbf{F}\hat{\mathbf{x}}_{k-1\vert k-1}$). |
 | $\mathbf{H}$ | Observation projection matrix | $\mathbb{R}^{3 \times 6}$ | Dimensionless | Projects 6-DOF state to 3D position subspace $[\mathbf{I}_{3\times3} \quad \mathbf{0}_{3\times3}]$. |
 | $\mathbf{S}_k$ | Innovation covariance matrix | $\mathbb{R}^{3 \times 3}$ | $\text{m}^2$ (meters squared) | Total expected variance of innovation residual $\mathbf{y}_k$, combining prediction uncertainty and sensor noise. |
-| $\mathbf{P}_{k|k-1}$ | A priori state error covariance | $\mathbb{R}^{6 \times 6}$ | Mixed ($\text{m}^2, \text{m}^2/\text{s}, \text{m}^2/\text{s}^2$) | Covariance matrix of state prediction error before incorporating current measurement. |
+| $\mathbf{P}_{k\vert k-1}$ | A priori state error covariance | $\mathbb{R}^{6 \times 6}$ | Mixed ($\text{m}^2, \text{m}^2/\text{s}, \text{m}^2/\text{s}^2$) | Covariance matrix of state prediction error before incorporating current measurement. |
 | $\mathbf{R}$ | Measurement noise covariance | $\mathbb{R}^{3 \times 3}$ | $\text{m}^2$ (meters squared) | Sensor noise covariance $\sigma_{\text{sensor}}^2 \mathbf{I}_{3\times3}$ ($0.06^2 \mathbf{I} \approx 0.0036 \mathbf{I}\text{ m}^2$). |
-| $\mathbf{K}_k$ | Optimal Kalman gain matrix | $\mathbb{R}^{6 \times 3}$ | Mixed (dimensionless, $1/\text{s}$) | Blends predicted model trajectory with fresh LiDAR point measurements to minimize trace of $\mathbf{P}_{k|k}$. |
+| $\mathbf{K}_k$ | Optimal Kalman gain matrix | $\mathbb{R}^{6 \times 3}$ | Mixed (dimensionless, $1/\text{s}$) | Blends predicted model trajectory with fresh LiDAR point measurements to minimize trace of $\mathbf{P}_{k\vert k}$. |
 | $\mathbf{S}_k^{-1}$ | Inverse innovation covariance matrix | $\mathbb{R}^{3 \times 3}$ | $\text{m}^{-2}$ ($1/\text{m}^2$) | Precision matrix weighting the spatial innovation vector. |
-| $\hat{\mathbf{x}}_{k|k}$ | A posteriori filtered state estimate | $\mathbb{R}^6$ | $[\text{m}, \text{m/s}]^T$ | Optimal filtered obstacle state incorporating measurement $\mathbf{z}_k$ at step $k$. |
+| $\hat{\mathbf{x}}_{k\vert k}$ | A posteriori filtered state estimate | $\mathbb{R}^6$ | $[\text{m}, \text{m/s}]^T$ | Optimal filtered obstacle state incorporating measurement $\mathbf{z}_k$ at step $k$. |
 
 The covariance matrix $\mathbf{P}_{k|k}$ is then updated using the numerically stabilized Joseph equation detailed in Section 5.
 
