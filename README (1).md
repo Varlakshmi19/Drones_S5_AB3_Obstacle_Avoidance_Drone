@@ -163,9 +163,9 @@ The $6 \times 6$ State Transition Matrix $\mathbf{F}$ is structured as:
 **Detailed Transition Mechanics**:
 1. **Position Integration**: The new position is predicted by integrating current velocity over time step $\Delta t$:
 
-  
-   $\mathbf{p}_k = \mathbf{p}_{k-1} + \mathbf{v}_{k-1} \Delta t$
-   
+  ```
+  \mathbf{p}_k = \mathbf{p}_{k-1} + \mathbf{v}_{k-1} \Delta t
+  ``` 
    * $\mathbf{p}_k \in \mathbb{R}^3$: Predicted position $[\text{m}]$ at step $k$.
    * $\mathbf{p}_{k-1} \in \mathbb{R}^3$: Position $[\text{m}]$ at step $k-1$.
    * $\mathbf{v}_{k-1} \in \mathbb{R}^3$: Linear velocity $[\text{m/s}]$ at step $k-1$.
