@@ -955,28 +955,7 @@ exportgraphics(fig, fullfile(outDir, 'fig_7_3_side_selection.png'), 'Resolution'
 
 The Adaptive Neural Brain models the biological neural circuits observed in insects and flying organisms for obstacle avoidance (*Devos et al., 2018*).
 
-```text
-   Left Sensors                Front Sensor               Right Sensors
-  [+8° to +90°]                    [0°]                   [-8° to -90°]
-        │                           │                           │
-        ▼                           ▼                           ▼
-   Proximity I_L ──────────► [Frontal Cone] ◄────────── Proximity I_R
-        │                           │                           │
-        ▼ w_in                      ▼                           ▼ w_in
- ┌──────────────┐            Speed Neuron S             ┌──────────────┐
- │ Steering     │                   │                   │ Steering     │
- │ Neuron L     │◄──── w_cross ─────┼───── w_cross ────►│ Neuron R     │
- │ (self w_LL)  │                   │                   │ (self w_RR)  │
- └──────┬───────┘                   ▼                   └──────┬───────┘
-        │                 v = V_MAX * s(S)                     │
-        ▼                                                      ▼
-  Activity a_L                                           Activity a_R
-        │                                                      │
-        └───────────────────────┬──────────────────────────────┘
-                                ▼
-               Steering: steer = a_L - a_R
-               Heading:  d(psi)/dt = omega(steer, F, goal)
-```
+![Adaptive Neural Brain](./assets/drone.jpeg)
 
 The recurrent steering network contains two coupled, continuous-time, leaky-integrator neurons:
 - Left Steering Neuron L
