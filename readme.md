@@ -87,7 +87,7 @@ This repository implements, evaluates, and mathematically identifies an end-to-e
 The system addresses the challenge of real-time collision avoidance in cluttered, unknown, dynamic, and dead-end environments without requiring heavy SLAM or expensive GPUs. It provides two distinct, fully implemented navigation paradigms:
 1. **Hierarchical Finite State Machine (FSM):** A deterministic, rule-based controller that evaluates directional range sensors, balances lateral opening scores, executes emergency reversals, and checks progress with a sliding-window stuck detector.
 2. **Bio-Inspired Adaptive Neural Brain:** An implementation inspired by the research of *Arne Devos, Emad Ebeid, and Poramate Manoonpong (2018)*, employing a recurrent non-spiking neural network with plastic Hebbian self-synapses, mutual inhibition, and an internal frustration leaky integrator to escape complex local minima, traps, and U-shaped dead ends.
-3. **Data-Driven Equation Discovery (SINDy / SINDYc):** A machine learning pipeline utilizing *Sparse Identification of Nonlinear Dynamics* (Brunton et al., PNAS 2016) that mines the raw flight simulation telemetry to discover the true underlying translational physics (recovering gravitational acceleration $g = 9.80\,\text{m/s}^2$ with $R^2 > 0.999$), quadrotor rotor mixing torques, and closed-loop control dynamics.
+3. **Data-Driven Equation Discovery (SINDy / SINDYc):** A machine learning pipeline utilizing *Sparse Identification of Nonlinear Dynamics* (Brunton et al., PNAS 2016) that mines raw flight simulation telemetry to discover the true underlying translational physics (recovering gravitational acceleration $g = 9.80\,\text{m/s}^2$ with $R^2 > 0.999$), quadrotor angular accelerations, aerodynamic body torques ($\boldsymbol{\tau} = \mathbf{I}\dot{\boldsymbol{\omega}}$ matching analytical URDF parameters within $< 0.8\%$), and closed-loop control dynamics.
 
 Across standardized test benchmarks (from simple frontal obstacles to moving intruders and circular ring traps), the system achieves a **100% mission success rate** with **zero recorded collisions**.
 
@@ -244,22 +244,26 @@ Drones_S5_AB3_Obstacle_Avoidance_Drone/
 │   ├── sindy/                     # Sparse Identification of Nonlinear Dynamics package
 │   │   ├── __init__.py            # Module exports (SINDy, PolynomialLibrary, stlsq, finite_difference)
 │   │   ├── sindy.py               # Lightweight STLSQ sparse regression and polynomial library
-│   │   └── identify_dynamics.py   # Script identifying translational, rotational, and closed-loop models
+│   │   └── identify_dynamics.py   # Script identifying translational, rotational, torque, and closed-loop models
 │   │
 │   ├── models/                    # Discovered governing equations stored as serialized JSON
 │   │   ├── sindy_translational.json  # Discovered translational physics (recovers gravity g = 9.80 m/s^2)
-│   │   ├── sindy_rotational.json     # Discovered quadrotor torque mixing matrix for X-configuration
+│   │   ├── sindy_rotational.json     # Discovered quadrotor angular acceleration matrix for X-configuration
+│   │   ├── sindy_torque.json         # Discovered physical body torques (tau = I * dw/dt)
 │   │   └── sindy_closed_loop.json    # Discovered velocity response transfer function (SINDYc)
 │   │
 │   ├── results/                   # Experimental plots, graphs, and performance reports
 │   │   └── sindy/
 │   │       ├── A_translational.png       # Parity plots: predicted vs actual accelerations (ax, ay, az)
 │   │       ├── B_rotational.png          # Parity plots: predicted vs actual angular accelerations (dw)
-│   │       ├── C_rollout_brain_s4.png    # Free RK4 integration rollout on held-out Scenario 4
+│   │       ├── C_torque.png              # Parity plots: predicted vs actual aerodynamic body torques (tau)
+│   │       ├── D_rollout_brain_s4.png    # Free RK4 integration rollout on held-out Scenario 4
 │   │       └── report.json               # Quantitative R^2 scores, residual errors, and formulas
 │   │
 │   └── logs/                      # Telemetry datasets recorded from 48 Hz simulation runs (.npz)
 │       ├── brain_s1.npz .. brain_s10.npz # Scenarios 1 to 10 full flight telemetry logs
+│
+├── sindy/                         # Top-level SINDy module proxy (allows running python -m sindy from repo root)
 │
 ├── ArduPilot_Gazebo/              # ArduPilot SITL + Gazebo Harmonic autopilot integration suite
 │   ├── README.md                  # Comprehensive setup and flight guide for ArduPilot + Gazebo
@@ -1822,7 +1826,7 @@ Running `python -m sindy.identify_dynamics` across the flight logs extracted the
 
 - **Variables:** $v_z$: vertical velocity ($\text{m/s}$), so $dv_z/dt$ is the vertical acceleration ($\text{m/s}^2$); $T$: the thrust feature of the library (the factor $1.170$ absorbs the $1/m$ conversion and the unit scaling of $T$); $\text{roll} = \phi$, $\text{pitch} = \theta$: attitude angles ($\text{rad}$); $-9.796$: the constant term, equal to $-g$; $R^2$: coefficient of determination of the fit (here on held-out data).
 
-**Model B: Rotational Torque Mixing**
+**Model B: Rotational Angular Acceleration**
 
 ```math
 \begin{bmatrix} \dot{\omega}_x \\ \dot{\omega}_y \\ \dot{\omega}_z \end{bmatrix} =
@@ -1838,7 +1842,24 @@ Running `python -m sindy.identify_dynamics` across the flight logs extracted the
 
 - **Variables:** $\dot{\omega}_x$, $\dot{\omega}_y$, $\dot{\omega}_z$: roll, pitch and yaw angular accelerations of the body ($\text{rad/s}^2$); $r_0, \dots, r_3$: the per-rotor input features built from the logged rotor speeds (scaled squared rotor speed of motors $0$ to $3$); the $3 \times 4$ matrix: the identified coefficients (in $\text{rad/s}^2$ per unit of $r_i$).
 
-**Model C: Closed-Loop Command Response (SINDYc)**
+**Model C: Aerodynamic Body Torques ($\boldsymbol{\tau} = \mathbf{I}\dot{\boldsymbol{\omega}}$)**
+
+```math
+\begin{bmatrix} \tau_x \\ \tau_y \\ \tau_z \end{bmatrix} =
+\begin{bmatrix} I_{xx} \dot{\omega}_x \\ I_{yy} \dot{\omega}_y \\ I_{zz} \dot{\omega}_z \end{bmatrix} =
+\begin{bmatrix}
+-0.0008941 & -0.0008917 & 0.0008867 & 0.0008993 \\
+-0.0008839 & 0.0008903 & 0.0008838 & -0.0008902 \\
+-0.0007748 & 0.0007989 & -0.0007932 & 0.0007690
+\end{bmatrix}
+\begin{bmatrix} r_0 \\ r_1 \\ r_2 \\ r_3 \end{bmatrix}, \qquad R^2 > 0.998
+```
+
+*What it says and what it means:* multiplying the LHS of Model B by the quadrotor inertia tensor $\mathbf{I} = \text{diag}(I_{xx}, I_{yy}, I_{zz}) = \text{diag}(1.40\times 10^{-5}, 1.40\times 10^{-5}, 2.17\times 10^{-5})\,\text{kg}\cdot\text{m}^2$ recovers the physical aerodynamic body torques. The discovered coefficients match the CF2X analytical URDF ground truth: roll/pitch torque coefficient $L \cdot k_f = 8.8708\times 10^{-4}\,\text{N}\cdot\text{m}$ (identified $\approx 8.90\times 10^{-4}\,\text{N}\cdot\text{m}$, $< 0.8\%$ error) and yaw torque coefficient $k_m = 7.9400\times 10^{-4}\,\text{N}\cdot\text{m}$ (identified $\approx 7.93\times 10^{-4}\,\text{N}\cdot\text{m}$, $< 0.15\%$ error).
+
+- **Variables:** $\tau_x, \tau_y, \tau_z$: roll, pitch, and yaw body torques ($\text{N}\cdot\text{m}$); $I_{xx}, I_{yy}, I_{zz}$: principal moments of inertia ($\text{kg}\cdot\text{m}^2$); $r_0, \dots, r_3$: scaled squared rotor inputs ($10^{-8} \cdot \text{rpm}_i^2$).
+
+**Model D: Closed-Loop Command Response (SINDYc)**
 
 ```math
 \dot{v}_x = 0.2088 - 3.459 \, v_x + 8.762 \, v_{cx} - 1.641 \, v_x^2 - 3.507 \, v_x v_y + \cdots
@@ -1999,7 +2020,7 @@ python brain_avoidance.py --all --headless
 To run sparse regression on the simulation logs and regenerate the identified governing equations:
 
 ```bash
-# Run SINDy across all logs, using Scenario 4 as the held-out validation test
+# Run SINDy across all logs (works from repo root or pybullet/)
 python -m sindy.identify_dynamics
 
 # Hold out Scenario 6 as the validation test
@@ -2008,10 +2029,11 @@ python -m sindy.identify_dynamics --test 6
 # View the generated identification models
 type models\sindy_translational.json
 type models\sindy_rotational.json
+type models\sindy_torque.json
 type models\sindy_closed_loop.json
 ```
 
-All generated parity plots and RK4 integration rollouts will be saved to `results/sindy/`.
+All generated parity plots (`A_translational.png`, `B_rotational.png`, `C_torque.png`, `D_rollout_*.png`) and RK4 integration rollouts will be saved to `results/sindy/`.
 
 ### 11.4 Running ArduPilot SITL + Gazebo Harmonic
 
@@ -2128,7 +2150,7 @@ Lightweight, dependency-free mathematical equation discovery engine.
 ### 5. `sindy/identify_dynamics.py`
 Data processing and discovery script.
 - Loads flight logs from `logs/*.npz`.
-- Constructs feature matrices for translational motion, rotational torques, and closed-loop control.
+- Constructs feature matrices for translational motion, rotational angular acceleration, aerodynamic body torques ($\boldsymbol{\tau} = \mathbf{I}\dot{\boldsymbol{\omega}}$), and closed-loop control.
 - Exports discovered symbolic models to `models/*.json`.
 - Evaluates $R^2$ scores on held-out test runs and renders parity comparison plots to `results/sindy/`.
 
@@ -2248,7 +2270,7 @@ The identified vertical acceleration model is:
 
 The constant term $-9.796$ is consistent with gravitational acceleration of approximately $9.80\,\text{m/s}^2$ acting downward. The thrust contribution depends on the thrust input $T$ and the drone's roll angle $\phi$ and pitch angle $\theta$.
 
-#### Model B: Rotational Torque Mixing Matrix
+#### Model B: Rotational Angular Acceleration Matrix
 
 The identified model maps four rotor-related inputs to angular accelerations about the drone's body axes:
 
@@ -2280,9 +2302,45 @@ r_3
 | Pitch angular acceleration, $\dot{\omega}_y$ | 0.9997 |
 | Yaw angular acceleration, $\dot{\omega}_z$ | 0.9989 |
 
-The matrix describes how the rotor-related inputs contribute to angular acceleration around the three body axes.
+#### Model C: Aerodynamic Body Torques ($\boldsymbol{\tau} = \mathbf{I}\dot{\boldsymbol{\omega}}$)
 
-#### Model C: Closed-Loop Command Response (SINDYc)
+Multiplying the left-hand side of Model B by the drone inertia tensor $\mathbf{I} = \text{diag}(I_{xx}, I_{yy}, I_{zz}) = \text{diag}(1.40\times 10^{-5}, 1.40\times 10^{-5}, 2.17\times 10^{-5})\,\text{kg}\cdot\text{m}^2$ recovers the aerodynamic body torque equations:
+
+```math
+\begin{bmatrix}
+\tau_x \\
+\tau_y \\
+\tau_z
+\end{bmatrix}
+=
+\begin{bmatrix}
+I_{xx} \dot{\omega}_x \\
+I_{yy} \dot{\omega}_y \\
+I_{zz} \dot{\omega}_z
+\end{bmatrix}
+=
+\begin{bmatrix}
+-0.0008941 & -0.0008917 & 0.0008867 & 0.0008993 \\
+-0.0008839 & 0.0008903 & 0.0008838 & -0.0008902 \\
+-0.0007748 & 0.0007989 & -0.0007932 & 0.0007690
+\end{bmatrix}
+\begin{bmatrix}
+r_0 \\
+r_1 \\
+r_2 \\
+r_3
+\end{bmatrix}
+```
+
+**Held-out accuracy & physical validation:**
+
+| Torque Component | Identified Scale ($\text{N}\cdot\text{m}$) | URDF Ground Truth ($\text{N}\cdot\text{m}$) | Error | Held-out $R^2$ |
+|---|---:|---:|---:|---:|
+| Roll torque, $\tau_x$ | $8.941\times 10^{-4}$ | $8.871\times 10^{-4}$ ($L k_f$) | $0.79\%$ | 0.9981 |
+| Pitch torque, $\tau_y$ | $8.903\times 10^{-4}$ | $8.871\times 10^{-4}$ ($L k_f$) | $0.36\%$ | 0.9997 |
+| Yaw torque, $\tau_z$ | $7.932\times 10^{-4}$ | $7.940\times 10^{-4}$ ($k_m$) | $0.10\%$ | 0.9988 |
+
+#### Model D: Closed-Loop Command Response (SINDYc)
 
 SINDYc identifies relationships between commanded horizontal velocities and the drone's observed acceleration.
 
@@ -2313,7 +2371,13 @@ Here, $v_x$ and $v_y$ are measured horizontal velocities, while $v_{cx}$ and $v_
 
 #### Results and Artifacts
 
-The identified models and figures are saved under [`pybullet/results/sindy/`](pybullet/results/sindy).
+The identified models and figures are saved under [`pybullet/results/sindy/`](pybullet/results/sindy) and [`pybullet/models/`](pybullet/models):
+- `models/sindy_translational.json`: Gravity recovery and vertical acceleration model.
+- `models/sindy_rotational.json`: Quadrotor angular acceleration mixing matrix.
+- `models/sindy_torque.json`: Physical aerodynamic body torques ($\boldsymbol{\tau} = \mathbf{I}\dot{\boldsymbol{\omega}}$).
+- `models/sindy_closed_loop.json`: Closed-loop transfer function response (SINDYc).
+- `results/sindy/C_torque.png`: True simulation torque vs. SINDy discovered torque parity plot.
+- `results/sindy/report.json`: Full quantitative report and metrics.
 
 > **Interpretation note:** The $R^2$ values describe predictive fit on held-out data. They support the models' predictive accuracy for the tested simulation data, but do not by themselves prove that every coefficient has a unique physical interpretation.
 

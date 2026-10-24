@@ -187,17 +187,21 @@ class SINDy:
         return X
 
     # ------------------------------------------------------------------
-    def equations(self, precision=4):
+    def equations(self, precision=4, lhs_format=None):
         out = []
         for j, name in enumerate(self.state_names):
             terms = [f"{c:+.{precision}g} {t}" if t != "1" else f"{c:+.{precision}g}"
                      for c, t in zip(self.Xi[:, j], self.library.names_) if c != 0]
             rhs = " ".join(terms) if terms else "0"
-            out.append(f"d({name})/dt = {rhs}")
+            if lhs_format is not None:
+                lhs = lhs_format[j] if isinstance(lhs_format, (list, tuple)) else lhs_format.format(name=name, j=j)
+            else:
+                lhs = f"d({name})/dt"
+            out.append(f"{lhs} = {rhs}")
         return out
 
-    def print_equations(self, precision=4):
-        for line in self.equations(precision):
+    def print_equations(self, precision=4, lhs_format=None):
+        for line in self.equations(precision, lhs_format=lhs_format):
             print(line)
 
     def n_active_terms(self):

@@ -5,15 +5,19 @@ Works on logs from BOTH controllers:
     logs/brain_s*.npz   <- python brain_avoidance.py --all --headless --log
     logs/fsm_s*.npz     <- python obstacle_avoidance.py   (LOG_DATA = True)
 
-Three models are identified:
+Four models are identified:
 
   A. Translational physics      [ax, ay, az] = f(roll, pitch, thrust, v)
      -> should rediscover  az = (kf/m)*sum(rpm^2)*cos(roll)cos(pitch) - g, etc.
 
   B. Rotational physics         [dwx, dwy, dwz] = f(rpm_i^2)
-     -> motor-mixing / torque coefficients of the CF2X "X" frame
+     -> motor-mixing angular acceleration coefficients of CF2X "X" frame
 
-  C. Closed-loop response       [dvx, dvy] = f(vx, vy, vcx, vcy)   (SINDYc)
+  C. Torque physics             [tau_x, tau_y, tau_z] = I * dw/dt = f(rpm_i^2)
+     -> 3rd equation: derived by multiplying 2nd equation LHS (dw/dt) with
+        inertia tensor [Ixx, Iyy, Izz] to recover aerodynamic body torques
+
+  D. Closed-loop response       [dvx, dvy] = f(vx, vy, vcx, vcy)   (SINDYc)
      -> compact model of "command in -> drone motion out" for the whole
         PID + airframe stack. Validated by free rollout on a held-out run.
 
@@ -34,8 +38,16 @@ import numpy as np
 from sindy import SINDy, PolynomialLibrary
 
 G = 9.8
-OUT_DIR = os.path.join("results", "sindy")
-MODEL_DIR = "models"
+# CF2X drone inertia tensor principal moments (kg*m^2) from cf2x.urdf
+IXX = 1.4e-5
+IYY = 1.4e-5
+IZZ = 2.17e-5
+INERTIA = np.array([IXX, IYY, IZZ])
+
+# Dynamic directory resolution (works whether invoked from repo root or pybullet/)
+BASE_DIR = "pybullet" if os.path.isdir("pybullet") and not os.path.isdir("logs") else "."
+OUT_DIR = os.path.join(BASE_DIR, "results", "sindy")
+MODEL_DIR = os.path.join(BASE_DIR, "models")
 
 
 # ----------------------------------------------------------------------
@@ -48,8 +60,13 @@ def load_log(path):
     d["_dt"] = float(z["dt"])
     d["_name"] = os.path.basename(path)
     d["_scenario"] = int(z["scenario"])
-    d["_kf"] = float(z["kf"]) if "kf" in z else None
-    d["_mass"] = float(z["mass"]) if "mass" in z else None
+    d["_kf"] = float(z["kf"]) if "kf" in z else 3.16e-10
+    d["_km"] = float(z["km"]) if "km" in z else 7.94e-12
+    d["_mass"] = float(z["mass"]) if "mass" in z else 0.027
+    d["_arm"] = float(z["arm"]) if "arm" in z else 0.0397
+    d["_ixx"] = float(z["ixx"]) if "ixx" in z else IXX
+    d["_iyy"] = float(z["iyy"]) if "iyy" in z else IYY
+    d["_izz"] = float(z["izz"]) if "izz" in z else IZZ
     return d
 
 
@@ -124,6 +141,23 @@ def fit_rotational(train):
     return m, np.hstack([W, R2]), dW
 
 
+def compute_torque_model(mB, inertia=INERTIA):
+    """
+    Multiply the 2nd equation (rotational dynamics dw/dt = f(w, rpm_i^2)) LHS and
+    coefficients by the inertia tensor I = diag(Ixx, Iyy, Izz) to yield aerodynamic
+    body torques tau = I * dw/dt = f(rpm_i^2).
+    """
+    lib = PolynomialLibrary(degree=1, include_bias=True)
+    mTau = SINDy(lib, threshold=0.0, alpha=0.0)
+    mTau.library.fit(["wx", "wy", "wz", "r0", "r1", "r2", "r3"])
+    mTau.state_names = ["tau_x", "tau_y", "tau_z"]
+    mTau.n_x = 3
+    mTau.n_u = 0
+    # Multiplying LHS (dw/dt) by inertia scales each column j of Xi by inertia[j]
+    mTau.Xi = mB.Xi * inertia
+    return mTau
+
+
 def fit_closed_loop(train):
     V, dV, U = stack(train, closed_loop)
     lib = PolynomialLibrary(degree=2, include_bias=True)
@@ -153,6 +187,8 @@ def main():
     args = ap.parse_args()
 
     paths = sorted(glob.glob(args.logs))
+    if not paths and args.logs == "logs/*.npz" and os.path.isdir("pybullet/logs"):
+        paths = sorted(glob.glob("pybullet/logs/*.npz"))
     if not paths:
         raise SystemExit(f"No logs match {args.logs}. Run:  python brain_avoidance.py --all --headless --log")
     logs = [load_log(pth) for pth in paths]
@@ -190,8 +226,34 @@ def main():
     print("held-out R^2 [dwx, dwy, dwz]:", np.round(r2B, 4))
     report["B_rotational"] = dict(equations=mB.equations(), heldout_r2=r2B.tolist())
 
-    # ---------------- C: closed-loop SINDYc ---------------------------
-    print("\n=== C. Closed-loop response  (dv = f(v, v_cmd))  [SINDYc] ===")
+    # ---------------- C: torque physics (3rd equation) ----------------
+    print("\n=== C. Torque physics  (tau = I * dw/dt) [3rd Equation] ===")
+    print(f"Multiplying 2nd equation LHS by inertia I = [{IXX:.2e}, {IYY:.2e}, {IZZ:.2e}] kg*m^2:")
+    mTau = compute_torque_model(mB, INERTIA)
+    torque_lhs = ["tau_x (Ixx*dwx/dt)", "tau_y (Iyy*dwy/dt)", "tau_z (Izz*dwz/dt)"]
+    mTau.print_equations(4, lhs_format=torque_lhs)
+    tau_test_true = dWB * INERTIA
+    tau_test_pred = regressor_predict(mTau, np.hstack([WB, RB]))
+    r2Tau = r2(tau_test_true, tau_test_pred)
+    print("held-out R^2 [tau_x, tau_y, tau_z]:", np.round(r2Tau, 4))
+
+    # Analytical URDF comparison for CF2X
+    arm = train[0].get("_arm", 0.0397)
+    lx = arm * np.sqrt(2) / 2.0
+    kf_gt = train[0].get("_kf", 3.16e-10)
+    km_gt = train[0].get("_km", 7.94e-12)
+    tau_roll_pitch_gt = lx * kf_gt / THRUST_SCALE
+    tau_yaw_gt = km_gt / THRUST_SCALE
+    print(f"URDF ground truth: roll/pitch L*kf = {tau_roll_pitch_gt:.4e} N*m (per scaled rpm^2), yaw km = {tau_yaw_gt:.4e} N*m")
+    report["C_torque"] = dict(
+        equations=mTau.equations(4, lhs_format=torque_lhs),
+        heldout_r2=r2Tau.tolist(),
+        inertia_kg_m2=INERTIA.tolist(),
+        urdf_ground_truth=dict(tau_roll_pitch_scale=tau_roll_pitch_gt, tau_yaw_scale=tau_yaw_gt)
+    )
+
+    # ---------------- D: closed-loop SINDYc ---------------------------
+    print("\n=== D. Closed-loop response  (dv = f(v, v_cmd))  [SINDYc] ===")
     mC, _, _, _ = fit_closed_loop(train)
     mC.print_equations(4)
     VC, dVC, UC = stack(test, closed_loop)
@@ -211,24 +273,30 @@ def main():
               f"end position error = {pos_err_end:.3f} m over {path_len:.2f} m of flight")
         rollouts.append(dict(log=L["_name"], L=L, V=V, Vsim=Vsim, pos_true=pos_true, pos_sim=pos_sim,
                              vel_rmse=vel_rmse, end_err=pos_err_end, path_len=path_len))
-    report["C_closed_loop"] = dict(
+    report["D_closed_loop"] = dict(
         equations=mC.equations(), heldout_derivative_r2=r2C.tolist(),
         rollouts=[{k: v for k, v in r.items() if k in ("log", "vel_rmse", "end_err", "path_len")} for r in rollouts])
+    report["C_closed_loop"] = report["D_closed_loop"]
 
     # ---------------- save ---------------------------------------------
-    for tag, m in (("translational", mA), ("rotational", mB), ("closed_loop", mC)):
+    for tag, m, lhs_fmt in (
+        ("translational", mA, None),
+        ("rotational", mB, None),
+        ("torque", mTau, ["tau_x", "tau_y", "tau_z"]),
+        ("closed_loop", mC, None),
+    ):
         with open(os.path.join(MODEL_DIR, f"sindy_{tag}.json"), "w") as f:
             json.dump(dict(terms=m.library.names_, targets=m.state_names,
-                           Xi=m.Xi.tolist(), equations=m.equations()), f, indent=2)
+                           Xi=m.Xi.tolist(), equations=m.equations(4, lhs_format=lhs_fmt)), f, indent=2)
     with open(os.path.join(OUT_DIR, "report.json"), "w") as f:
         json.dump(report, f, indent=2)
     print(f"\nSaved models to {MODEL_DIR}/ and report to {OUT_DIR}/report.json")
 
     if not args.no_plots:
-        make_plots(mA, mB, test, rollouts)
+        make_plots(mA, mB, mTau, test, rollouts)
 
 
-def make_plots(mA, mB, test, rollouts):
+def make_plots(mA, mB, mTau, test, rollouts):
     import matplotlib
     matplotlib.use("Agg")
     import matplotlib.pyplot as plt
@@ -266,7 +334,23 @@ def make_plots(mA, mB, test, rollouts):
     fig.savefig(os.path.join(OUT_DIR, "B_rotational.png"), dpi=130)
     plt.close(fig)
 
-    # C: rollout
+    # C: torques (tau = I * dw/dt)
+    tau_true = dW * INERTIA
+    tau_hat = regressor_predict(mTau, np.hstack([W, R]))
+    fig, ax = plt.subplots(3, 1, figsize=(10, 7), sharex=True)
+    tau_labs = [r"\tau_x\ (I_{xx}\dot{\omega}_x)", r"\tau_y\ (I_{yy}\dot{\omega}_y)", r"\tau_z\ (I_{zz}\dot{\omega}_z)"]
+    for i, lab in enumerate(tau_labs):
+        ax[i].plot(t, tau_true[:, i], label=r"simulation ($I \cdot \dot{\omega}$)", lw=1.6)
+        ax[i].plot(t, tau_hat[:, i], "--", label="SINDy torque", lw=1.2)
+        ax[i].set_ylabel(f"${lab}$ (N·m)")
+    ax[0].legend(loc="upper right")
+    ax[-1].set_xlabel("time (s)")
+    fig.suptitle(f"C. Torque dynamics (tau = I * dw/dt) — held-out {L['_name']}")
+    fig.tight_layout()
+    fig.savefig(os.path.join(OUT_DIR, "C_torque.png"), dpi=130)
+    plt.close(fig)
+
+    # D: rollout
     for r in rollouts:
         fig, ax = plt.subplots(1, 2, figsize=(13, 4.6))
         tt = r["L"]["t"][:-1]
@@ -285,8 +369,9 @@ def make_plots(mA, mB, test, rollouts):
         ax[1].set_ylabel("y (m)")
         ax[1].legend()
         ax[1].set_title(f"Path — end error {r['end_err']:.3f} m")
-        fig.suptitle(f"C. Closed-loop SINDYc model — held-out {r['log']}")
+        fig.suptitle(f"D. Closed-loop SINDYc model — held-out {r['log']}")
         fig.tight_layout()
+        fig.savefig(os.path.join(OUT_DIR, f"D_rollout_{r['log'].replace('.npz', '')}.png"), dpi=130)
         fig.savefig(os.path.join(OUT_DIR, f"C_rollout_{r['log'].replace('.npz', '')}.png"), dpi=130)
         plt.close(fig)
     print(f"Plots written to {OUT_DIR}/")

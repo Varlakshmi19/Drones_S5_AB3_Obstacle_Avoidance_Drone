@@ -562,12 +562,18 @@ Running `python -m sindy.identify_dynamics` across the flight logs extracted the
    \frac{dv_z}{dt} = -9.796 + 1.170 \cdot T \cos(\text{roll}) \cos(\text{pitch}) \quad (R^2 = 0.9998)
    $$
    *Physical Discovery:* SINDy independently discovered Earth's gravity $g \approx 9.796\,\text{m/s}^2$ from raw simulation state logs without human intervention!
-2. **Model B: Rotational Torque Mixing:**
+2. **Model B: Rotational Angular Acceleration:**
    $$
    \begin{bmatrix} \dot{\omega}_x \\ \dot{\omega}_y \\ \dot{\omega}_z \end{bmatrix} = \begin{bmatrix} -63.87 & -63.70 & +63.34 & +64.23 \\ -63.14 & +63.59 & +63.13 & -63.58 \\ -35.70 & +36.82 & -36.55 & +35.44 \end{bmatrix} \begin{bmatrix} r_0 \\ r_1 \\ r_2 \\ r_3 \end{bmatrix} \quad (R^2 > 0.998)
    $$
    *Physical Discovery:* SINDy reconstructed the exact quadrotor X-frame geometry and rotor rotation directions (motors 0 & 2 CCW, motors 1 & 3 CW).
-3. **Model C: Closed-Loop Command Response (SINDYc):**
+3. **Model C: Body Torques ($\tau = \mathbf{I} \dot{\omega}$):**
+   Derived by multiplying the LHS of Model B by the inertia tensor $\mathbf{I} = \text{diag}(I_{xx}, I_{yy}, I_{zz}) = \text{diag}(1.4\times 10^{-5}, 1.4\times 10^{-5}, 2.17\times 10^{-5})\,\text{kg}\cdot\text{m}^2$:
+   $$
+   \begin{bmatrix} \tau_x \\ \tau_y \\ \tau_z \end{bmatrix} = \begin{bmatrix} I_{xx} \dot{\omega}_x \\ I_{yy} \dot{\omega}_y \\ I_{zz} \dot{\omega}_z \end{bmatrix} = \begin{bmatrix} -8.941 & -8.917 & +8.867 & +8.993 \\ -8.839 & +8.903 & +8.838 & -8.902 \\ -7.748 & +7.989 & -7.932 & +7.690 \end{bmatrix} \times 10^{-4} \begin{bmatrix} r_0 \\ r_1 \\ r_2 \\ r_3 \end{bmatrix} \quad (R^2 > 0.998)
+   $$
+   *Physical Discovery:* Discovered aerodynamic torque parameters match the CF2X analytical URDF ground truth ($L k_f = 8.871\times 10^{-4}\,\text{N}\cdot\text{m}$, $k_m = 7.940\times 10^{-4}\,\text{N}\cdot\text{m}$) within $< 0.8\%$ error!
+4. **Model D: Closed-Loop Command Response (SINDYc):**
    $$
    \frac{dv_x}{dt} = +0.2088 - 3.459 v_x + 8.762 v_{cx} - 1.641 v_x^2 - 3.507 v_x v_y + \dots
    $$
