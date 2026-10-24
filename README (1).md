@@ -46,57 +46,7 @@ This project implements an autonomous quadcopter obstacle avoidance system simul
 
 The software architecture follows a modular sense-estimate-plan-control feedback loop:
 
-```
-                  +----------------------------------------------+
-                  |         MuJoCo 3.13 Physics World            |
-                  |  - RK4 Numerical Integrator (dt = 0.002s)    |
-                  |  - Dynamic Obstacles with OU Drift Process   |
-                  +----------------------+-----------------------+
-                                         |
-                       [Rigid-body State & Sensor Rays]
-                                         v
-+--------------------------------------------------------------------------------+
-|                           PERCEPTION SUBSYSTEM                                 |
-|  * 8-Beam Horizontal LiDAR Array (Front, Left/Right 35°, 70°, 90°, Rear 180°)   |
-|  * 2-Beam Vertical Array (Up +Z, Down -Z)                                      |
-|  * Gaussian Sensor Noise Injection (sigma = 0.06m)                            |
-+----------------------------------------+---------------------------------------+
-                                         |
-                        [Noisy Positional Hits & Range]
-                                         v
-+--------------------------------------------------------------------------------+
-|                     KALMAN FILTER & TRACKING SUBSYSTEM                         |
-|  * Multi-Obstacle 6-DOF State Estimator [x, y, z, vx, vy, vz]                  |
-|  * Joseph-Form Stabilized Covariance Propagation                               |
-|  * Closing-Velocity Calculation: v_rel = v_obs - v_drone                       |
-|  * 1.0-Second Forward Trajectory Prediction Horizon                            |
-+----------------------------------------+---------------------------------------+
-                                         |
-               [Filtered State, Projected Trajectory, Dynamic Sectors]
-                                         v
-+--------------------------------------------------------------------------------+
-|                        AVOIDANCE & PLANNING SUBSYSTEM                          |
-|  * Reactive State Machine / APF / DWA / SINDy-DWA / 3D Volumetric              |
-|  * Dynamic Sector Inflation based on Kalman closing-velocity                   |
-|  * Dead-End Reversal Monitor (3 reversals in 12s triggers 360° Scan)          |
-|  * Output: Desired Position & Velocity Setpoint [x_des, y_des, z_des]          |
-+----------------------------------------+---------------------------------------+
-                                         |
-                               [Desired Setpoint]
-                                         v
-+--------------------------------------------------------------------------------+
-|                           CONTROL SUBSYSTEM (SE3)                              |
-|  * Calibrated DSL-PID Attitude Controller                                      |
-|  * Position PID -> Desired Acceleration Vector                                 |
-|  * Orientation Extraction -> Desired Quaternion & Angular Velocities           |
-|  * Motor Mixer -> 4 Rotor PWM Control Commands [u1, u2, u3, u4]                |
-+----------------------------------------+---------------------------------------+
-                                         |
-                            [Actuator Forces & Torques]
-                                         v
-                         (Back to MuJoCo Physics World)
-```
-
+![flow](./assets/MujocoFlow.drawio.png)
 ---
 
 ## 3. Physical Platform & Simulation Engine
