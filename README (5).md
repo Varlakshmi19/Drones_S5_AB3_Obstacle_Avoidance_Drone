@@ -141,63 +141,7 @@ The system operates as a closed-loop perception-planning-control pipeline execut
 
 ### System Architecture Diagram
 
-```text
- ┌────────────────────────────────────────────────────────────────────────┐
- │                      PyBullet Physics Engine (240 Hz)                  │
- │   - CF2X Quadrotor Rigid Body Dynamics                                │
- │   - Obstacle Geometries (Boxes, Cylinders, Dynamic Moving Bodies)      │
- │   - Contact Point Collision Detection                                  │
- └──────────────────────────────────┬─────────────────────────────────────┘
-                                    │ Drone State: [p, q, v, w]
-                                    ▼
- ┌────────────────────────────────────────────────────────────────────────┐
- │                 Virtual Range Perception (48 Hz)                       │
- │   - PyBullet rayTest / rayTestBatch                                    │
- │   - Ray starts with radial offset outside rotor diameter (d = 0.18 m)  │
- │   - Returns distance vector d_i in [0, R_sensor]                       │
- └──────────────────────────────────┬─────────────────────────────────────┘
-                                    │ Distances & Bearing Angles
-                                    ▼
-         ┌──────────────────────────┴──────────────────────────┐
-         │                                                     │
-         ▼ (Paradigm 1: FSM)                                   ▼ (Paradigm 2: Neural Brain)
- ┌───────────────────────────────┐                     ┌───────────────────────────────┐
- │ Reactive Navigation FSM       │                     │ Bio-Inspired Neural Brain     │
- │ - Weighted Spatial Scores     │                     │ - Tanh Recurrent Steering     │
- │ - Threshold Conditionals      │                     │ - Plastic Hebbian Synapses    │
- │ - Stuck Sliding Window        │                     │ - Leaky Frustration Monitor   │
- │ - Emergency Reversals         │                     │ - Speed & Detour Modulation   │
- └───────────────┬───────────────┘                     └───────────────┬───────────────┘
-                 │                                                     │
-                 └──────────────────────────┬──────────────────────────┘
-                                            │ Desired Velocity Vector v_des
-                                            ▼
- ┌────────────────────────────────────────────────────────────────────────┐
- │                  Target Position Generator (Lookahead)                 │
- │            p_target = p_current + v_des * lookahead_time               │
- └──────────────────────────────────┬─────────────────────────────────────┘
-                                    │ Target State [p_target, v_des, yaw]
-                                    ▼
- ┌────────────────────────────────────────────────────────────────────────┐
- │                   DSLPIDControl Position & Attitude Controller         │
- │   - Position PD -> Desired Virtual Acceleration vector                 │
- │   - Geometric Attitude Extraction -> Desired Orientation Quaternion    │
- │   - Angular Velocity PD -> Desired Torques [tau_x, tau_y, tau_z, T]    │
- │   - Motor Mixing Matrix -> Individual Rotor RPM Commands (Motors 0..3) │
- └──────────────────────────────────┬─────────────────────────────────────┘
-                                    │ Rotor RPM Commands (action[0, :])
-                                    ▼
- ┌────────────────────────────────────────────────────────────────────────┐
- │                  PyBullet Step (5 physics ticks per control tick)      │
- └──────────────────────────────────┬─────────────────────────────────────┘
-                                    │ Telemetry Streaming
-                                    ▼
- ┌────────────────────────────────────────────────────────────────────────┐
- │         Logging & SINDy Dynamical Identification Pipeline              │
- │   - Saves logs/*.npz (Position, Orientation, Rates, RPM, Rays)         │
- │   - Identifies Governing Differential Equations via STLSQ              │
- └────────────────────────────────────────────────────────────────────────┘
-```
+!System Architecture](.assets/GymPyBullet.drawio.png)
 
 ---
 
