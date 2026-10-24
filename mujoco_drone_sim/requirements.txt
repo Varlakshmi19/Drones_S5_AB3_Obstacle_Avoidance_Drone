@@ -1,0 +1,8 @@
+# MuJoCo Quadcopter Obstacle Avoidance Simulation Dependencies
+mujoco>=3.1.0
+numpy>=1.22.0
+scipy>=1.8.0
+matplotlib>=3.5.0
+flask>=2.0.0
+pysindy>=1.7.0
+scikit-learn>=1.0.0
