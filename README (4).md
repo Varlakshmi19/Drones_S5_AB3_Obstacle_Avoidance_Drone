@@ -2202,10 +2202,10 @@ The quantitative performance across the six primary standardized scenarios is su
 | **6** | Staggered Forest | **SUCCESS** | 396 | 11.28 | $(5.953, +0.222, 1.001)$ | 7.081 | **0** | 2 | 0 |
 
 #### Overall Benchmark Summary:
-- **Success Rate:** $\mathbf{100\%}$ ($6/6$ missions completed within tolerance).
-- **Collision Rate:** $\mathbf{0}$ recorded collision steps across all runs.
-- **Average Completion Time:** $12.97\,\text{seconds}$.
-- **Average Path Length:** $7.881\,\text{meters}$.
+- **Success Rate:** **100%** (6/6 missions completed within tolerance).
+- **Collision Rate:** **0** recorded collision steps across all runs.
+- **Average Completion Time:** 12.97 seconds.
+- **Average Path Length:** 7.881 meters.
 
 ---
 
@@ -2222,9 +2222,9 @@ The identified vertical acceleration model is:
 \frac{dv_z}{dt} = -9.796 + 1.170\,T\cos\phi\cos\theta
 ```
 
-**Held-out coefficient of determination:** $R^2 = 0.99978$
+**Held-out coefficient of determination:** R² = 0.99978
 
-The constant term $-9.796$ is consistent with gravitational acceleration of approximately $9.80\text{ m/s}^2$ acting downward. The thrust contribution depends on the thrust input $T$ and the drone's roll angle $\phi$ and pitch angle $\theta$.
+The constant term −9.796 is consistent with gravitational acceleration of approximately 9.80 m/s² acting downward. The thrust contribution depends on the thrust input *T* and the drone's roll angle φ and pitch angle θ.
 
 #### Model B: Rotational Angular Acceleration Matrix
 
@@ -2252,49 +2252,31 @@ r_3
 
 **Held-out accuracy:**
 
-| Predicted quantity | $R^2$ |
+| Predicted quantity | R² |
 |---|---:|
-| Roll angular acceleration, $\dot{\omega}_x$ | 0.9981 |
-| Pitch angular acceleration, $\dot{\omega}_y$ | 0.9997 |
-| Yaw angular acceleration, $\dot{\omega}_z$ | 0.9989 |
+| Roll angular acceleration, ω̇<sub>x</sub> | 0.9981 |
+| Pitch angular acceleration, ω̇<sub>y</sub> | 0.9997 |
+| Yaw angular acceleration, ω̇<sub>z</sub> | 0.9989 |
 
 #### Model C: Aerodynamic Body Torques
 
-The body torques follow from $\boldsymbol{\tau} = \mathbf{I}\dot{\boldsymbol{\omega}}$. Multiplying the left-hand side of Model B by the drone inertia tensor $\mathbf{I} = \text{diag}(I_{xx}, I_{yy}, I_{zz}) = \text{diag}(1.40\times 10^{-5}, 1.40\times 10^{-5}, 2.17\times 10^{-5})\text{ kg}\cdot\text{m}^2$ recovers the aerodynamic body torque equations:
+Model B gives angular accelerations. Multiplying them by the drone's inertia tensor gives the aerodynamic body torques, using the relation τ = I · ω̇. The inertia tensor is I = diag(1.40×10<sup>−5</sup>, 1.40×10<sup>−5</sup>, 2.17×10<sup>−5</sup>) kg·m². The result is:
 
 ```math
-\begin{bmatrix}
-\tau_x \\
-\tau_y \\
-\tau_z
-\end{bmatrix}
-=
-\begin{bmatrix}
-I_{xx} \dot{\omega}_x \\
-I_{yy} \dot{\omega}_y \\
-I_{zz} \dot{\omega}_z
-\end{bmatrix}
-=
-\begin{bmatrix}
+\begin{bmatrix} \tau_x \\ \tau_y \\ \tau_z \end{bmatrix} = \begin{bmatrix}
 -0.0008941 & -0.0008917 & 0.0008867 & 0.0008993 \\
 -0.0008839 & 0.0008903 & 0.0008838 & -0.0008902 \\
 -0.0007748 & 0.0007989 & -0.0007932 & 0.0007690
-\end{bmatrix}
-\begin{bmatrix}
-r_0 \\
-r_1 \\
-r_2 \\
-r_3
-\end{bmatrix}
+\end{bmatrix} \begin{bmatrix} r_0 \\ r_1 \\ r_2 \\ r_3 \end{bmatrix}
 ```
 
 **Held-out accuracy & physical validation:**
 
-| Torque Component | Identified Scale ($\text{N}\cdot\text{m}$) | URDF Ground Truth ($\text{N}\cdot\text{m}$) | Error | Held-out $R^2$ |
+| Torque Component | Identified Scale (N·m) | URDF Ground Truth (N·m) | Error | Held-out R² |
 |---|---:|---:|---:|---:|
-| Roll torque, $\tau_x$ | $8.941\times 10^{-4}$ | $8.871\times 10^{-4}$ ($L k_f$) | 0.79% | 0.9981 |
-| Pitch torque, $\tau_y$ | $8.903\times 10^{-4}$ | $8.871\times 10^{-4}$ ($L k_f$) | 0.36% | 0.9997 |
-| Yaw torque, $\tau_z$ | $7.932\times 10^{-4}$ | $7.940\times 10^{-4}$ ($k_m$) | 0.10% | 0.9988 |
+| Roll torque, τ<sub>x</sub> | 8.941×10<sup>−4</sup> | 8.871×10<sup>−4</sup> (L·k<sub>f</sub>) | 0.79% | 0.9981 |
+| Pitch torque, τ<sub>y</sub> | 8.903×10<sup>−4</sup> | 8.871×10<sup>−4</sup> (L·k<sub>f</sub>) | 0.36% | 0.9997 |
+| Yaw torque, τ<sub>z</sub> | 7.932×10<sup>−4</sup> | 7.940×10<sup>−4</sup> (k<sub>m</sub>) | 0.10% | 0.9988 |
 
 #### Model D: Closed-Loop Command Response (SINDYc)
 
@@ -2312,7 +2294,7 @@ SINDYc identifies relationships between commanded horizontal velocities and the 
 \dot{v}_y = -0.0804 + 0.2534\,v_x - 3.300\,v_y + 9.426\,v_{cy} + \cdots
 ```
 
-Here, $v_x$ and $v_y$ are measured horizontal velocities, while $v_{cx}$ and $v_{cy}$ are commanded horizontal velocities. The ellipses ($\cdots$) indicate additional terms omitted from this summary; these expressions are not the complete identified equations.
+Here, v<sub>x</sub> and v<sub>y</sub> are measured horizontal velocities, while v<sub>cx</sub> and v<sub>cy</sub> are commanded horizontal velocities. The ellipses (…) indicate additional terms omitted from this summary; these expressions are not the complete identified equations.
 
 **Tracking performance:**
 
@@ -2329,7 +2311,7 @@ The identified models and figures are saved under [`pybullet/results/sindy/`](py
 - `results/sindy/C_torque.png`: True simulation torque vs. SINDy discovered torque parity plot.
 - `results/sindy/report.json`: Full quantitative report and metrics.
 
-> **Interpretation note:** The $R^2$ values describe predictive fit on held-out data. They support the models' predictive accuracy for the tested simulation data, but do not by themselves prove that every coefficient has a unique physical interpretation.
+> **Interpretation note:** The R² values describe predictive fit on held-out data. They support the models' predictive accuracy for the tested simulation data, but do not by themselves prove that every coefficient has a unique physical interpretation.
 
 ---
 
@@ -2354,7 +2336,7 @@ python brain_avoidance.py --scenario 2 --headless
 ```bash
 python -m sindy.identify_dynamics
 ```
-- **Expected Outcome:** Loads `logs/brain_s*.npz`, prints the discovered mathematical equations for models A, B, and C, and verifies that held-out $R^2$ exceeds $0.98$.
+- **Expected Outcome:** Loads `logs/brain_s*.npz`, prints the discovered mathematical equations for models A, B, and C, and verifies that held-out R² exceeds 0.98.
 
 ---
 
@@ -2366,8 +2348,8 @@ python -m sindy.identify_dynamics
 | `ModuleNotFoundError: No module named 'gym_pybullet_drones'` | Environment missing the gym drone package. | Run `python -c "import gym_pybullet_drones"` in terminal. | Re-run: `pip install git+https://github.com/utiasDSL/gym-pybullet-drones.git` |
 | `AttributeError: module 'pybullet' has no attribute 'rayTestBatch'` | Outdated PyBullet build installed. | Check version: `python -c "import pybullet; print(pybullet.__file__)"` | Upgrade PyBullet: `pip install --upgrade pybullet` |
 | PyBullet GUI window crashes or freezes upon opening | OpenGL graphics driver incompatibility on Windows/Linux. | Check terminal for display driver errors. | Update your GPU display drivers or run with `--headless` flag. |
-| Drone hits obstacle in Scenario 5 (U-Trap) | Sensor offset too small causing self-ray collision. | Verify `RAY_START_OFFSET` in `brain_avoidance.py` is $\ge 0.10\text{ m}$. | Ensure `RAY_START_OFFSET = 0.10` and `SENSOR_RANGE = 1.6`. |
-| SINDy discovers zero terms (`dX/dt = 0`) | Threshold $\lambda$ set too high for unscaled data. | Inspect `identify_dynamics.py` threshold settings. | Use `THRUST_SCALE = 1e-8` and ensure threshold is between $0.02$ and $0.05$. |
+| Drone hits obstacle in Scenario 5 (U-Trap) | Sensor offset too small causing self-ray collision. | Verify `RAY_START_OFFSET` in `brain_avoidance.py` is ≥ 0.10 m. | Ensure `RAY_START_OFFSET = 0.10` and `SENSOR_RANGE = 1.6`. |
+| SINDy discovers zero terms (`dX/dt = 0`) | Threshold λ set too high for unscaled data. | Inspect `identify_dynamics.py` threshold settings. | Use `THRUST_SCALE = 1e-8` and ensure threshold is between 0.02 and 0.05. |
 
 ---
 
@@ -2376,7 +2358,7 @@ python -m sindy.identify_dynamics
 
 1. **Simulation vs. Real-World Physics:** Evaluated in PyBullet. Real-world physical flights will encounter aerodynamic ground effect, battery voltage sag, motor response latency, and turbulent wind gusts.
 2. **Simplified Sensor Perception:** Uses geometric ray-casting rather than noisy physical LiDAR point clouds or stereo depth cameras.
-3. **Planar-Biased Trajectories:** The FSM operates primarily in the 2D horizontal plane at constant altitude ($z = 1.0\text{ m}$), except in Scenarios 8 and 10 where vertical maneuvers are pre-programmed.
+3. **Planar-Biased Trajectories:** The FSM operates primarily in the 2D horizontal plane at constant altitude (z = 1.0 m), except in Scenarios 8 and 10 where vertical maneuvers are pre-programmed.
 4. **Local Minimum Horizon:** While the bio-inspired brain's frustration module successfully escapes U-traps and circular rings, it does not guarantee globally optimal path lengths compared to full A\* or RRT\* search over a known map.
 
 ---
