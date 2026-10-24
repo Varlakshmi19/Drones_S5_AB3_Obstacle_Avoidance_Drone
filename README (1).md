@@ -408,9 +408,9 @@ The dashboard and simulation engine feature **Noise Level Control**, allowing us
 
 | Noise Level | Process Noise ($\sigma_{\text{obs}}$) | Sensor Noise ($\sigma_{\text{sensor}}$) | Physical Characteristic & Benchmark Purpose |
 | :---: | :---: | :---: | :--- |
-| 🟢 **No Noise** | $0.00\text{ m}$ | $0.00\text{ m}$ | Pure deterministic motion ($X_t \equiv 0$). Used for baseline algorithm benchmarking and establishing theoretical optimal path lengths. |
-| 🟡 **Low Noise** *(Default)* | $0.08\text{ m}$ | $0.06\text{ m}$ | Moderate stochastic wander and realistic LiDAR jitter. The Kalman Filter achieves **$45.8\%$ noise variance reduction**, maintaining smooth flight without chattering. |
-| 🔴 **High Noise** | $0.16\text{ m}$ | $0.12\text{ m}$ | Severe stochastic perturbation and heavy sensor degradation. Stress-tests the Kalman tracking filter, which achieves **$58.8\%$ variance reduction** to maintain safety margins. |
+|  **No Noise** | $0.00\text{ m}$ | $0.00\text{ m}$ | Pure deterministic motion ($X_t \equiv 0$). Used for baseline algorithm benchmarking and establishing theoretical optimal path lengths. |
+|  **Low Noise** *(Default)* | $0.08\text{ m}$ | $0.06\text{ m}$ | Moderate stochastic wander and realistic LiDAR jitter. The Kalman Filter achieves **$45.8\%$ noise variance reduction**, maintaining smooth flight without chattering. |
+|  **High Noise** | $0.16\text{ m}$ | $0.12\text{ m}$ | Severe stochastic perturbation and heavy sensor degradation. Stress-tests the Kalman tracking filter, which achieves **$58.8\%$ variance reduction** to maintain safety margins. |
 
 ---
 
@@ -966,13 +966,13 @@ python run_sim.py --scenario 10 --sub-scenario ring_with_gap --seed 42 --gui
 You can customize stochastic process noise and sensor measurement error directly from the command line:
 
 ```bash
-# 🟢 No Noise: Disable obstacle stochastic perturbations completely
+#  No Noise: Disable obstacle stochastic perturbations completely
 python run_sim.py --scenario 7 --algo reactive --no-obs-noise --gui
 
-# 🟡 Low Noise: Default realistic operating regime
+#  Low Noise: Default realistic operating regime
 python run_sim.py --scenario 7 --algo reactive --obs-noise-std 0.08 --sensor-noise 0.06 --gui
 
-# 🔴 High Noise: Severe turbulence and heavy sensor degradation
+#  High Noise: Severe turbulence and heavy sensor degradation
 python run_sim.py --scenario 7 --algo reactive --obs-noise-std 0.16 --sensor-noise 0.12 --gui
 
 # Filter Ablation Test: Disable Kalman filter to test raw noisy sensor evasion
